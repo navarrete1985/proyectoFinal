@@ -1,0 +1,6 @@
+notas
+.env
+node_modules/*
+mongo/*
+DB-Export/*
+backup-24-08-18/*
