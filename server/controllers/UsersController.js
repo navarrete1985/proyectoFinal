@@ -1,5 +1,4 @@
-const mongoose = require("mongoose");
-const User = require("../models/User").model;
+const User = require("../models/Users").model;
 
 let userController = {};
 
@@ -10,9 +9,10 @@ userController.getAll = (req, res) => {
             console.log('Error: ', err);
             return;
         }
-        console.log('Recogido Listado de Usuarios');
-        console.log(users);
-        return res.send(users);
+        return res.send({
+            result: 200,
+            data: users
+        });
     })
     
 }
@@ -25,26 +25,23 @@ userController.create = (req, res) => {
     
     user.save( err => {
         if (err) {
-            
             // Añade la información de los errores
             var errors = [];
             for(var atr in err["errors"]){
                 errors.push(err["errors"][atr]["message"]);
             }
-
-            // console.log('Error al crear el usuario, err: ', err);
-            // res.status(500).send('Error en la petición');
+            //Error 400 bad request
+            res.status = 400;
             return res.send({
-                   error: true,
+                   result: false,
                    codigo: 300,
                    mensaje: 'Parametros requeridos incompletos',
                    errores: errors
               });;
         }
-        console.log('Usuario creado satisfactoriamente');
         res.status = 200;
         return res.send({
-                   error: false,
+                   result: true,
                    codigo: 200,
                    mensaje: 'respuesta del usuario'
               });
