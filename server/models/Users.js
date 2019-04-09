@@ -1,7 +1,7 @@
 //Requerimos le módulo de mongoose
 const mongoose = require("mongoose");
-var ObjectId = mongoose.Schema.Types.ObjectId;
 const Schema = mongoose.Schema;
+var ObjectId = mongoose.Schema.Types.ObjectId;
 
 const regExEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.([a-zA-Z]{2,4})+$/;
 
@@ -11,7 +11,8 @@ const UserSchema = new Schema({
         type: String
     },
     connect: {
-        type: Boolean
+        type: Boolean,
+        default: false
     },
     email: {
         type: String,
@@ -21,7 +22,8 @@ const UserSchema = new Schema({
             },
             message: props => `${props.value} is not a valid email!`
         },
-        required: [true, 'Email required']
+        required: [true, 'Email required'],
+        unique: true
     },
     establishment_id: {
         type: String
@@ -47,12 +49,7 @@ const UserSchema = new Schema({
         type: String
     },
     table_id: {
-        type: String
-    },
-    uuid: {
-        type: ObjectId,
-        index: true,
-        unique: true
+        type: Array
     }
 });
 

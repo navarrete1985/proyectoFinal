@@ -1,9 +1,9 @@
-const Waiter = require("../models/Waiters").model;
+const Allergen = require("../models/Allergens").model;
 
-let waiterController = {};
+let allergenController = {};
 
-waiterController.getAll = (req, res) => {
-    Waiter.find({}).exec((err, waiters) => {
+allergenController.getAll = (req, res) => {
+    Allergen.find({}).exec((err, allergen) => {
         res.status = 302;
         var objetoRespuesta = {
             result: 302,
@@ -13,17 +13,17 @@ waiterController.getAll = (req, res) => {
             res.status = 200;
             objetoRespuesta = {
                 result: 200,
-                data: waiters
+                data: allergen
             }
         }
         return res.send(objetoRespuesta);
     })
 }
 
-waiterController.find = (req, res) => {
+allergenController.find = (req, res) => {
     // Obtener el :id
     let id = req.params.id;
-    Waiter.find({ _id: id }).exec((err, waiters) => {
+    Allergen.find({ _id: id }).exec((err, allergen) => {
         res.status(302);
         var objetoRespuesta = {
             result: 302,
@@ -33,17 +33,17 @@ waiterController.find = (req, res) => {
             res.status(200);
             objetoRespuesta = {
                 result: 200,
-                data: waiters
+                data: allergen
             }
         }
         return res.send(objetoRespuesta);
     })
 }
 
-waiterController.create = (req, res) => {
-    let waiter = new Waiter(req.body);
+allergenController.create = (req, res) => {
+    let AllergenObject = new Allergen(req.body);
     
-    waiter.save( err => {
+    AllergenObject.save( err => {
         res.status(400);
         var objetoRespuesta = {
             result: false,
@@ -64,8 +64,8 @@ waiterController.create = (req, res) => {
     })
 }
 
-waiterController.update = (req, res) => {
-    Waiter.update({_id:req.body._id}, {$set: req.body}).exec((err, waiter) => {
+allergenController.update = (req, res) => {
+    Allergen.update({_id:req.body._id}, {$set: req.body}).exec((err, Allergen) => {
         if (err) {
             var objetoRespuesta = {
                 result: false,
@@ -86,10 +86,10 @@ waiterController.update = (req, res) => {
 
 
 //mdAutenticacion.verificaToken,
-waiterController.delete = (req, res) => {
+allergenController.delete = (req, res) => {
     var id = req.body._id;
     
-    Waiter.findOneAndDelete(id, (err, waiter) => {
+    Allergen.findOneAndDelete(id, (err, Allergen) => {
         var objetoRespuesta = {
             result: true,
             codigo: 302,
@@ -107,4 +107,4 @@ waiterController.delete = (req, res) => {
     });
 };
 
-module.exports = waiterController;
+module.exports = allergenController;

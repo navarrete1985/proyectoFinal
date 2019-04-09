@@ -1,6 +1,7 @@
 //Requerimos le módulo de mongoose
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const validator = require("../util/Tools").validator;
 
 //Constantes para elección de cambio de estado de una mesa
 const STATE_TYPES = {
@@ -23,6 +24,20 @@ const TableSchema = new Schema({
         default: STATE_TYPES.FREE,
         min: STATE_TYPES.FREE,
         max: STATE_TYPES.ASKING_CHECK
+    },
+    uuid: {
+        type: String,
+        required: true,
+        validate: {
+            validator: function(value) {
+                return validator.validateHex(value, 12);
+            },
+            message: props => `${props.value} no es un formato hexadecimal válido, necesario 19 caractéres.`
+        }
+    },
+    identifier: {
+        type: String,
+        required: true
     }
 });
 
