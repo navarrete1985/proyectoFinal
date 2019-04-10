@@ -5,6 +5,12 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
 const establishment = require('./Establishment');
 
 //Creamos el esquema de nuestro modelo de datos
+
+// {
+//     name: "Oferta 1",
+//     description: "La mejor oferta",
+//     id_establisment: "5cae1cc2066265087ae606a7"
+// }
   
 const OfferSchema = new Schema({
     name:{
@@ -20,7 +26,7 @@ const OfferSchema = new Schema({
 });
 
 //Creamos la colección y le añadimos nuestro esquema de datos
-const Offer = mongoose.model(OfferSchema);
+const Offer = mongoose.model("Offer", OfferSchema);
 
 //Exportamos nuestra colección de Usuario
 module.exports = {

@@ -6,28 +6,38 @@ const validator = require("../util/Tools").validator;
 var ObjectId = mongoose.Schema.Types.ObjectId;
 
 //Creamos el esquema de nuestro modelo de datos
-// {
-//     section:{
-//         name:"Entrantes",
-//         product: [
+//  {
+//         "id_Establishment": "5cae1cc2066265087ae606a7",
+//         "cart": [
 //             {
-//                 name:"Ensalada",
-//                 description:"La mejor ensalada",
-//                 price:10.02,
-//                 alergenos:[
-//                     "id_alergeno1", "id_alergeno2"
+//                 "section":{
+//                     "name":"Entrantes",
+//                   "" "product: [
+//                         {
+//                             "name":"Ensalada",
+//                             "description":"La mejor ensalada",
+//                             "price":10.02,
+//                             "alergenos":[
+//                                 "id_alergeno1", "id_alergeno2"
+//                                 ]
+//                         },
+//                         {
+//                             "name":"Ensalada2",
+//                             "description":"La peor ensalada",
+//                             "price":90.20,
+//                             "alergenos":[
+//                                 "id_alergeno1", "id_alergeno2"
+//                                 ]
+//                         }
 //                     ]
-//             },
-//             {
-//                 name:"Ensalada",
-//                 description:"La mejor ensalada",
-//                 price:10.02,
-//                 alergenos:[
-//                     "id_alergeno1", "id_alergeno2"
-//                     ]
+//                 }
 //             }
-//         ]
-//     }
+//         ],
+//         "urlpdf":{
+//             "url": {
+//                 "http://www.canadacoffee.es/img/gluten.png%22%7D"
+//             }
+//         }
 // }
 
 const product = new Schema({
@@ -64,19 +74,11 @@ const MenuSchema = new Schema({
         required: true
     },
     cart:[ObjectCart],
-    urlpdf:{
-        type: String,
-        validate: {
-            validator: function(value) {
-                 return validator.valida(value);
-            },
-            message: props => `${props.value} no es un formato de url válido.`
-        }
-    },
+    urlpdf:validator.validateUrlSchema,
 });
 
 //Creamos la colección y le añadimos nuestro esquema de datos
-const Menu = mongoose.model(MenuSchema);
+const Menu = mongoose.model("Menu", MenuSchema);
 
 //Exportamos nuestra colección de Usuario
 module.exports = {

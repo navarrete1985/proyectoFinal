@@ -1,22 +1,12 @@
-const Establishment = require("../models/Establishments").model;
+const Establishment = require("../models/Establishment").model;
+const Tools = require("../util/Tools");
 
 let establishmentController = {};
 
 establishmentController.getAll = (req, res) => {
     Establishment.find({}).exec((err, establishment) => {
-        res.status = 302;
-        var objetoRespuesta = {
-            result: 302,
-            data: err
-        }
-        if (!err) {
-            res.status = 200;
-            objetoRespuesta = {
-                result: 200,
-                data: Establishments
-            }
-        }
-        return res.send(objetoRespuesta);
+        let response = Tools.response.get(err, establishment);
+        return res.status(response.status).json(response);
     })
 }
 
@@ -24,63 +14,29 @@ establishmentController.find = (req, res) => {
     // Obtener el :id
     let id = req.params.id;
     Establishment.find({ _id: id }).exec((err, establishment) => {
-        res.status(302);
-        var objetoRespuesta = {
-            result: 302,
-            data: err
-        }
-        if (!err) {
-            res.status(200);
-            objetoRespuesta = {
-                result: 200,
-                data: Establishments
-            }
-        }
-        return res.send(objetoRespuesta);
+        let response = Tools.response.get(err, establishment);
+        return res.status(response.status).json(response);
     })
 }
 
 establishmentController.create = (req, res) => {
-    let Establishment = new Establishment(req.body);
+    let establishment = new Establishment(req.body);
     
-    Establishment.save( err => {
-        res.status(400);
-        var objetoRespuesta = {
-            result: false,
-            codigo: 300,
-            mensaje: 'Parametros requeridos incompletos',
-            errores: err
-        }
-        if (!err) {
-            res.status(200);
-            objetoRespuesta = {
-                result: true,
-                codigo: 200,
-                mensaje: 'Usuario creado'
-            }
-        }
-        
-        return res.send(objetoRespuesta);
+    EstablishmentObject.save( err => {
+        let response = Tools.response.get(err, establishment);
+        return res.status(response.status).json(response);
     })
 }
 
 establishmentController.update = (req, res) => {
-    Establishment.update({_id:req.body._id}, {$set: req.body}).exec((err, Establishment) => {
-        if (err) {
-            var objetoRespuesta = {
-                result: false,
-                codigo: 304,
-                mensaje: 'No modificado',
-                errores: err["errors"]
-            }
+    Establishment.update({_id:req.body._id}, {$set: req.body}).exec((err, establishment) => {
+        let response = Tools.response.get(err, establishment);
+        if (response.status === 200) {
+            req.params.id = req.body._id;
+            return establishmentController.find(req, res);
         }else {
-            objetoRespuesta = {
-                result: true,
-                codigo: 302,
-                mensaje: 'Modificado'
-            }
+            return res.status(response.status).json(response);    
         }
-        return res.send(objetoRespuesta);
     });
 }
 
@@ -89,21 +45,15 @@ establishmentController.update = (req, res) => {
 establishmentController.delete = (req, res) => {
     var id = req.body._id;
     
-    Establishment.findOneAndDelete(id, (err, Establishment) => {
-        var objetoRespuesta = {
-            result: true,
-            codigo: 302,
-            mensaje: 'Eliminado'
-        }
-        if (err) {
-            objetoRespuesta = {
-                result: false,
-                codigo: 304,
-                mensaje: 'No eliminado',
-                errores: err["errors"]
-            }
-        }
-        return res.send(objetoRespuesta);
+    Establishment.findOneAndDelete(id, (err, establishment) => {
+        let status = err ? 500 : !establishment ? 400 : 200;
+        let response = err ? err : establishment ? establishment : {message: `No existe el establecimiento con el id: ${id}`};
+        
+        return res.status(status).json({
+            status,
+            result: status === 200 ? true : false,
+            response
+        })
     });
 };
 

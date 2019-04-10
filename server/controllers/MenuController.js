@@ -1,4 +1,4 @@
-const Menu = require("../models/menu").model;
+const Menu = require("../models/Menu").model;
 
 let menuController = {};
 
@@ -41,9 +41,9 @@ menuController.find = (req, res) => {
 }
 
 menuController.create = (req, res) => {
-    let Menu = new Menu(req.body);
+    let MenuObject = new Menu(req.body);
     
-    Menu.save( err => {
+    MenuObject.save( err => {
         res.status(400);
         var objetoRespuesta = {
             result: false,

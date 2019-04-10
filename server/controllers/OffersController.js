@@ -1,4 +1,4 @@
-const Offer = require("../models/offer").model;
+const Offer = require("../models/Offers").model;
 
 let offerController = {};
 
@@ -41,9 +41,9 @@ offerController.find = (req, res) => {
 }
 
 offerController.create = (req, res) => {
-    let Offer = new Offer(req.body);
+    let OfferObject = new Offer(req.body);
     
-    Offer.save( err => {
+    OfferObject.save( err => {
         res.status(400);
         var objetoRespuesta = {
             result: false,
