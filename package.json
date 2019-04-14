@@ -6,8 +6,8 @@
   "repository": "",
   "author": "Mostafa Eweda <mo.eweda@gmail.com>",
   "scripts": {
-    "start": "npm run app.js",
-    "dev": "nodemon app.js"
+    "start": "node app.js",
+    "dev": "node app.js"
   },
   "dependencies": {
     "async": "^2.6.2",
@@ -18,6 +18,9 @@
     "mongoose": "^5.4.20",
     "pusher": "^2.2.0",
     "socket.io": "^2.2.0"
+  },
+  "engines": {
+    "node": "10.15"
   },
   "devDependencies": {
     "nodemon": "^1.18.10"
