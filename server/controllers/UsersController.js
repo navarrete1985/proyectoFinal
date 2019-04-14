@@ -1,17 +1,28 @@
 const User = require("../models/Users").model;
 const Tools = require("../util/Tools");
+var Pusher = require('pusher');
+
+var pusher = new Pusher({
+  appId: '756732',
+  key: 'e44d00fb9c45fb71f1f3',
+  secret: 'fb18d03323c266b5eff4',
+  cluster: 'eu',
+  encrypted: true
+});
 
 let userController = {};
 
 userController.getAll = (req, res) => {
     User.find({}).exec((err, users) => {
         let response = Tools.response.get(err, users);
+        pusher.trigger('my-channel', 'my-event', {
+          users
+        });
         return res.status(response.status).json(response);
     })
 }
 
 userController.find = (req, res) => {
-    // Obtener el :id
     let id = req.params.id;
     User.find({ _id: id }).exec((err, users) => {
         let response = Tools.response.get(err, users);
@@ -38,7 +49,6 @@ userController.update = (req, res) => {
         }
     });
 }
-
 
 //mdAutenticacion.verificaToken,
 userController.delete = (req, res) => {

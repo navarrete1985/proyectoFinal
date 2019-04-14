@@ -1,22 +1,12 @@
 const Menu = require("../models/Menu").model;
+const Tools = require("../util/Tools");
 
 let menuController = {};
 
 menuController.getAll = (req, res) => {
     Menu.find({}).exec((err, menu) => {
-        res.status = 302;
-        var objetoRespuesta = {
-            result: 302,
-            data: err
-        }
-        if (!err) {
-            res.status = 200;
-            objetoRespuesta = {
-                result: 200,
-                data: menu
-            }
-        }
-        return res.send(objetoRespuesta);
+        let response = Tools.response.get(err, menu);
+        return res.status(response.status).json(response);
     })
 }
 
@@ -24,86 +14,44 @@ menuController.find = (req, res) => {
     // Obtener el :id
     let id = req.params.id;
     Menu.find({ _id: id }).exec((err, menu) => {
-        res.status(302);
-        var objetoRespuesta = {
-            result: 302,
-            data: err
-        }
-        if (!err) {
-            res.status(200);
-            objetoRespuesta = {
-                result: 200,
-                data: menu
-            }
-        }
-        return res.send(objetoRespuesta);
+        let response = Tools.response.get(err, menu);
+        return res.status(response.status).json(response);
     })
 }
 
 menuController.create = (req, res) => {
-    let MenuObject = new Menu(req.body);
+    let menu = new Menu(req.body);
     
-    MenuObject.save( err => {
-        res.status(400);
-        var objetoRespuesta = {
-            result: false,
-            codigo: 300,
-            mensaje: 'Parametros requeridos incompletos',
-            errores: err
-        }
-        if (!err) {
-            res.status(200);
-            objetoRespuesta = {
-                result: true,
-                codigo: 200,
-                mensaje: 'Usuario creado'
-            }
-        }
-        
-        return res.send(objetoRespuesta);
+    menu.save( err => {
+        let response = Tools.response.get(err, menu);
+        return res.status(response.status).json(response);
     })
 }
 
 menuController.update = (req, res) => {
     Menu.update({_id:req.body._id}, {$set: req.body}).exec((err, menu) => {
-        if (err) {
-            var objetoRespuesta = {
-                result: false,
-                codigo: 304,
-                mensaje: 'No modificado',
-                errores: err["errors"]
-            }
+        let response = Tools.response.get(err, menu);
+        if (response.status === 200) {
+            req.params.id = req.body._id;
+            return menuController.find(req, res);
         }else {
-            objetoRespuesta = {
-                result: true,
-                codigo: 302,
-                mensaje: 'Modificado'
-            }
+            return res.status(response.status).json(response);    
         }
-        return res.send(objetoRespuesta);
     });
 }
-
 
 //mdAutenticacion.verificaToken,
 menuController.delete = (req, res) => {
     var id = req.body._id;
-    
     Menu.findOneAndDelete(id, (err, menu) => {
-        var objetoRespuesta = {
-            result: true,
-            codigo: 302,
-            mensaje: 'Eliminado'
-        }
-        if (err) {
-            objetoRespuesta = {
-                result: false,
-                codigo: 304,
-                mensaje: 'No eliminado',
-                errores: err["errors"]
-            }
-        }
-        return res.send(objetoRespuesta);
+        let status = err ? 500 : !menu ? 400 : 200;
+        let response = err ? err : menu ? menu : {message: `No existe el menu con el id: ${id}`};
+        
+        return res.status(status).json({
+            status,
+            result: status === 200 ? true : false,
+            response
+        })
     });
 };
 

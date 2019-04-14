@@ -11,7 +11,6 @@ allergenController.getAll = (req, res) => {
 }
 
 allergenController.find = (req, res) => {
-    // Obtener el :id
     let id = req.params.id;
     Allergen.find({ _id: id }).exec((err, allergen) => {
         let response = Tools.response.get(err, allergen);
@@ -40,11 +39,9 @@ allergenController.update = (req, res) => {
     });
 }
 
-
 //mdAutenticacion.verificaToken,
 allergenController.delete = (req, res) => {
     var id = req.body._id;
-    
     Allergen.findOneAndDelete(id, (err, allergen) => {
         let status = err ? 500 : !allergen ? 400 : 200;
         let response = err ? err : allergen ? allergen : {message: `No existe el alérgeno con el id: ${id}`};

@@ -31,7 +31,7 @@ const WaiterSchema = new Schema({
 
 
 //Creamos la colección y le añadimos nuestro esquema de datos
-const Waiter = mongoose.model(WaiterSchema);
+const Waiter = mongoose.model("Waiters", WaiterSchema);
 
 //Exportamos nuestra colección de Usuario
 module.exports = {
