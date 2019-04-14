@@ -6,7 +6,7 @@
   "repository": "",
   "author": "Mostafa Eweda <mo.eweda@gmail.com>",
   "scripts": {
-    "start": "npm install --save ",
+    "start": "nodemon app.js",
     "dev": "nodemon app.js"
   },
   "dependencies": {
