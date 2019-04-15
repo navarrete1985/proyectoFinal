@@ -1,7 +1,6 @@
 //Requerimos le módulo de mongoose
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-var ObjectId = mongoose.Schema.Types.ObjectId;
 
 const regExEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.([a-zA-Z]{2,4})+$/;
 
