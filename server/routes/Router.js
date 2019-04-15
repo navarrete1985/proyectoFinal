@@ -5,6 +5,7 @@ const offer = require("./Offer");
 
 function start(app) {
     app.use('/api/user', require("./User"));
+    app.use('/api/login', require("./Login"));
     app.use('/api/allergen', allergen);
     app.use('/api/establishment', establishment);
     app.use('/api/menu', menu);

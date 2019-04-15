@@ -1,5 +1,6 @@
 const User = require("../models/Users").model;
 const Tools = require("../util/Tools");
+var bcrypt = require('bcrypt');
 var Pusher = require('pusher');
 
 var pusher = new Pusher({
@@ -31,12 +32,20 @@ userController.find = (req, res) => {
 }
 
 userController.create = (req, res) => {
+    req.body.password = bcrypt.hashSync(req.body.password, 10);
     let user = new User(req.body);
+    console.log(user);
     user.save( err => {
         let response = Tools.response.get(err, user);
         return res.status(response.status).json(response);
     })
 }
+
+/*======================================
+                Verificar TOKEN
+========================================*/
+
+
 
 userController.update = (req, res) => {
     User.update({_id:req.body._id}, {$set: req.body}).exec((err, user) => {
