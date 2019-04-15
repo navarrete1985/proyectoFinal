@@ -19,10 +19,11 @@ loginController.login = (req, res) => {
        }
        
        
-       if(!userDB || !bcrypt.compareSync(body.password,userDB.password) ){
+       if(!userDB || !bcrypt.compareSync(body.password,userDB.password)){
             return res.status(400).json({
                 ok:false,
-                mensaje:"credenciales incorrectas compruebe email o contraseña",
+                mensaje:"credenciales incorrectas email",
+                user:userDB,
                 error: err
             })   
        }
