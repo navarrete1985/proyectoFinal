@@ -23,8 +23,25 @@
                                 </div>
                                 <button class="btn btn-primary btn-block">Enviar</button>
                             </form>
+                            <button class="btn btn-primary btn-block mt-3" @click="getUsers">Obtener usuarios</button>
                         </div>
                     </div>
+                </div>
+                <div class="col-md-7">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Usuario</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="item of users" :key="item._id">
+                                <td>{{item._id}}</td>
+                                <td class="impar">{{item.name}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -38,24 +55,50 @@ const {User} = require ('../util/models.js');
 export default {
     data() {
         return {
-            user: new User()
+            user: new User(),
+            users: []
         }
     },
+    created() {
+        this.getUsers();
+    },
     methods: {
+        getUsers() {
+            fetch('/api/user')
+            .then(res => {
+                return res.json();
+            })
+            .then(json => {
+                this.users = json.response;
+            })
+            .catch(e => {
+                console.log(e);
+            })
+        },
         addTask(){
-            fetch('http://localhost:3000/api/user')
-                .then(res => {
-                    return res.json();
-                })
-                .then(json => {
-                    console.log(json);
-                })
-                .catch(e => {
-                    console.log(e);
-                })
+            fetch('/api/user/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(this.user)
+            })
+            .then(res => {
+                return res.json();
+            })
+            .then(json => {
+                console.log(json);
+            })
+            .catch(e => {
+                console.log(e);
+            })
             this.user.reset();
         }
     }
 }
 </script>
+
+<style lang="scss">
+    @import '../styles/mystyle';
+</style>
 

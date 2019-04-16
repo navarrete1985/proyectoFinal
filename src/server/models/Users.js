@@ -53,7 +53,7 @@ const UserSchema = new Schema({
         type: String
     },
     table_id: {
-        type: Array
+        type: String
     }
 });
 
