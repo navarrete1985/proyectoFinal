@@ -10,10 +10,16 @@
                         <div class="card-body">
                             <form @submit.prevent="addTask">
                                 <div class="form-group">
-                                    <input type="text" placeholder="Inserta una nueva tarea" class="form-control" v-model="task.title">
+                                    <input type="text" placeholder="Nombre de usuario" class="form-control" v-model="user.name">
                                 </div>
                                 <div class="form-group">
-                                    <textarea rows="10" class="form-control" placeholder="Inserta la descripción de la tarea" v-model="task.description"></textarea>
+                                    <input type="text" placeholder="Nombre de usuario" class="form-control" v-model="user.lastName">
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" placeholder="Introduce email" class="form-control" v-model="user.email">
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" placeholder="Introduce contraseña" class="form-control" v-model="user.password">
                                 </div>
                                 <button class="btn btn-primary btn-block">Enviar</button>
                             </form>
@@ -26,18 +32,28 @@
 </template>
 
 <script>
+
+const {User} = require ('../util/models.js');
+
 export default {
     data() {
         return {
-            task: {
-                title: '',
-                description: ''
-            }
+            user: new User()
         }
     },
     methods: {
         addTask(){
-            console.log(this.task)
+            fetch('http://localhost:3000/api/user')
+                .then(res => {
+                    return res.json();
+                })
+                .then(json => {
+                    console.log(json);
+                })
+                .catch(e => {
+                    console.log(e);
+                })
+            this.user.reset();
         }
     }
 }
