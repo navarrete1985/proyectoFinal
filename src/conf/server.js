@@ -3,11 +3,25 @@ const express = require("express");
 const app = express();
 const morgan = require('morgan');
 const cors = require('cors');
+const history = require('connect-history-api-fallback');
 
 app.use(express.json());
 app.use(cors());
 app.use(morgan('dev')); //Middleware para ver las peticiones que nos están realizando a nuestro servidor
 
+//Middleware para servir index.html en caso de que se ponga una ruta no válida...esto lo necesitamos para poder convertir nuestra app Vue en SPA
+let historyMiddleware = history({
+    index: 'index.html',
+    rewrites: [
+        {
+            from: /^\/api\/.*$/,
+            to: function(context) {
+                return context.parsedUrl.pathname;
+            }
+        }
+    ]
+})
+app.use(historyMiddleware);
 
 app.listen(process.env.PORT || 3000, () => {
     console.log(`El servidor está lanzado en el puerto ${process.env.PORT || 3000}`);
