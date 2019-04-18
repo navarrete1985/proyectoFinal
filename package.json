@@ -8,7 +8,8 @@
   "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
-    "webpack": "webpack --mode development --watch"
+    "webpack": "webpack --mode development --watch",
+    "build": "npm install"
   },
   "dependencies": {
     "async": "^2.6.2",
