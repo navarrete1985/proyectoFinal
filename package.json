@@ -8,27 +8,34 @@
   "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
-    "webpack": "webpack --mode development --watch"
+    "webpack": "webpack --mode development --watch",
+    "build": "webpack --mode production"
   },
   "dependencies": {
     "async": "^2.6.2",
     "bcrypt": "^3.0.6",
     "body-parser": "^1.18.3",
+    "connect-history-api-fallback": "^1.6.0",
+    "cors": "^2.8.5",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.4.20",
     "pusher": "^2.2.0",
-    "socket.io": "^2.2.0"
+    "socket.io": "^2.2.0",
+    "vue-router": "^3.0.6"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
-    "babel-core": "^6.26.3",
+    "@babel/preset-env": "^7.4.3",
     "babel-loader": "^8.0.5",
-    "babel-preset-env": "^1.7.0",
+    "css-loader": "^2.1.1",
+    "file-loader": "^3.0.1",
     "morgan": "^1.9.1",
+    "node-sass": "^4.11.0",
     "nodemon": "^1.18.10",
+    "sass-loader": "^7.1.0",
     "vue": "^2.6.10",
     "vue-loader": "^15.7.0",
     "vue-template-compiler": "^2.6.10",

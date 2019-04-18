@@ -19,21 +19,16 @@ loginController.login = (req, res) => {
        }
        
        
-       if(!userDB){
+       if(!userDB || !bcrypt.compareSync(body.password,userDB.password)){
             return res.status(400).json({
                 ok:false,
                 mensaje:"credenciales incorrectas email",
+                user:userDB,
                 error: err
             })   
        }
        
-       if(!bcrypt.compareSync(body.password,userDB.password)){
-           return res.status(400).json({
-                ok:false,
-                mensaje:"credenciales incorrectas pass",
-                error: err
-            })   
-       }
+      
        
        //crear un token
        userDB.password = ":)";
