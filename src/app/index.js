@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import App from './components/App.vue';
+import App from './App.vue';
 import Login from './components/Login.vue';
 import NotFound from './components/NotFound.vue';
 
@@ -20,5 +20,8 @@ const router = new VueRouter({
 });
 
 new Vue({
-    router
-}).$mount('#app');
+    el: '#app',
+    router,
+    components: { App },
+    template: '<App/>'
+});
