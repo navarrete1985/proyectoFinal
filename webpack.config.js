@@ -1,11 +1,12 @@
 
 const {VueLoaderPlugin} = require('vue-loader');
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
     entry: './src/app/index.js',
     output: {
-        path: path.resolve(__dirname, './src/public/js'),
+        path: path.resolve(__dirname, './src/public'),
         filename: 'bundle.js'
     },
     module: {
@@ -68,8 +69,11 @@ module.exports = {
             {
                 test: /\.(png|jpg|gif|svg)$/,
                 loader: "file-loader",
+                include: [
+                    path.resolve(__dirname, './src/app/images'),
+                ],
                 options: {
-                    name: "[name].[ext]?[hash]"
+                    name: "images/[name].[ext]?[hash]"
                 }
             }
         ]
@@ -82,15 +86,17 @@ module.exports = {
     },
     devServer: {
         historyApiFallback: true,
-        noInfo: true,
-        overlay: true
+        hot: true,
+        contentBase: path.resolve(__dirname, './src/public/js'),
+        port: 3000
     },
     performance: {
         hints: false
     },
     devtool: "#eval-source-map",
     plugins: [
-        new VueLoaderPlugin()
+        new VueLoaderPlugin(),
+        new webpack.HotModuleReplacementPlugin()
     ]
 };
 

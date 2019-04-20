@@ -1,7 +1,7 @@
 <template>
     <div class="">
         <nav class="navbar navbar-light bg-light">
-        <a href="/" class="navbar-brand">Página no notFound!!!</a>
+        <a href="/" class="navbar-brand">Esto es el login</a>
         </nav>
         <div class="container">
             <div class="row pt-5"> 

@@ -9,7 +9,11 @@
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
     "webpack": "webpack --mode development --watch",
-    "build": "npm install"
+    "webpack-hot": "webpack-dev-server --mode development --config webpack.config.js --open --hot",
+    "build": "npm install",
+    "server": "pm2 start src/app.js --watch --name server",
+    "vue": "cross-env NODE_ENV=development pm2 start webpack-dev-server --name vue --open --hot",
+    "dev-hot": "npm run vue | npm run server"
   },
   "dependencies": {
     "async": "^2.6.2",
@@ -32,6 +36,7 @@
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
     "babel-loader": "^8.0.5",
+    "cross-env": "^5.2.0",
     "css-loader": "^2.1.1",
     "file-loader": "^3.0.1",
     "node-sass": "^4.11.0",
@@ -40,7 +45,8 @@
     "vue-loader": "^15.7.0",
     "vue-template-compiler": "^2.6.10",
     "webpack": "^4.30.0",
-    "webpack-cli": "^3.3.0"
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^3.3.1"
   },
   "engines": {
     "node": "10.15"
