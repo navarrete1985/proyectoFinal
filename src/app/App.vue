@@ -4,8 +4,9 @@
     </div>
 </template>
 <style lang="scss">
-    @import './styles/bootstrap.min.css';
-    @import './styles/mystyle';
-    @import './styles/style.css';
+    @import './assets/styles/bootstrap.min.css';
+    @import './assets/styles/mystyle';
+    @import './assets/styles/style.css';
+    @import './assets/styles/icofont.css'
 </style>
 
