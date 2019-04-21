@@ -30,7 +30,7 @@
                                         <div class="col-12">
                                             <div class="checkbox-fade fade-in-primary d-">
                                                 <label>
-                                                    <input type="checkbox" v-model='remember' ref="remember">
+                                                    <input type="checkbox" v-model='remember' ref="rememberTrigger">
                                                     <span class="cr"><i class="cr-icon icofont icofont-ui-check txt-primary"></i></span>
                                                     <span class="text-inverse">Remember me</span>
                                                 </label>
@@ -42,7 +42,7 @@
                                     </div>
                                     <div class="row m-t-30">
                                         <div class="col-md-12">
-                                            <button type="button" class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20">Sign in</button>
+                                            <button type="button" class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20" @click="doLogin">Sign in</button>
                                         </div>
                                     </div>
                                     <hr>
@@ -81,14 +81,32 @@ export default {
     },
     methods: {
         persist() {
-            localStorage.user = this.user;
+            let tmpUser = this.user;
+            tmpUser.password = this.remember ? CryptoJS.AES.encrypt(tmpUser.password, tmpUser.email) : '';
+            localStorage.__DataUser = this.user;
+        },
+        doLogin() {
+            fetch(`${this.$baseUrl}/api/login`, {
+                method: 'POST',
+                body: JSON.stringify(this.user),
+                headers: {'Content-Type': 'application/json'}
+            }).then(res => res.json())
+            .then(res => {
+                console.log(res)
+                if (res.ok) {
+                    this.user = res.user;
+                    this.persist();
+                    this.$router.replace('home');
+                }
+            }).catch(err => console.error(err))
         }
     },
-    beforeMount() {
-        // if (localStorage.remember) {
-        //     this.$refs.remember.click();
-        // }
-        // this.$refs.remember.click();
+    mounted() {
+        if (localStorage.remember) {
+            this.$refs.remember.click();
+            user.email = localStorage.__DataUser.email;
+            user.password = CryptoJS.AES.decrypt(localStorage.__DataUser.password, user.email);
+        }
     }
 }
 </script>

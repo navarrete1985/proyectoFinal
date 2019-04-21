@@ -13,6 +13,10 @@ const router = new VueRouter({
     routes
 });
 
+Vue.store = Vue.prototype.$baseUrl = function() {
+    return window.location.origin;
+}();
+
 new Vue({
     el: '#app',
     router,
