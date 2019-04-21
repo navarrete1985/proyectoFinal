@@ -62,7 +62,7 @@ module.exports = {
             {
                 test: /\.css$/,
                 include: [
-                    path.resolve(__dirname, './src/app/styles'),
+                    path.resolve(__dirname, './src/app/assets/styles'),
                 ],
                 use: ["vue-style-loader", "css-loader"]
             },
@@ -70,10 +70,20 @@ module.exports = {
                 test: /\.(png|jpg|gif|svg)$/,
                 loader: "file-loader",
                 include: [
-                    path.resolve(__dirname, './src/app/images'),
+                    path.resolve(__dirname, './src/app/assets/images'),
                 ],
                 options: {
                     name: "images/[name].[ext]?[hash]"
+                }
+            },
+            {
+                test: /\.(hxd|svg|ttf|woff)$/,
+                loader: "file-loader",
+                include: [
+                    path.resolve(__dirname, './src/app/assets/fonts'),
+                ],
+                options: {
+                    name: "fonts/[name].[ext]?[hash]"
                 }
             }
         ]
