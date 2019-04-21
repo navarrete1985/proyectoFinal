@@ -16,7 +16,7 @@ const WaiterSchema = new Schema({
    is_activate:{
         type: Boolean    
    },
-   token_cm:{
+   token:{
      type:String 
    },
    rol:{

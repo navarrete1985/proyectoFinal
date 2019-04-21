@@ -49,6 +49,9 @@ const UserSchema = new Schema({
     phone_numher: {
         type: Number
     },
+    token:{
+        type:String 
+      },
     photo_url: {
         type: String
     },

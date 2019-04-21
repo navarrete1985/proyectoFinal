@@ -7,44 +7,60 @@ let loginController = {};
 
 
 loginController.login = (req, res) => {
-   var body = req.body;
-   
-   User.findOne({email:body.email},(err, userDB)=>{
-       if(err){
+    var body = req.body;
+
+    User.findOne({ email: body.email }, (err, userDB) => {
+        if (err) {
             return res.status(500).json({
-                ok:false,
-                mensaje:"error al buscar usuario",
+                ok: false,
+                mensaje: "error al buscar usuario",
                 error: err
-            })   
-       }
-       
-       
-       if(!userDB || !bcrypt.compareSync(body.password,userDB.password)){
+            })
+        }
+
+
+        if (!userDB || !bcrypt.compareSync(body.password, userDB.password)) {
             return res.status(400).json({
-                ok:false,
-                mensaje:"credenciales incorrectas email",
-                user:userDB,
+                ok: false,
+                mensaje: "credenciales incorrectas email",
+                user: userDB,
                 error: err
-            })   
-       }
-       
-      
-       
-       //crear un token
-       userDB.password = ":)";
-       var token = jwt.sign({ user: userDB}, process.env.SEED,{ expiresIn: 14400 }) //4 horas
-       
-       
+            })
+        }
+
+
+
+        //crear un token
+        userDB.password = ":)";
+
+        var token = jwt.sign({ user: userDB }, process.env.SEED) //4 horas
+        userDB.token = token;
+
+        if (body.type == "admin") {
+            //camarero
+        } else {
+            User.update({ _id: userDB._id }, { $set: userDB }).exec((err, user) => {
+                if (err) {
+                    return res.status(500).json({
+                        ok: false,
+                        mensaje: "error al actualizar token de usuario",
+                        error: err
+                    })
+                }
+            });
+
+        }
         res.status(200).json({
-            ok:true,
-            mensaje:"login post",
-            body:body,
-            token:token
-        }) 
-       
-   })
-   
-   
+            ok: true,
+            mensaje: "login post",
+            body: body,
+            user: userDB,
+            token: token
+        })
+
+    })
+
+
 }
 
 module.exports = loginController;
