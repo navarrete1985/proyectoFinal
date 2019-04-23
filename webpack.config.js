@@ -106,7 +106,8 @@ module.exports = {
     devtool: "#eval-source-map",
     plugins: [
         new VueLoaderPlugin(),
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        new CleanWebpackPlugin()
     ]
 };
 
