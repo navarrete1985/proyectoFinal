@@ -43,6 +43,7 @@
     "node-sass": "^4.11.0",
     "nodemon": "^1.18.10",
     "sass-loader": "^7.1.0",
+    "vue-html-webpack-plugin": "^3.2.2",
     "vue-loader": "^15.7.0",
     "vue-template-compiler": "^2.6.10",
     "webpack": "^4.30.0",
