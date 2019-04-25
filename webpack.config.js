@@ -1,9 +1,12 @@
 
-const {VueLoaderPlugin} = require('vue-loader');
+const { VueLoaderPlugin } = require('vue-loader');
 const path = require('path');
 const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const HtmlWebpackPlugin = require('vue-html-webpack-plugin')
+const HtmlWebpackPlugin = require('vue-html-webpack-plugin');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
     entry: './src/app/index.js',
@@ -23,50 +26,29 @@ module.exports = {
             {
                 test: /\.vue$/,
                 loader: 'vue-loader',
-                // options: {
-                //     loaders: {
-                //         'scss': [
-                //             'vue-style-loader',
-                //             'css-loader',
-                //             'sass-loader'
-                //         ],
-                //         'sass': [
-                //             'vue-style-loader',
-                //             'css-loader',
-                //             'sass-loader?indentedSyntax'
-                //         ]
-                //     }
-                // }
             },
             {
-                test: /\.scss$/,
-                include: [
-                    path.resolve(__dirname, './src/app'),
-                ],
-                use: ["vue-style-loader", "css-loader", 'sass-loader']
-            },
-            {
-                test: /\.sass$/,
-                include: [
-                    path.resolve(__dirname, './src/app'),
-                ],
-                use: [
-                    "vue-style-loader", 
-                    "css-loader",
-                    {
-                        loader: 'sass-loader',
-                        options: {
-                          indentedSyntax: true
+                test: /(\.css|\.scss)$/,
+                include: path.resolve(__dirname, './src/app'),
+                use: ExtractTextPlugin.extract({
+                    use: [
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                sourceMap: true,
+                                importLoaders: 1
+                            }
+                        },
+                        {
+                            loader: 'sass-loader',
+                            options: {
+                                sourceMap: true,
+                                importLoaders: 1
+                            }
                         }
-                    } 
-                ]
-            },
-            {
-                test: /\.css$/,
-                include: [
-                    path.resolve(__dirname, './src/app/assets/styles'),
-                ],
-                use: ["vue-style-loader", "css-loader"]
+                    ],
+                    fallback: 'vue-style-loader'
+                })
             },
             {
                 test: /\.(png|jpg|gif|svg)$/,
@@ -96,19 +78,18 @@ module.exports = {
         },
         extensions: ["*", ".js", ".vue", ".json"]
     },
-    devServer: {
-        historyApiFallback: true,
-        hot: true,
-        contentBase: path.resolve(__dirname, './src/public/js'),
-        port: 3000
-    },
+    // devServer: {
+    //     historyApiFallback: true,
+    //     hot: true,
+    //     contentBase: path.resolve(__dirname, './src/public/js'),
+    //     port: 3000
+    // },
     performance: {
         hints: false
     },
     devtool: "#eval-source-map",
     plugins: [
         new VueLoaderPlugin(),
-        new webpack.HotModuleReplacementPlugin(),
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             vue: true
@@ -116,6 +97,33 @@ module.exports = {
         new webpack.ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery'
+        }),
+        new webpack.DefinePlugin({
+            'process.env': {
+                // This has effect on the react lib size
+                'NODE_ENV': JSON.stringify('production'),
+            }
+        }),
+        new ExtractTextPlugin("bundle.css"),
+        new webpack.optimize.AggressiveMergingPlugin(),
+        new webpack.optimize.OccurrenceOrderPlugin(),
+        new UglifyJsPlugin({
+            cache: true,
+            parallel: true,
+            uglifyOptions: {
+                compress: true,
+                ecma: 6,
+                mangle: true
+            },
+            sourceMap: true
+        }),
+        new CompressionPlugin({
+            filename: "[path].gz[query]",
+            algorithm: "gzip",
+            test: /\.(js|css|html)$/,
+        }),
+        new webpack.LoaderOptionsPlugin({
+            minimize: true
         })
     ]
 };
@@ -131,7 +139,6 @@ if (process.env.NODE_ENV === "production") {
             }
         })
     ]),
-    
     new webpack.LoaderOptionsPlugin({
         minimize: true
     })

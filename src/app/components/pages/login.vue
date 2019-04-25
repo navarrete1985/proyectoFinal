@@ -32,11 +32,15 @@
                                                 <label>
                                                     <input type="checkbox" v-model='remember' ref="rememberTrigger">
                                                     <span class="cr"><i class="cr-icon icofont icofont-ui-check txt-primary"></i></span>
-                                                    <span class="text-inverse">Remember me</span>
+                                                    <span class="text-inverse">Recuerdame</span>
                                                 </label>
                                             </div>
                                             <div class="forgot-phone text-right f-right">
+<<<<<<< HEAD
                                                 <router-link to="/forgot" class="text-right f-w-600">Forgot Password?</router-link>
+=======
+                                                <a href="auth-reset-password.htm" class="text-right f-w-600"> Forgot contraseña?</a>
+>>>>>>> webpack-config
                                             </div>
                                         </div>
                                     </div>
