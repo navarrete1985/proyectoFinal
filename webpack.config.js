@@ -1,5 +1,5 @@
 
-const {VueLoaderPlugin} = require('vue-loader');
+const { VueLoaderPlugin } = require('vue-loader');
 const path = require('path');
 const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
@@ -27,42 +27,27 @@ module.exports = {
                 test: /\.vue$/,
                 loader: 'vue-loader',
             },
-            // {
-            //     test: /\.scss$/,
-            //     include: [
-            //         path.resolve(__dirname, './src/app'),
-            //     ],
-            //     use: ["vue-style-loader", "css-loader", 'sass-loader']
-            // },
-            // {
-            //     test: /\.css$/,
-            //     include: [
-            //         path.resolve(__dirname, './src/app/assets/styles'),
-            //     ],
-            //     use: ["vue-style-loader", "css-loader"]
-            // },
             {
-                test: /\.(scss|css)$/,
+                test: /(\.css|\.scss)$/,
+                include: path.resolve(__dirname, './src/app'),
                 use: ExtractTextPlugin.extract({
-                    fallback: 'vue-style-loader',
                     use: [
                         {
                             loader: 'css-loader',
                             options: {
-                                // If you are having trouble with urls not resolving add this setting.
-                                // See https://github.com/webpack-contrib/css-loader#url
-                                url: false,
-                                minimize: true,
-                                sourceMap: true
+                                sourceMap: true,
+                                importLoaders: 1
                             }
                         },
                         {
                             loader: 'sass-loader',
                             options: {
-                                sourceMap: true
+                                sourceMap: true,
+                                importLoaders: 1
                             }
                         }
-                    ]
+                    ],
+                    fallback: 'vue-style-loader'
                 })
             },
             {
@@ -115,14 +100,14 @@ module.exports = {
                 'NODE_ENV': JSON.stringify('production'),
             }
         }),
-        new ExtractTextPlugin("bundle.css", {allChunks: false}),
+        new ExtractTextPlugin("bundle.css"),
         new webpack.optimize.AggressiveMergingPlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new UglifyJsPlugin({
             cache: true,
             parallel: true,
             uglifyOptions: {
-                compress: false,
+                compress: true,
                 ecma: 6,
                 mangle: true
             },
@@ -131,9 +116,10 @@ module.exports = {
         new CompressionPlugin({
             filename: "[path].gz[query]",
             algorithm: "gzip",
-            test: /\.js$|\.css$|\.html$/,
-            threshold: 10240,
-            minRatio: 0
+            test: /\.(js|css|html)$/,
+        }),
+        new webpack.LoaderOptionsPlugin({
+            minimize: true
         })
     ]
 };
@@ -149,7 +135,6 @@ if (process.env.NODE_ENV === "production") {
             }
         })
     ]),
-    
     new webpack.LoaderOptionsPlugin({
         minimize: true
     })
