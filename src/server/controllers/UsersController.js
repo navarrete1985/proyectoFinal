@@ -61,8 +61,9 @@ userController.update = (req, res) => {
 
 //mdAutenticacion.verificaToken,
 userController.delete = (req, res) => {
-    var id = req.body._id;
-    User.findOneAndDelete({ id: id }, (err, userDelete) => {
+    var id = req.body.id;
+    console.log(id);
+    User.findOneAndDelete({ _id: id }, (err, userDelete) => {
         let status = err ? 500 : !userDelete ? 400 : 200;
         let response = err ? err : userDelete ? userDelete : {message: `No existe el usuario con el id: ${id}`};
         
@@ -75,3 +76,8 @@ userController.delete = (req, res) => {
 };
 
 module.exports = userController;
+
+/*"name": "Nacho",
+    "lastName": "Peña",
+    "email": "asd@gmail.com",
+    "password": "asd"*/

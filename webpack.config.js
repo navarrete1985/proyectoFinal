@@ -112,6 +112,10 @@ module.exports = {
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             vue: true
+        }),
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery'
         })
     ]
 };
