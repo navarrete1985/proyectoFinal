@@ -20,6 +20,5 @@ Vue.store = Vue.prototype.$baseUrl = function() {
 new Vue({
     el: '#app',
     router,
-    components: { App },
-    template: '<App/>'
+    render: h => h(App),
 });
