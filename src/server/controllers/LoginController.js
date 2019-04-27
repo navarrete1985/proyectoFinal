@@ -26,8 +26,8 @@ loginController.login = (req, res) => {
                 error: err
             })
         }
-
-        var token = jwt.sign({ user: userDB }, process.env.SEED) //4 horas
+        userDB.token = '';
+        var token = jwt.sign({ user: userDB }, process.env.SEED)
         userDB.token = token;
 
         if (body.type == "admin") {

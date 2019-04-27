@@ -15,7 +15,7 @@
                                 <div class="card-block">
                                     <div class="row m-b-20">
                                         <div class="col-md-12">
-                                            <h3 class="text-center">Sign In</h3>
+                                            <h3 class="text-center">Login</h3>
                                         </div>
                                     </div>
                                     <div class="form-group form-primary">
@@ -71,8 +71,7 @@
 
 <script>
 const {User} = require ('../../util/models.js');
-const AES = require("crypto-js/aes");
-const enc = require("crypto-js/enc-utf8");
+var SimpleCrypto = require("simple-crypto-js").default;
 
 export default {
     data() {
@@ -83,9 +82,11 @@ export default {
     },
     methods: {
         persist() {
-            let password = this.remember ? AES.encrypt(this.user.password, 'key').toString() : '';
+            if (this.remember) {
+                let cipher = new SimpleCrypto(this.user.email);
+                this.user.hash = btoa(cipher.encrypt(this.user.password.trim()));
+            } 
             this.user.password = 'encrypted';
-            if (this.remember) this.user.hash = password;
             localStorage.__DataUser = JSON.stringify({
                 user: this.user,
                 remember: this.remember
@@ -100,25 +101,32 @@ export default {
             .then(res => {
                 console.log(res)
                 if (res.ok) {
-                    this.user = res.user;
+                    this.updateUser(res.user);
+                    console.log('respuesta servidor: ', res.user);
                     this.persist();
                     this.$router.replace('home');
                 }
             }).catch(err => console.error(err))
+        },
+        updateUser(newUser) {
+            Object.keys(newUser).forEach(key => {
+                if (key !== 'password') this.user[key] = newUser[key];
+            })
         }
     },
     mounted() {
-        let data = JSON.parse(localStorage.__DataUser);
-        console.log(data.user.email);
+        let data = localStorage.__DataUser ? JSON.parse(localStorage.__DataUser) : null;
         if (data != null && data.remember) {
+            let cipher = new SimpleCrypto(data.user.email);
             this.$refs.rememberTrigger.click();
             this.user.email = data.user.email;
-            let passwd = AES.decrypt(data.user.hash, 'key');
-            passwd = passwd.toString(enc.Utf8);
-            console.log(passwd);
-            this.user.password = passwd;
+            this.user.password = cipher.decrypt(atob(data.user.hash.trim()));
+            console.log('Contraseña: ', this.user.password);
+            console.log('Hash: ', data.user.hash);
+            console.log('Email: ', this.user.email);
+            console.log('Data: ', data);
         }
-    }
+    },
 }
 </script>
 
