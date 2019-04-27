@@ -32,7 +32,7 @@ import HeaderComponent from "./header";
 import NavComponent from "./nav";
 import jquerymin from "../../assets/js/jquery.min.js";
 import jqueryui from "../../assets/js/jquery-ui.min.js";
-import customSo from "../../assets/js/sortable-custom.js";
+// import customSo from "../../assets/js/sortable-custom.js";
 import pcoded from "../../assets/js/pcoded.min.js";
 // import boostrap from "../../assets/js/bootstrap.min.js";
 import jquerySlim from "../../assets/js/jquery.slimscroll.js";
@@ -40,7 +40,7 @@ import jquerySlim from "../../assets/js/jquery.slimscroll.js";
 // import chart from "../../assets/js/Chart.js";
 import vartical from "../../assets/js/vartical-layout.min.js";
 // // import customdashboard from  "../../assets/js/custom-dashboard.js";
-import scriptmin from  "../../assets/js/script.min.js";
+// import scriptmin from  "../../assets/js/script.min.js";
 
 export default {
   name: "app",

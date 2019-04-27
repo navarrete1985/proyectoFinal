@@ -180,9 +180,8 @@
                 </ul>
               </li>
             </ul>
-            
+
             <div class="pcoded-navigatio-lavel" menu-title-theme="theme5">Support</div>
-            
           </div>
         </div>
         <div
