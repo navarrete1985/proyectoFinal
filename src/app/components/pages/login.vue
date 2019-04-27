@@ -7,7 +7,7 @@
                 <div class="col-sm-12">
                     <!-- Authentication card start -->
                     
-                        <form class="md-float-material form-material">
+                        <form class="md-float-material form-material" v-on:keyup.enter.prevent='doLogin'>
                             <div class="text-center">
                                 <img src="..\..\assets\images\logo.png" alt="logo.png">
                             </div>
@@ -19,12 +19,16 @@
                                         </div>
                                     </div>
                                     <div class="form-group form-primary">
-                                        <input type="text" name="email" class="form-control" required placeholder="Your Email Address" v-model="user.email">
-                                        <span class="form-bar"></span>
+                                        <input type="text" name="email" class="form-control" placeholder="Your Email Address" v-model="user.email"  @blur='validate("email")'>
+                                        <transition name='fade'>
+                                            <span v-if="!error.email.state" class="form-bar text-danger">{{error.email.message}}</span>
+                                        </transition>
                                     </div>
                                     <div class="form-group form-primary">
-                                        <input type="password" name="password" class="form-control" required="" placeholder="Password" v-model="user.password">
-                                        <span class="form-bar"></span>
+                                        <input type="password" name="password" class="form-control" placeholder="Password" v-model="user.password"  @blur='validate("passwd")'>
+                                        <transition name='fade'>
+                                            <span v-if="!error.password.state" class="form-bar text-danger">{{error.password.message}}</span>
+                                        </transition>
                                     </div>
                                     <div class="row m-t-25 text-left">
                                         <div class="col-12">
@@ -40,6 +44,11 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <transition name='fade'>
+                                        <div v-if="!error.validate.state"  class="row d-flex justify-content-center delete-margin">
+                                            <span class="form-bar text-danger">{{error.validate.message}}</span>
+                                        </div>
+                                    </transition>
                                     <div class="row m-t-30">
                                         <div class="col-md-12">
                                             <button type="button" class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20" @click="doLogin">Sign in</button>
@@ -71,13 +80,28 @@
 
 <script>
 const {User} = require ('../../util/models.js');
+const {validateEmail, validatePasswd} = require ('@/util/Validate.js');
 var SimpleCrypto = require("simple-crypto-js").default;
 
 export default {
     data() {
         return {
             user: new User(),
-            remember: false
+            remember: false,
+            error: {
+                email: {
+                    state: true,
+                    message: 'Formato de email inválido'
+                }, 
+                password: {
+                    state: true,
+                    message: 'Contraseña inválida, al menos 6 carácteres y 1 mayúscula.'
+                },
+                validate: {
+                    state: true,
+                    message: 'Email o contraseña inválido.'
+                }
+            }
         }
     },
     methods: {
@@ -93,6 +117,9 @@ export default {
             })
         },
         doLogin() {
+            this.validate('email');
+            this.validate('passwd');
+            if (!this.error.password.state || !this.error.email.state) return;
             fetch(`${this.$baseUrl}/login`, {
                 method: 'POST',
                 body: JSON.stringify(this.user),
@@ -102,9 +129,10 @@ export default {
                 console.log(res)
                 if (res.ok) {
                     this.updateUser(res.user);
-                    console.log('respuesta servidor: ', res.user);
                     this.persist();
                     this.$router.replace('home');
+                } else {
+                    this.error.validate.state = false;
                 }
             }).catch(err => console.error(err))
         },
@@ -112,6 +140,18 @@ export default {
             Object.keys(newUser).forEach(key => {
                 if (key !== 'password') this.user[key] = newUser[key];
             })
+        },
+        validate(type) {
+            switch (type) {
+                case 'email':
+                    this.user.email = this.user.email.trim();
+                    this.error.email.state = validateEmail(this.user.email);
+                    break;
+                case 'passwd':
+                    this.user.password = this.user.password.trim();
+                    this.error.password.state = validatePasswd(this.user.password)
+                    break;
+            }
         }
     },
     mounted() {
@@ -121,10 +161,6 @@ export default {
             this.$refs.rememberTrigger.click();
             this.user.email = data.user.email;
             this.user.password = cipher.decrypt(atob(data.user.hash.trim()));
-            console.log('Contraseña: ', this.user.password);
-            console.log('Hash: ', data.user.hash);
-            console.log('Email: ', this.user.email);
-            console.log('Data: ', data);
         }
     },
 }
@@ -132,6 +168,9 @@ export default {
 
 <style lang="scss">
 
+    .delete-margin {
+        margin-bottom: -20px;
+    }
 
 </style>
 
