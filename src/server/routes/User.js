@@ -12,6 +12,6 @@ router.get("/", user.getAll);
 router.get("/:id",  user.find); //mdAutenticacion.verificaToken,
 router.post("/create", user.create);
 router.put("/", user.update);
-router.delete("/:id", user.delete);
+router.delete("/", user.delete);
 
 module.exports = router;

@@ -2,6 +2,7 @@
     <div class="">
         <nav class="navbar navbar-light bg-light">
         <a href="/" class="navbar-brand">Esto es el login</a>
+        <button class="btn btn-primary btn-block" @click="logout">Logout</button>
         </nav>
         <div class="container">
             <div class="row pt-5"> 
@@ -92,6 +93,32 @@ export default {
                 console.log(e);
             })
             this.user.reset();
+        },
+        logout() {
+            let data = JSON.parse(localStorage.__DataUser);
+            fetch('/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data.user)
+            })
+            .then(res => res.json())
+            .then(json => {
+                if (json.result){
+                    if (data.remember) {
+                        Object.keys(data.user).forEach((key) => {
+                            if (key !== 'email' || key !== 'passwd') {
+                                data.user[key] = '';
+                            }
+                        })
+                    }else {
+                        data = null;
+                    }
+                    localStorage.__DataUser = data;
+                    this.$router.replace('login');
+                }
+            })
         }
     }
 }

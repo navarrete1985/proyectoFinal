@@ -32,11 +32,11 @@
                                                 <label>
                                                     <input type="checkbox" v-model='remember' ref="rememberTrigger">
                                                     <span class="cr"><i class="cr-icon icofont icofont-ui-check txt-primary"></i></span>
-                                                    <span class="text-inverse">Remember me</span>
+                                                    <span class="text-inverse">Recuerdame</span>
                                                 </label>
                                             </div>
                                             <div class="forgot-phone text-right f-right">
-                                                <a href="auth-reset-password.htm" class="text-right f-w-600"> Forgot Password?</a>
+                                                <router-link to="/forgot" class="text-right f-w-600">Forgot Password?</router-link>
                                             </div>
                                         </div>
                                     </div>
@@ -71,6 +71,8 @@
 
 <script>
 const {User} = require ('../../util/models.js');
+const AES = require("crypto-js/aes");
+const enc = require("crypto-js/enc-utf8");
 
 export default {
     data() {
@@ -81,12 +83,16 @@ export default {
     },
     methods: {
         persist() {
-            let tmpUser = this.user;
-            tmpUser.password = this.remember ? CryptoJS.AES.encrypt(tmpUser.password, tmpUser.email) : '';
-            localStorage.__DataUser = this.user;
+            let password = this.remember ? AES.encrypt(this.user.password, 'key').toString() : '';
+            this.user.password = 'encrypted';
+            if (this.remember) this.user.hash = password;
+            localStorage.__DataUser = JSON.stringify({
+                user: this.user,
+                remember: this.remember
+            })
         },
         doLogin() {
-            fetch(`${this.$baseUrl}/api/login`, {
+            fetch(`${this.$baseUrl}/login`, {
                 method: 'POST',
                 body: JSON.stringify(this.user),
                 headers: {'Content-Type': 'application/json'}
@@ -102,15 +108,22 @@ export default {
         }
     },
     mounted() {
-        if (localStorage.remember) {
-            this.$refs.remember.click();
-            user.email = localStorage.__DataUser.email;
-            user.password = CryptoJS.AES.decrypt(localStorage.__DataUser.password, user.email);
+        let data = JSON.parse(localStorage.__DataUser);
+        console.log(data.user.email);
+        if (data != null && data.remember) {
+            this.$refs.rememberTrigger.click();
+            this.user.email = data.user.email;
+            let passwd = AES.decrypt(data.user.hash, 'key');
+            passwd = passwd.toString(enc.Utf8);
+            console.log(passwd);
+            this.user.password = passwd;
         }
     }
 }
 </script>
 
 <style lang="scss">
+
+
 </style>
 

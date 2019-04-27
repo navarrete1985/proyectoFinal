@@ -23,15 +23,9 @@ loginController.login = (req, res) => {
             return res.status(400).json({
                 ok: false,
                 mensaje: "credenciales incorrectas email",
-                user: userDB,
                 error: err
             })
         }
-
-
-
-        //crear un token
-        userDB.password = ":)";
 
         var token = jwt.sign({ user: userDB }, process.env.SEED) //4 horas
         userDB.token = token;
@@ -53,13 +47,24 @@ loginController.login = (req, res) => {
         res.status(200).json({
             ok: true,
             mensaje: "login post",
-            body: body,
             user: userDB,
             token: token
         })
 
     })
 
+}
+
+loginController.logout = (req, res) => {
+
+    console.log("Id usuario", req.body._id);
+    User.update({_id: req.body._id}, {$set: {token: ''}}).exec((err, user) => {
+        let status = !err ? 200 : 400;
+        return res.status(status).json({
+            status,
+            result: status === 200 ? true : false
+        })
+    })
 
 }
 
