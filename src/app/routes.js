@@ -8,7 +8,7 @@ export default {
     routes: [
         {path: '/login', name: 'login', component: Login},
         {path: '/forgot', name: 'login', component: Forgot},
-        {path: '/home', name: 'home', component: home},
+        {path: '/dashboard', name: 'home', component: home},
         {path: '/asd', name: 'notfound', component: NotFound},
         {path: '*', name: 'index', component: Prueba}
 

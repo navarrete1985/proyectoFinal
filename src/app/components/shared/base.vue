@@ -1,5 +1,6 @@
 <template>
   <div id="pcoded" class="pcoded">
+    <Loader/>
     <div class="pcoded-overlay-box"></div>
     <div class="pcoded-container navbar-wrapper">
       <HeaderComponent/>
@@ -42,11 +43,19 @@ import vartical from "../../assets/js/vartical-layout.min.js";
 // // import customdashboard from  "../../assets/js/custom-dashboard.js";
 // import scriptmin from  "../../assets/js/script.min.js";
 
+import Loader from "@/components/shared/loader";
+
 export default {
   name: "app",
+  data() {
+    return {
+      
+    }
+  },
   components: {
     HeaderComponent,
-    NavComponent
+    NavComponent,
+    Loader
   }
 };
 

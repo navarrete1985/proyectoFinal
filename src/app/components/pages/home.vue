@@ -76,6 +76,7 @@
 <script>
 import baseComponent from "../shared/base";
 import draggable from "../../util/vuedraggable";
+
 let id = 3;
 let id2 = 3;
 export default {
@@ -140,6 +141,12 @@ export default {
     replace: function() {
       this.list = [{ name: "Edgard", id: id++ }];
     }
+  },
+  beforeCreate() {
+	  setTimeout(() => {
+		  this.$store.commit('setGLoader', false);
+		  console.log('Visible: ', this.$store.getters.gLoader);
+	  }, 3000);
   }
 };
 </script>

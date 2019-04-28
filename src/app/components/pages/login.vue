@@ -119,7 +119,7 @@ export default {
             this.validate('email');
             this.validate('passwd');
             if (!this.error.password.state || !this.error.email.state) return;
-            fetch(`${this.$baseUrl}/login`, {
+            fetch(`${this.$store.state.baseUrl}/login`, {
                 method: 'POST',
                 body: JSON.stringify(this.user),
                 headers: {'Content-Type': 'application/json'}
@@ -129,7 +129,7 @@ export default {
                 if (res.ok) {
                     this.updateUser(res.user);
                     this.persist();
-                    this.$router.replace('home');
+                    this.$router.replace('dashboard');
                 } else {
                     this.error.validate.state = false;
                 }
