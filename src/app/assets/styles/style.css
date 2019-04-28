@@ -2132,11 +2132,11 @@ h6.media-heading {
     float: none
 }
 
-ul.list-contacts .list-group-item a {
+ul.list-contacts .-item a {
     color: #292b2c
 }
 
-ul.list-contacts .list-group-item.active a {
+ul.list-contacts .-item.active a {
     color: #fff
 }
 
@@ -12085,7 +12085,7 @@ body.menu-bottom #collapse-menu {
     margin-right: 0
 }
 
-.list-group-item.active {
+.-item.active {
     background-color: #01a9ac;
     border-color: #01a9ac
 }
@@ -24952,8 +24952,8 @@ body.dark .bg-white {
     background: #4a5a77 !important
 }
 
-.pcoded[layout-type="dark"] .list-group-item,
-body.dark .list-group-item {
+.pcoded[layout-type="dark"] .-item,
+body.dark .-item {
     background: #4a5a77
 }
 
