@@ -19,7 +19,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group form-primary">
-                                        <input type="text" name="email" class="form-control" placeholder="Your Email Address" v-model="user.email"  @blur='validate("email")'>
+                                        <input type="text" name="email" class="form-control" placeholder="Email" v-model="user.email"  @blur='validate("email")'>
                                         <transition name='fade'>
                                             <span v-if="!error.email.state" class="form-bar text-danger">{{error.email.message}}</span>
                                         </transition>
@@ -40,7 +40,7 @@
                                                 </label>
                                             </div>
                                             <div class="forgot-phone text-right f-right">
-                                                <router-link to="/forgot" class="text-right f-w-600">Forgot Password?</router-link>
+                                                <router-link to="/forgot" class="text-right f-w-600">Recuperar Contraseña</router-link>
                                             </div>
                                         </div>
                                     </div>
@@ -57,8 +57,7 @@
                                     <hr>
                                     <div class="row">
                                         <div class="col-md-10">
-                                            <p class="text-inverse text-left m-b-0">Thank you.</p>
-                                            <p class="text-inverse text-left"><a href="index-1.htm"><b class="f-w-600">Back to website</b></a></p>
+                                            <p class="text-inverse text-left"><a href="index-1.htm"><b class="f-w-600">Volver a la web</b></a></p>
                                         </div>
                                         <div class="col-md-2">
                                             <img src="..\..\assets\images\auth\Logo-small-bottom.png" alt="small-logo.png">
@@ -170,6 +169,13 @@ export default {
 
     .delete-margin {
         margin-bottom: -20px;
+    }
+
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .25s;
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        opacity: 0;
     }
 
 </style>
