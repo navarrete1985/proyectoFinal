@@ -4,6 +4,8 @@ var jwt = require("jsonwebtoken");
 /*======================================
                 Verificar TOKEN
 ========================================*/
+//Tendríamos que meter la información del usuario en el token...y comprobar las credenciales
+//Del usuario....en caso de que sea correcto....seguimos de lo contrario enviamos respuesta al cliente
 
 exports.verificaToken = function (req, res , next){
 

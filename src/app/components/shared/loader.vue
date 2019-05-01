@@ -40,10 +40,12 @@
 </template>
 
 <script>
+	import commonTypes from '../store/other/type';
+
     export default {
 		computed: {
 			loader() {
-				return this.$store.getters.gLoader;
+				return this.$store.getters[commonTypes.getters.getGlobalLoaderState];
 			}
 		}
     }

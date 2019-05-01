@@ -1,44 +1,28 @@
+import Vue from 'vue';
 import Vuex from 'vuex';
-import {mapState, mapGetters, mapMutations, mapActions} from 'vuex'; //Mapa para hacer más facil la definición de nuestras prop computadas compartidas
 
-function config(Vue) {
-    
-    Vue.use(Vuex);
+import otherModule from './other/index';
+import allergenModule from './allergen/index';
+import menuModule from './menu/index';
+import offerModule from './offers/index';
+import stablishmentModule from './stablishments/index';
+import tablesModule from './tables/index';
+import userModule from './users/index';
+import waitersModule from './waiters/index';
 
-    const store = new Vuex.Store({
-        state: {
-            gLoader: true,
-            baseUrl: window.location.origin
-        },
-        getters: {
-            gLoader: state => state.gLoader,
-            baseUrl: state => state.baseUrl
-        },
-        mutations: {
-            setGLoader(state, newState) {
-                state.gLoader = newState;
-            }
-        },
-        actions: {
+Vue.use(Vuex);
 
-        }
-    })
-
-    return {
-        store,
-        computed: {
-            ...mapState([
-                'gLoader',
-                'baseUrl'
-            ]),
-            ...mapGetters(['gLoader', 'baseUrl'])
-        },
-        methods:{
-            ...mapMutations(['setGLoader']),
-            ...mapActions([])
-        },
+const store = new Vuex.Store({
+    modules: {
+        otherModule,
+        allergenModule,
+        menuModule,
+        offerModule,
+        stablishmentModule,
+        tablesModule,
+        userModule,
+        waitersModule,
     }
+})
 
-}
-
-export {config};
+export default store;

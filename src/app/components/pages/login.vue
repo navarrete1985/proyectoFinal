@@ -81,6 +81,7 @@
 const {User} = require ('../../util/models.js');
 const {validateEmail, validatePasswd} = require ('@/util/Validate.js');
 var SimpleCrypto = require("simple-crypto-js").default;
+import type_user from '../store/users/type';
 
 export default {
     data() {
@@ -115,25 +116,21 @@ export default {
                 remember: this.remember
             })
         },
-        doLogin() {
+        async doLogin() {
             this.validate('email');
             this.validate('passwd');
+
             if (!this.error.password.state || !this.error.email.state) return;
-            fetch(`${this.$store.state.baseUrl}/login`, {
-                method: 'POST',
-                body: JSON.stringify(this.user),
-                headers: {'Content-Type': 'application/json'}
-            }).then(res => res.json())
-            .then(res => {
-                console.log(res)
-                if (res.ok) {
-                    this.updateUser(res.user);
-                    this.persist();
-                    this.$router.replace('dashboard');
-                } else {
-                    this.error.validate.state = false;
-                }
-            }).catch(err => console.error(err))
+
+            let response = await this.$store.dispatch(type_user.actions.fetchLogin, this.user);
+
+            if (response.ok) {
+                this.updateUser(response.user);
+                this.persist();
+                this.$router.replace('dashboard');
+            } else {
+                this.error.validate.state = false;
+            }
         },
         updateUser(newUser) {
             Object.keys(newUser).forEach(key => {
