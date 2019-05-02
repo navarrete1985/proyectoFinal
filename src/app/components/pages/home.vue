@@ -76,7 +76,7 @@
 <script>
 import baseComponent from "../shared/base";
 import draggable from "../../util/vuedraggable";
-import commonTypes from '../store/other/type';
+import commonTypes from "../store/other/type";
 
 let id = 3;
 let id2 = 3;
@@ -143,11 +143,21 @@ export default {
       this.list = [{ name: "Edgard", id: id++ }];
     }
   },
-  beforeCreate() {
-	  setTimeout(() => {
-		  this.$store.commit(commonTypes.mutations.updateGlobalLoader, false);
-		  console.log('Visible: ', this.$store.getters[commonTypes.getters.getGlobalLoaderState]);
-	  }, 3000);
+  beforeMount() {
+    if (this.$store.getters[commonTypes.getters.getReload]) {
+      console.log("Refresco!!!");
+      window.location.reload();
+    }
+  },
+  mounted() {
+    setTimeout(() => {
+      // vm.$forceUpdate();
+      this.$store.commit(commonTypes.mutations.updateGlobalLoader, false);
+      console.log(
+        "Visible: ",
+        this.$store.getters[commonTypes.getters.getGlobalLoaderState]
+      );
+    }, 3000);
   }
 };
 </script>

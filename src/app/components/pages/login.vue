@@ -82,6 +82,7 @@ const {User} = require ('../../util/models.js');
 const {validateEmail, validatePasswd} = require ('@/util/Validate.js');
 var SimpleCrypto = require("simple-crypto-js").default;
 import type_user from '../store/users/type';
+import common_type from '../store/other/type';
 
 export default {
     data() {
@@ -128,6 +129,7 @@ export default {
                 this.updateUser(response.user);
                 this.persist();
                 this.$router.replace('dashboard');
+                this.$store.commit(common_type.mutations.updateReload, true);
             } else {
                 this.error.validate.state = false;
             }
