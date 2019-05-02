@@ -10,14 +10,19 @@
         @ok="handleOk"
       >
         <form ref="form" @submit.stop.prevent="handleSubmit">
-          <b-form-group
-            :state="nameState"
-            label="Name"
-            label-for="name-input"
-            invalid-feedback="Name is required"
-          >
-            <b-form-input id="name-input" v-model="name" :state="nameState" required></b-form-input>
-          </b-form-group>
+          <div>
+            <input @change="readOrType" name="campos" id="campos" type="checkbox">
+            <label for="campos">Habilitar campos</label>
+          </div>
+
+          <div>
+            <label>otra cosa</label>
+            <input :readonly="isCheck" v-bind:class="{ active: isCheck }" id="name-input">
+          </div>
+          <div>
+            <label>llamaa</label>
+            <input id="2-input" @change="readOrType" :readonly="isCheck" v-bind:class="{ active: isCheck }">  
+          </div>
         </form>
       </b-modal>
     </div>
@@ -76,8 +81,10 @@
 <script>
 import baseComponent from "../shared/base";
 import draggable from "../../util/vuedraggable";
+import { console } from "../../util/helper";
 let id = 3;
 let id2 = 3;
+
 export default {
   components: {
     baseComponent,
@@ -86,6 +93,7 @@ export default {
   data() {
     return {
       name: "",
+      isCheck: true,
       nameState: null,
       submittedNames: [],
       enabled: true,
@@ -137,6 +145,14 @@ export default {
     add2: function() {
       this.list2.push({ name: id2 + 1, id2: id2++ });
     },
+    readOrType() {
+      console.log(this.isCheck);
+      if (this.isCheck == true) {
+        this.isCheck = false;
+      } else {
+        this.isCheck = true;
+      }
+    },
     replace: function() {
       this.list = [{ name: "Edgard", id: id++ }];
     }
@@ -175,7 +191,9 @@ export default {
 .buttons {
   margin-top: 35px;
 }
-
+.active{
+    border:none;
+}
 .ghost {
   opacity: 0.5;
   background: #c8ebfb;
