@@ -128,6 +128,7 @@ export default {
                 this.updateUser(response.user);
                 this.persist();
                 this.$router.replace('dashboard');
+                // this.$router.replaceRoutes('dashboard')
             } else {
                 this.error.validate.state = false;
             }

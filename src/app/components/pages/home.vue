@@ -159,7 +159,7 @@ export default {
   beforeCreate() {
 	  setTimeout(() => {
 		  this.$store.commit(commonTypes.mutations.updateGlobalLoader, false);
-		  console.log('Visible: ', this.$store.getters[commonTypes.getters.getGlobalLoaderState]);
+		//   console.log('Visible: ', this.$store.getters[commonTypes.getters.getGlobalLoaderState]);
 	  }, 3000);
   }
 };
