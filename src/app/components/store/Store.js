@@ -1,14 +1,14 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import otherModule from './other/index';
-import allergenModule from './allergen/index';
-import menuModule from './menu/index';
-import offerModule from './offers/index';
-import stablishmentModule from './stablishments/index';
-import tablesModule from './tables/index';
-import userModule from './users/index';
-import waitersModule from './waiters/index';
+import otherModule from './other';
+import allergenModule from './allergen';
+import menuModule from './menu';
+import offerModule from './offers';
+import stablishmentModule from './stablishments';
+import tablesModule from './tables';
+import userModule from './users';
+import waitersModule from './waiters';
 
 Vue.use(Vuex);
 

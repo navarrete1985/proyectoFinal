@@ -22,6 +22,3 @@ exports.verificaToken = function (req, res , next){
         next();//ya puede continuar una vez realizado la autenticacion
     })  
 }
-
-
-    
