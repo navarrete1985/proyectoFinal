@@ -5,41 +5,6 @@ const validator = require("../util/Tools").validator;
 
 var ObjectId = mongoose.Schema.Types.ObjectId;
 
-//Creamos el esquema de nuestro modelo de datos
-//  {
-//         "id_Establishment": "5cae1cc2066265087ae606a7",
-//         "cart": [
-//             {
-//                 "section":{
-//                     "name":"Entrantes",
-//                   "" "product: [
-//                         {
-//                             "name":"Ensalada",
-//                             "description":"La mejor ensalada",
-//                             "price":10.02,
-//                             "alergenos":[
-//                                 "id_alergeno1", "id_alergeno2"
-//                                 ]
-//                         },
-//                         {
-//                             "name":"Ensalada2",
-//                             "description":"La peor ensalada",
-//                             "price":90.20,
-//                             "alergenos":[
-//                                 "id_alergeno1", "id_alergeno2"
-//                                 ]
-//                         }
-//                     ]
-//                 }
-//             }
-//         ],
-//         "urlpdf":{
-//             "url": {
-//                 "http://www.canadacoffee.es/img/gluten.png%22%7D"
-//             }
-//         }
-// }
-
 const product = new Schema({
     name:{
         type:String

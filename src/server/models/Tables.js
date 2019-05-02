@@ -12,12 +12,7 @@ const STATE_TYPES = {
     ASKING_CHECK: 4
 }
 
-//Creamos el esquema de nuestro modelo de datos
-const TableSchema = new Schema({
-    establishmentId: {
-        type: Schema.Types.ObjectId,
-        required: true
-    },
+const Table = new Schema({
     state: {
         type: Number,
         required: true,
@@ -38,14 +33,35 @@ const TableSchema = new Schema({
     identifier: {
         type: String,
         required: true
+    },
+    order: {
+        type: Number,
+        required: true
     }
 });
 
+const Section = new Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    tables: [Table]
+});
+
+//Creamos el esquema de nuestro modelo de datos
+const TableSchema = new Schema({
+    establishmentId: {
+        type: Schema.Types.ObjectId,
+        required: true
+    },
+    section: [Section]
+});
+
 //Creamos la colección y le añadimos nuestro esquema de datos
-const Table = mongoose.model('Tables', TableSchema);
+const schema = mongoose.model('Tables', TableSchema);
 
 //Exportamos nuestra colección de Mesas y los tipos de estado
 module.exports = {
-    model: Table,
+    model: schema,
     STATE_TYPES
 };
