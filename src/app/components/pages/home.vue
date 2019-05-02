@@ -81,7 +81,6 @@
 <script>
 import baseComponent from "../shared/base";
 import draggable from "../../util/vuedraggable";
-import { console } from "../../util/helper";
 let id = 3;
 let id2 = 3;
 
@@ -156,6 +155,12 @@ export default {
     replace: function() {
       this.list = [{ name: "Edgard", id: id++ }];
     }
+  },
+  beforeCreate() {
+	  setTimeout(() => {
+		  this.$store.commit(commonTypes.mutations.updateGlobalLoader, false);
+		  console.log('Visible: ', this.$store.getters[commonTypes.getters.getGlobalLoaderState]);
+	  }, 3000);
   }
 };
 </script>

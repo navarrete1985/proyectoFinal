@@ -3,15 +3,12 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Routes from './routes';
 import BootstrapVue from 'bootstrap-vue';
+import store from '@/components/store/Store.js';
 
-// import 'bootstrap/dist/css/bootstrap.css'
-// import 'bootstrap-vue/dist/bootstrap-vue.css'
-
-Vue.use(BootstrapVue)
+Vue.use(BootstrapVue);
+Vue.use(VueRouter);
 
 let routes = Routes.routes;
-
-Vue.use(VueRouter);
 
 //Asignación de las rutas a nuestro enrutador
 const router = new VueRouter({
@@ -19,12 +16,9 @@ const router = new VueRouter({
     routes
 });
 
-Vue.store = Vue.prototype.$baseUrl = function() {
-    return window.location.origin;
-}();
-
 new Vue({
     el: '#app',
     router,
+    store,
     render: h => h(App),
 });

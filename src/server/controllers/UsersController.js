@@ -48,6 +48,8 @@ userController.create = (req, res) => {
 
 
 userController.update = (req, res) => {
+    //En caso de que actualicemos la contraseña....la encriptamos
+    if (req.body.password) req.body.password = bcrypt.hashSync(req.body.password, 10);
     User.update({_id:req.body._id}, {$set: req.body}).exec((err, user) => {
         let response = Tools.response.get(err, user);
         if (response.status === 200) {
