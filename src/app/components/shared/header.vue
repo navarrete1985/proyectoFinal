@@ -85,13 +85,13 @@
                         </div>
                     </li>
                     <li class="user-profile header-notification">
-                        <div class="dropdown-primary dropdown">
-                            <div class="dropdown-toggle" data-toggle="dropdown">
+                        <div class="dropdown-primary dropdown" :class="{show: show}" @click="show = !show" ref="myPopoverUser">
+                            <div class="dropdown-toggle" data-toggle="dropdown" aria-expanded='true'>
                                 <img src="..\..\assets\images\avatar-4.jpg" class="img-radius" alt="User-Profile-Image">
                                 <span>John Doe</span>
                                 <i class="feather icon-chevron-down"></i>
                             </div>
-                            <ul class="show-notification profile-notification dropdown-menu" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
+                            <ul v-show='show' class="show-notification profile-notification dropdown-menu show" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut" v-closable="{exclude: ['myPopoverUser'], handler: 'onClose'}">
                                 <li>
                                     <a href="#!">
                                         <i class="feather icon-settings"></i> Settings
@@ -128,7 +128,18 @@
 </template>
 
 <script>
-export default {};
+export default {
+    data() {
+        return {
+            show: false,
+        }
+    },
+    methods: {
+        onClose() {
+            this.show = false;
+        }
+    }
+};
 </script>
 
 <style lang="scss" scoped>
