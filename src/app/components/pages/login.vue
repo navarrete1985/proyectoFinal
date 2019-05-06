@@ -129,7 +129,11 @@ export default {
                 this.updateUser(response.user);
                 this.persist();
                 this.$router.replace('dashboard');
+<<<<<<< HEAD
+
+=======
                 this.$store.commit(common_type.mutations.updateReload, true);
+>>>>>>> feature/plantillas
             } else {
                 this.error.validate.state = false;
             }
@@ -157,8 +161,10 @@ export default {
         if (data != null && data.remember) {
             let cipher = new SimpleCrypto(data.user.email);
             this.$refs.rememberTrigger.click();
+            this.user.name = data.user.name;           
             this.user.email = data.user.email;
             this.user.password = cipher.decrypt(atob(data.user.hash.trim()));
+            console.log(this.usuario)
         }
     },
 }
