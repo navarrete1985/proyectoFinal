@@ -1,5 +1,5 @@
 <template>
-  <baseComponent>
+  <div class="wrapper">
     <div>
          <b-modal
         id="modal-prevent-closing"
@@ -75,10 +75,9 @@
         >{{ element.name }}</div>
       </draggable>
     </div>
-  </baseComponent>
+  </div>
 </template>
 <script>
-import baseComponent from "../shared/base";
 import draggable from "../../util/vuedraggable";
 import commonTypes from "../store/other/type";
 
@@ -87,7 +86,6 @@ let id2 = 3;
 
 export default {
   components: {
-    baseComponent,
     draggable
   },
   data() {
@@ -161,12 +159,16 @@ export default {
 	  setTimeout(() => {
 		  this.$store.commit(commonTypes.mutations.updateGlobalLoader, false);
 		//   console.log('Visible: ', this.$store.getters[commonTypes.getters.getGlobalLoaderState]);
-	  }, 3000);
+	  }, 1000);
   }
 };
 </script>
 
 <style lang="scss" scoped>
+.wrapper {
+  width: 100%;
+}
+
 .col-md-2 {
   flex: 0 0 135px !important;
   max-width: 135px !important;
