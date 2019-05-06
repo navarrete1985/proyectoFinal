@@ -10,23 +10,23 @@
                         <div class="pcoded-navigatio-lavel" menu-title-theme="theme5">Navigation</div>
                         <ul class="pcoded-item pcoded-left-item" item-border="true" item-border-style="none"
                             subitem-border="true">
-                            <li class="pcoded-hasmenu active" dropdown-icon="style1"
+                            <li class="pcoded-hasmenu" :class="{'active' : isMenuActive(this.menu.HOME)}" dropdown-icon="style1"
                                 subitem-icon="style1">
                                 <a href="javascript:void(0)">
                                     <span class="pcoded-micon">
                                         <i class="feather icon-home"></i>
                                     </span>
-                                    <span class="pcoded-mtext">Dashboard</span>
+                                    <span class="pcoded-mtext">Inicio</span>
                                 </a>
                                 <ul class="pcoded-submenu">
-                                    <li class>
-                                        <a href="index-1.htm">
-                                            <span class="pcoded-mtext">Default</span>
+                                    <li :class="{'active': isSubmenuActive(this.submenu.STABLISHMENTS)}">
+                                        <a href="dashboard-crm.htm">
+                                            <span class="pcoded-mtext">Establecimientos</span>
                                         </a>
                                     </li>
-                                    <li class="active">
-                                        <a href="dashboard-crm.htm">
-                                            <span class="pcoded-mtext">CRM</span>
+                                    <li :class="[position.submenu === submenu.USERS ? 'active' : '']">
+                                        <a href="index-1.htm">
+                                            <span class="pcoded-mtext">Usuarios</span>
                                         </a>
                                     </li>
                                     <li class>
@@ -184,12 +184,36 @@
 </template>
 
 <script>
-    import vartical from "../../assets/js/vartical-layout.min.js";
-    import pcoded from "../../assets/js/pcoded.min.js";
+    import vartical from "@/assets/js/vartical-layout.min.js";
+    import pcoded from "@/assets/js/pcoded.min.js";
+    import commonTypes from '@/components/store/other/type';
+    import {menu, submenu} from '@/util/MenuEnums';
+
     export default {
+        data() {
+            return {
+                menu,
+                submenu
+            }
+        },
+        methods: {
+            isMenuActive(data) {
+                return this.position.menu == data;
+            },
+            isSubmenuActive(data) {
+                return this.position.submenu === data;
+            }
+        },
+        computed: {
+            position() {
+                return this.$store.getters[commonTypes.getters.getNavPosition];
+            }
+        },
         mounted() {
+            console.log(submenu);
+            console.log(menu);
             vartical(); //Configuración del menú vertical
-        }
+        },
     };
 </script>
 

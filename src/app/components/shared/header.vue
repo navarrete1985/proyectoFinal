@@ -85,10 +85,10 @@
                         </div>
                     </li>
                     <li class="user-profile header-notification">
-                        <div class="dropdown-primary dropdown" :class="{show: show}" @click="show = !show" ref="myPopoverUser">
-                            <div class="dropdown-toggle" data-toggle="dropdown" aria-expanded='true'>
+                        <div class="dropdown-primary dropdown" :class="{show: show}" ref="myPopoverUser">
+                            <div class="dropdown-toggle" data-toggle="dropdown" aria-expanded='true' @click="show = !show">
                                 <img src="..\..\assets\images\avatar-4.jpg" class="img-radius" alt="User-Profile-Image">
-                                <span>John Doe</span>
+                                <span class="noselect">John Doe</span>
                                 <i class="feather icon-chevron-down"></i>
                             </div>
                             <ul v-show='show' class="show-notification profile-notification dropdown-menu show" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut" v-closable="{exclude: ['myPopoverUser'], handler: 'onClose'}">
@@ -113,7 +113,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="auth-normal-sign-in.htm">
+                                    <a @click="logout">
                                         <i class="feather icon-log-out"></i> Logout
                                     </a>
                                 </li>
@@ -137,6 +137,10 @@ export default {
     methods: {
         onClose() {
             this.show = false;
+        },
+        logout() {
+            this.$router.replace('login');
+            console.log('Saliendo de la sesión...');
         }
     }
 };

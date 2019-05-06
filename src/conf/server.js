@@ -4,11 +4,12 @@ const app = express();
 const morgan = require('morgan');
 const cors = require('cors');
 const history = require('connect-history-api-fallback');
+const helmet = require('helmet');
 
 app.use(express.json());
 app.use(cors());
 app.use(morgan('dev')); //Middleware para ver las peticiones que nos están realizando a nuestro servidor
-
+app.use(helmet());
 
 app.get('*js.gz', function (req, res, next) {
     res.set('Content-Encoding', 'gzip');

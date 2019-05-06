@@ -47,16 +47,16 @@
 </template>
  
 <script>
-import baseComponent from "../shared/base";
-import draggable from "../../util/vuedraggable";
-import commonTypes from "../store/other/type";
+import baseComponent from "@/components/shared/base";
+import draggable from "@/util/vuedraggable";
+import commonTypes from "@/components/store/other/type";
 
 let id = 3;
 let id2 = 3;
 export default {
     components: {
         baseComponent,
-        draggable
+        draggable,
     },
     data() {
         return {
@@ -147,7 +147,7 @@ export default {
             // vm.$forceUpdate();
             this.$store.commit(commonTypes.mutations.updateGlobalLoader, false);
             console.log("Visible: ", this.$store.getters[commonTypes.getters.getGlobalLoaderState]);
-        }, 3000);
+        }, 1000);
     }
 };
 </script>
