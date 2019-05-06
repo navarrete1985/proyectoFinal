@@ -3,10 +3,7 @@ import types from './type';
 const state = {
     gLoader: true,
     reload: false,
-    navPosition: {
-        menu: 'home',
-        submenu: 'stablishments'
-    },
+    navPosition: '',
 }
 
 const getters = {
