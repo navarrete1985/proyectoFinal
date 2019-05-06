@@ -29,22 +29,21 @@
 </template>
 
 <script>
-import HeaderComponent from "./header";
-import NavComponent from "./nav";
-import jquerymin from "../../assets/js/jquery.min.js";
-import jqueryui from "../../assets/js/jquery-ui.min.js";
+
+// import vartical from "../../assets/js/vartical-layout.min.js";
+// import jquerymin from "../../assets/js/jquery.min.js";
+// import jqueryui from "../../assets/js/jquery-ui.min.js";
 // import customSo from "../../assets/js/sortable-custom.js";
-import pcoded from "../../assets/js/pcoded.min.js";
 // import boostrap from "../../assets/js/bootstrap.min.js";
-import jquerySlim from "../../assets/js/jquery.slimscroll.js";
+// import jquerySlim from "../../assets/js/jquery.slimscroll.js";
 // import modernz from "../../assets/js/modernizr.js";
 // import chart from "../../assets/js/Chart.js";
-import vartical from "../../assets/js/vartical-layout.min.js";
 // // import customdashboard from  "../../assets/js/custom-dashboard.js";
 // import scriptmin from  "../../assets/js/script.min.js";
 
 import Loader from "@/components/shared/loader";
-
+import HeaderComponent from "@/components/shared/header";
+import NavComponent from "@/components/shared/nav";
 export default {
   name: "app",
   data() {

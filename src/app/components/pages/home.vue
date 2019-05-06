@@ -52,40 +52,40 @@ export default {
 
 <style lang="scss" scoped>
 .col-md-2 {
-  flex: 0 0 135px !important;
-  max-width: 135px !important;
-  margin: 8px;
+    flex: 0 0 135px !important;
+    max-width: 135px !important;
+    margin: 8px;
 }
 .list-group-item {
-  position: relative;
-  display: block;
-  padding: 40px 17px;
-  text-align: center;
-  margin-bottom: -1px;
-  background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.125);
+    position: relative;
+    display: block;
+    padding: 40px 17px;
+    text-align: center;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.125);
 }
 
 .mesas {
-  display: -ms-flexbox;
-  display: -webkit-box;
-  display: flex;
-  -ms-flex-direction: row;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  flex-direction: row;
-  flex-wrap: wrap;
-  padding-left: 0;
-  margin-bottom: 0;
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: flex;
+    -ms-flex-direction: row;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-bottom: 0;
 }
 .buttons {
-  margin-top: 35px;
+    margin-top: 35px;
 }
 .active {
   border: none;
 }
 .ghost {
-  opacity: 0.5;
-  background: #c8ebfb;
+    opacity: 0.5;
+    background: #c8ebfb;
 }
 </style>
