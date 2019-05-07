@@ -129,11 +129,6 @@ export default {
                 this.updateUser(response.user);
                 this.persist();
                 this.$router.replace('dashboard');
-<<<<<<< HEAD
-
-=======
-                this.$store.commit(common_type.mutations.updateReload, true);
->>>>>>> feature/plantillas
             } else {
                 this.error.validate.state = false;
             }
