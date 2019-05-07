@@ -27,7 +27,7 @@
                                 </router-link>
                             </li>
                             <li :class="{'active' : isMenuActive(this.menu.USERS)}">
-                                <router-link to="users" append>
+                                <router-link to="../users" append>
                                     <span class="pcoded-micon">
                                         <i class="feather icon-users"></i>
                                     </span>
