@@ -14,7 +14,7 @@
                   <div class="page-body">
                     <div class="row">
                       <slot>
-
+                        <router-view></router-view>
                       </slot>
                     </div>
                   </div>

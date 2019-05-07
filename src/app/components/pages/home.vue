@@ -12,6 +12,8 @@ import superdashboardComponent from "../super/superdashboard";
 import types from "../store/users/type";
 import commonTypes from "../store/other/type";
 import { console } from "../../util/helper";
+import {menu, submenu} from '@/util/MenuEnums';
+import menuTypes from '@/components/store/other/type';
 
 let id = 3;
 let id2 = 3;
@@ -38,13 +40,13 @@ export default {
     }
   },
   beforeMount() {
-    let currentUser = localStorage.__DataUser
-      ? JSON.parse(localStorage.__DataUser).user
-      : null;
-    if (currentUser == null) {
-      this.$router.replace("login");
-    }
-    this.$store.commit(types.mutations.updateCurrentUser, currentUser);
+    let currentUser = localStorage.__DataUser ? JSON.parse(localStorage.__DataUser).user : null;
+    console.log('Usuario --> ', currentUser);
+      if(currentUser == null){
+          this.$router.replace("login");
+      }
+      this.$store.commit(types.mutations.updateCurrentUser,currentUser);
+      this.$store.commit(menuTypes.mutations.updateNavPosition, menu.STABLISHMENTS);
   },
   mounted() {}
 };

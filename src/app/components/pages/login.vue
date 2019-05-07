@@ -124,7 +124,7 @@ export default {
             if (!this.error.password.state || !this.error.email.state) return;
 
             let response = await this.$store.dispatch(type_user.actions.fetchLogin, this.user);
-
+            console.log(response);
             if (response.ok) {
                 this.updateUser(response.user);
                 this.persist();
