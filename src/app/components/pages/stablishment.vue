@@ -1,8 +1,6 @@
 <template>
   <div class="wrapper">
-    <div>
-
-    </div>
+    <div></div>
     <div class="col-12">
       <div class="form-group">
         <div class="form-check">
@@ -13,7 +11,7 @@
     </div>
 
     <div class="col-11">
-      <h3>Mesas</h3>
+      <h3>Establecimientos</h3>
       <div class="btn-group-vertical buttons" role="group" aria-label="Basic example">
         <button class="btn btn-secondary" @click="add">Add</button>
         <!-- <button class="btn btn-secondary" @click="replace">Replace</button> -->
@@ -133,19 +131,15 @@ export default {
     }
   },
   beforeCreate() {
-	  setTimeout(() => {
-		  this.$store.commit(commonTypes.mutations.updateGlobalLoader, false);
-		//   console.log('Visible: ', this.$store.getters[commonTypes.getters.getGlobalLoaderState]);
-	  }, 1000);
+    setTimeout(() => {
+      this.$store.commit(commonTypes.mutations.updateGlobalLoader, false);
+      //   console.log('Visible: ', this.$store.getters[commonTypes.getters.getGlobalLoaderState]);
+    }, 3000);
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.wrapper {
-  width: 100%;
-}
-
 .col-md-2 {
   flex: 0 0 135px !important;
   max-width: 135px !important;
@@ -176,11 +170,14 @@ export default {
 .buttons {
   margin-top: 35px;
 }
-.active{
-    border:none;
+.active {
+  border: none;
 }
 .ghost {
   opacity: 0.5;
   background: #c8ebfb;
+}
+.wrapper{
+    width: 100%;
 }
 </style>

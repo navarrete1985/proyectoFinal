@@ -2,12 +2,11 @@ import App from './App.vue';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Routes from './routes';
-import BootstrapVue from 'bootstrap-vue';
 import store from '@/components/store/Store.js';
 import directives from '@/components/directives';
 
 
-Vue.use(BootstrapVue);
+
 Vue.use(VueRouter);
 
 let routes = Routes.routes;
