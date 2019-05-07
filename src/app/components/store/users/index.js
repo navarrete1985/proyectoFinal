@@ -3,7 +3,7 @@ import types from './type';
 const state = {
     currentUser: {
         user: "",
-        remember:""
+        remember:"",
     },
     users: [],
 }
@@ -12,7 +12,7 @@ const getters = {
     [types.getters.getUserById]: (state, getters) => (id) => {
         state.users.find(item => item._id === id);
     },
-    [types.getters.getAll]: (state) => state.users,
+    [types.getters.getAllUsers]: (state) => state.users,
     [types.getters.getCurrentUser]: (state) => state.currentUser,
 }
 
@@ -26,6 +26,7 @@ const mutations = {
             }
         });
     },
+    [types.mutations.updateUsers]: (state, data) => state.users = data,
 }
 
 const actions = {};
@@ -54,6 +55,20 @@ actions[types.actions.fetchLogin] = async ({ commit, getters, state, dispatch },
     response = await response.json();
     if (response.ok) {
         commit(types.mutations.updateCurrentUser, response.user);
+    }
+
+    return response;
+};
+
+actions[types.actions.fetchAllUsers] = async ({ commit, getters, state, dispatch }) => {
+    console.warn('Voy a realizar la petición');
+    let response = await fetch(`${window.location.origin}/api/user`);
+    console.warn('Realizada --> ', response);
+    response = await response.json();
+    console.warn('Json response --> ', response);
+    if (response.result) {
+        console.warn('Respuesta de la store --> ', response);
+        commit(types.mutations.updateUsers, response.response);
     }
 
     return response;
