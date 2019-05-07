@@ -10,22 +10,25 @@ const ROLES = {
 }
 
 const WaiterSchema = new Schema({
-   establishment_id: {
-       ObjectId
-   },
-   is_activate:{
-        type: Boolean    
-   },
-   token:{
-     type:String 
-   },
-   rol:{
-        type:Number,
+    establishment_id: {
+        ObjectId
+    },
+    user_id: {
+        ObjectId
+    },
+    is_activate: {
+        type: Boolean
+    },
+    token: {
+        type: String
+    },
+    rol: {
+        type: Number,
         required: true,
         default: ROLES.NORMAL,
         min: ROLES.NORMAL,
         max: ROLES.SUPERADMIN
-   }
+    }
 });
 
 
