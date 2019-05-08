@@ -88,7 +88,7 @@
                         <div class="dropdown-primary dropdown" :class="{show: show}" ref="myPopoverUser">
                             <div class="dropdown-toggle" data-toggle="dropdown" aria-expanded='true' @click="show = !show">
                                 <img src="..\..\assets\images\avatar-4.jpg" class="img-radius" alt="User-Profile-Image">
-                                <span class="noselect">John Doe</span>
+                                <span class="noselect">{{getFullName(currentUser)}}</span>
                                 <i class="feather icon-chevron-down"></i>
                             </div>
                             <ul v-show='show' class="show-notification profile-notification dropdown-menu show" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut" v-closable="{exclude: ['myPopoverUser'], handler: 'onClose'}">
@@ -128,6 +128,8 @@
 </template>
 
 <script>
+import usersTypes from '@/components/store/users/type';
+
 export default {
     data() {
         return {
@@ -141,7 +143,15 @@ export default {
         logout() {
             this.$router.replace('login');
             console.log('Saliendo de la sesión...');
+        },
+        getFullName(user) {
+            return `${user.name} ${user.lastName}`
         }
+    },
+    computed: {
+        currentUser() {
+            return this.$store.getters[usersTypes.getters.getCurrentUser];
+        },
     }
 };
 </script>
