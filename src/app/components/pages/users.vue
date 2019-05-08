@@ -22,6 +22,8 @@
                 </div>
             </div>
         </div>
+        <floating-button @onEventDispatch='event'></floating-button>
+        
     </div>
 </template>
 
@@ -31,14 +33,20 @@
     import menuTypes from '@/components/store/other/type';
     import commonTypes from "@/components/store/other/type";
     import usersTypes from "@/components/store/users/type";
+    import FloatingButton from '@/components/elements/floatingButton';
 
     export default {
         methods: {
             getFullName(user) {
                 console.log(user);
                 return `${user.name} ${user.lastName}`
+            },
+            event(event) {
+                console.log(event);
+                console.warn('He entrado en el evento disparado');
             }
         },
+        components: {FloatingButton},
         computed: {
             users() {
                 return this.$store.getters[usersTypes.getters.getAllUsers];
