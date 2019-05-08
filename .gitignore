@@ -3,3 +3,4 @@ notas
 node_modules/*
 notas.md
 src/app/assets/images
+src/public/*
