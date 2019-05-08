@@ -1,19 +1,19 @@
 const namespace = 'stablishment';
 
-const type_users = {
+const type_stablishments = {
     namespace,
     getters: {
-        getUserById: `${namespace}/getter:getUserById`,
-        getAll: `${namespace}/getter:getAll`,
+        getStablishmentById: `${namespace}/getter:getStablishmentById`,
+        getAllStablishments: `${namespace}/getter:getAllStablishments`,
     },
     mutations: {
-        updateUserById: `${namespace}/mutation:updateUserById`,
+        updateStablishmentById: `${namespace}/mutation:updateStablishmentById`,
+        updateStablishments: `${namespace}/mutation:updateStablishments`,
     },
     actions: {
-        fetchUserById: `${namespace}/action:fetchUserById`,
-        fetchLogin: `${namespace}/action:fetchLogin`,
+        fetchAllStablishments: `${namespace}/action:fetchAllStablishments`,
     }
 }
 
-export default type_users;
-export {type_users};
+export default type_stablishments;
+export {type_stablishments};
