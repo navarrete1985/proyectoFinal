@@ -4,9 +4,9 @@ var bcrypt = require('bcrypt');
 var Pusher = require('pusher');
 
 var pusher = new Pusher({
-  appId: '756732',
-  key: 'e44d00fb9c45fb71f1f3',
-  secret: 'fb18d03323c266b5eff4',
+  appId: process.env.PUSHER_APP_ID,
+  key: process.env.PUSHER_APP_KEY,
+  secret: process.env.PUSHER_APP_SECRET,
   cluster: 'eu',
   encrypted: true
 });

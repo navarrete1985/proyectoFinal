@@ -7,9 +7,9 @@
                         <slot name='prev'></slot>
                     </a>
                 </li>
-                <li v-for="n in getRange(-1)" class="page-item" :key="n.key"><a class="page-link">{{n.position}}</a></li>
-                <li class="page-item active"><a class="page-link">{{pagination.page}}</a></li>
-                <li v-for="n in getRange(1)" class="page-item" :key="n.key"><a class="page-link">{{n.position}}</a></li>
+                <li v-for="n in getRange(-1)" class="page-item" :key="n.key"><a class="page-link" @click="$emit('onPaginate', n.position)">{{n.position}}</a></li>
+                <li class="page-item active"><a class="page-link" @click="$emit('onPaginate', pagination.page)">{{pagination.page}}</a></li>
+                <li v-for="n in getRange(1)" class="page-item" :key="n.key"><a class="page-link" @click="$emit('onPaginate', n.position)">{{n.position}}</a></li>
                 <li class="page-item" :class="{'disabled': !pagination.hasNextPage}">
                     <a class="page-link" @click="$emit('onPaginate', pagination.nextPage)">
                         <slot name='next'></slot>

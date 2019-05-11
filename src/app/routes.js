@@ -13,7 +13,7 @@ export default {
         {path: '/forgot', name: 'forgot', component: Forgot},
         {path: '/dashboard', name: 'home', component: Base, children: [
             {path: 'users', name: 'users', component: Users},
-            {path: 'stablishment', name: 'stablishment', component: stablishment},
+            {path: 'stablishments', name: 'stablishment', component: stablishment},
         ]},
         {path: '/asd', name: 'notfound', component: NotFound},
         {path: '*', name: 'index', component: Prueba}
