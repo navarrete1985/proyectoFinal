@@ -24,21 +24,21 @@ userController.getAll = (req, res) => {
 }
 
 userController.getUserPagination = (req, res) => {
-    const myCustomLabels = {
-        totalDocs: 'itemCount',
-        docs: 'itemsList',
-        limit: 'perPage',
-        page: 'currentPage',
-        nextPage: 'next',
-        prevPage: 'prev',
-        totalPages: 'pageCount',
-        pagingCounter: 'slNo'
-    };
-     
+    // const myCustomLabels = {
+    //     totalDocs: 'itemCount',
+    //     docs: 'itemsList',
+    //     limit: 'perPage',
+    //     page: 'currentPage',
+    //     nextPage: 'next',
+    //     prevPage: 'prev',
+    //     totalPages: 'pageCount',
+    //     pagingCounter: 'slNo'
+    // };
+    
     const options = {
-        page: 1,
-        limit: 10,
-        customLabels: myCustomLabels
+        page: req.body.page || 4,
+        limit: req.body.limit || 10,
+        // customLabels: myCustomLabels
     };
     User.paginate({}, options, (err, result) => {
         return res.status(!err ? 200 : 400).json(result);
