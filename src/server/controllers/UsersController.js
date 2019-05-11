@@ -16,11 +16,33 @@ let userController = {};
 userController.getAll = (req, res) => {
     User.find({}).exec((err, users) => {
         let response = Tools.response.get(err, users);
-        pusher.trigger('my-channel', 'my-event', {
-          users
-        });
+        // pusher.trigger('my-channel', 'my-event', {
+        //   users
+        // });
         return res.status(response.status).json(response);
     })
+}
+
+userController.getUserPagination = (req, res) => {
+    const myCustomLabels = {
+        totalDocs: 'itemCount',
+        docs: 'itemsList',
+        limit: 'perPage',
+        page: 'currentPage',
+        nextPage: 'next',
+        prevPage: 'prev',
+        totalPages: 'pageCount',
+        pagingCounter: 'slNo'
+    };
+     
+    const options = {
+        page: 1,
+        limit: 10,
+        customLabels: myCustomLabels
+    };
+    User.paginate({}, options, (err, result) => {
+        return res.status(!err ? 200 : 400).json(result);
+    });
 }
 
 userController.find = (req, res) => {

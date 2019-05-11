@@ -1,5 +1,6 @@
 <template>
     <div class='wrapper'>
+        <floating-button @onEventDispatch='event'></floating-button>
         <div class="row">
             <div v-for="user in users" v-bind:key="user._id" class="col-lg-6 col-xl-3 col-md-6">
                 <div class="card rounded-card user-card">
@@ -17,13 +18,14 @@
                             <h4 class="">{{getFullName(user)}}</h4>
                             <p class="m-b-0 text-muted">{{user.email}}</p>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
-        <floating-button @onEventDispatch='event'></floating-button>
-        
+        <paginator>
+            <template v-slot:prev>Anterior</template>
+            <template v-slot:next>Siguiente</template>
+        </paginator>
     </div>
 </template>
 
@@ -34,7 +36,7 @@
     import commonTypes from "@/components/store/other/type";
     import usersTypes from "@/components/store/users/type";
     import FloatingButton from '@/components/elements/floatingButton';
-
+    import Paginator from '@/components/elements/paginator';
     export default {
         methods: {
             getFullName(user) {
@@ -46,7 +48,7 @@
                 console.warn('He entrado en el evento disparado');
             }
         },
-        components: {FloatingButton},
+        components: {FloatingButton, Paginator},
         computed: {
             users() {
                 return this.$store.getters[usersTypes.getters.getAllUsers];

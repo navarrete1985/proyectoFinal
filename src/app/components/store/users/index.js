@@ -6,6 +6,7 @@ const state = {
         remember:"",
     },
     users: [],
+    userPage: {},
 }
 
 const getters = {
@@ -14,6 +15,7 @@ const getters = {
     },
     [types.getters.getAllUsers]: (state) => state.users,
     [types.getters.getCurrentUser]: (state) => state.currentUser,
+    [types.getters.getPageUser]: (state) => state.userPage,
 }
 
 const mutations = {
@@ -27,6 +29,7 @@ const mutations = {
         });
     },
     [types.mutations.updateUsers]: (state, data) => state.users = data,
+    [types.mutations.updatePageUser]: (state, data) => state.userPage = data,
 }
 
 const actions = {};
@@ -61,18 +64,38 @@ actions[types.actions.fetchLogin] = async ({ commit, getters, state, dispatch },
 };
 
 actions[types.actions.fetchAllUsers] = async ({ commit, getters, state, dispatch }) => {
-    console.warn('Voy a realizar la petición');
     let response = await fetch(`${window.location.origin}/api/user`);
-    console.warn('Realizada --> ', response);
-    response = await response.json();
-    console.warn('Json response --> ', response);
-    if (response.result) {
-        console.warn('Respuesta de la store --> ', response);
-        commit(types.mutations.updateUsers, response.response);
-    }
+    
+    if (response.status !== 200) {
+        console.error('Error en la petición');
+        return;
+    } 
+    let json = await response.json();
+    commit(types.mutations.updateUsers, json.response);
 
-    return response;
+    return json;
 };
+
+actions[types.actions.fetchUserByPage] = async ({commit, getters, state, dispatch}, page) => {
+    console.warn('Voy a realizar la petición');
+    let response = await fetch(`${window.location.origin}/api/user/pagination`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(page)
+    });
+    console.warn('Realizada --> ', response);
+    if (response.status !== 200) {
+        console.error('Error en la petición');
+        return;
+    } 
+    let json = await response.json();
+    json.status = response.status;
+    console.warn('Json response --> ', json);
+    console.warn('Respuesta de la store --> ', json.itemsList);
+    commit(types.mutations.updateUsers, json.itemsList);
+
+    return json;
+}
 
 
 const module = {

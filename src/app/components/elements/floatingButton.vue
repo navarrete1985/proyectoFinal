@@ -56,7 +56,11 @@
 
 <style lang="scss" scoped>
 
+    
+
     .btn-group, .btn-group-sm {
+
+        z-index: 100;
 
         .btn-success:hover {
             background-color: rgba(90, 168, 120, 0.644) !important;

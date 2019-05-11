@@ -37,6 +37,7 @@
     "jquery": "^3.4.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.4.20",
+    "mongoose-paginate-v2": "^1.2.1",
     "morgan": "^1.9.1",
     "pusher": "^2.2.0",
     "simple-crypto-js": "^2.0.2",
