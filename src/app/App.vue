@@ -9,4 +9,5 @@
     @import './assets/styles/style.css';
     @import './assets/styles/icofont.css';
     @import './assets/styles/font-awesome.min.css';
+    @import './assets/styles/material-design-iconic-font.min.css';
 </style>

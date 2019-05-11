@@ -5,8 +5,6 @@ import Routes from './routes';
 import store from '@/components/store/Store.js';
 import directives from '@/components/directives';
 
-
-
 Vue.use(VueRouter);
 
 let routes = Routes.routes;
