@@ -7,9 +7,9 @@
                         <slot name='prev'></slot>
                     </a>
                 </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li v-for="n in getRange(-1)" class="page-item" :key="n.key"><a class="page-link">{{n.position}}</a></li>
+                <li class="page-item active"><a class="page-link">{{pagination.page}}</a></li>
+                <li v-for="n in getRange(1)" class="page-item" :key="n.key"><a class="page-link">{{n.position}}</a></li>
                 <li class="page-item" :class="{'disabled': !pagination.hasNextPage}">
                     <a class="page-link" @click="$emit('onPaginate', pagination.nextPage)">
                         <slot name='next'></slot>
@@ -31,6 +31,30 @@
                 type: Number,
                 required: true
             }
+        },
+        methods: {
+            getRange(order) {
+                let result = [];
+                let count = 1;
+                let position = this.pagination.page;
+                switch(order) {
+                    case -1:
+                        while (count <= this.range && position - count > 0) {
+                            result.push({key: `page-${position - count}`, position: position - count});
+                            count ++;
+                        }
+                        result.reverse();
+                    break;
+                    case 1:
+                        let max = this.pagination.totalPages;
+                        while (count <= this.range && count + position <= max) {
+                            result.push({key: `page-${position + count}`, position: position + count});
+                            count ++;
+                        }
+                    break;
+                }
+                return result;
+            }
         }
     }
 </script>
@@ -39,6 +63,7 @@
     ul.pagination {
         >li {
             cursor: pointer;
+            user-select: none;
         }
     }
 </style>
