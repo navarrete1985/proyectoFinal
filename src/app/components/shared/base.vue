@@ -12,11 +12,11 @@
               <div class="main-body">
                 <div class="page-wrapper">
                   <div class="page-body">
-                    <div class="row">
+                    <!-- <div class="row"> -->
                       <slot>
                         <router-view></router-view>
                       </slot>
-                    </div>
+                    <!-- </div> -->
                   </div>
                 </div>
               </div>
@@ -29,38 +29,38 @@
 </template>
 
 <script>
-
-// import vartical from "../../assets/js/vartical-layout.min.js";
-// import jquerymin from "../../assets/js/jquery.min.js";
-// import jqueryui from "../../assets/js/jquery-ui.min.js";
-// import customSo from "../../assets/js/sortable-custom.js";
-// import boostrap from "../../assets/js/bootstrap.min.js";
-// import jquerySlim from "../../assets/js/jquery.slimscroll.js";
-// import modernz from "../../assets/js/modernizr.js";
-// import chart from "../../assets/js/Chart.js";
-// // import customdashboard from  "../../assets/js/custom-dashboard.js";
-// import scriptmin from  "../../assets/js/script.min.js";
-
 import Loader from "@/components/shared/loader";
 import HeaderComponent from "@/components/shared/header";
 import NavComponent from "@/components/shared/nav";
+import types from "@/components/store/users/type";
+
 export default {
-  name: "app",
-  data() {
-    return {
-      
+    name: "app",
+    data() {
+        return {
+
+        }
+    },
+    components: {
+        HeaderComponent,
+        NavComponent,
+        Loader
+    },
+    beforeMount() {
+        let currentUser = localStorage.__DataUser ? JSON.parse(localStorage.__DataUser).user : null;
+        console.log('Usuario --> ', currentUser);
+        if(currentUser == null){
+            this.$router.replace("login");
+            return;
+        }
+        this.$store.commit(types.mutations.updateCurrentUser,currentUser);
     }
-  },
-  components: {
-    HeaderComponent,
-    NavComponent,
-    Loader
-  }
 };
 
 window.dataLayer = window.dataLayer || [];
+
 function gtag() {
-  dataLayer.push(arguments);
+    dataLayer.push(arguments);
 }
 gtag("js", new Date());
 

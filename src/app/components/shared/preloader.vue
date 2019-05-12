@@ -30,17 +30,25 @@
 </script>
 
 <style lang="scss" scoped>
+
+    $screen-lg-min: 992px;
+
     .preloader {
-        width: 100%;
+        width: calc(100% - 240px);
         height: 100%;
         top: 0;
-        left: 0;
+        right: 0;
         display: flex;
         flex-flow: row nowrap;
         justify-content: center;
         align-items: center;
         z-index: 100;
         background-color: rgba(211, 211, 211, 0.452);
+
+        @media screen and (max-width: #{$screen-lg-min}) {
+            width: 100%;
+        }
+
     }
 
     .normal {

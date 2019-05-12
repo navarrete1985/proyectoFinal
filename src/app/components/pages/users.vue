@@ -32,7 +32,7 @@
 
 <script>
     import menu from '@/util/MenuEnums';
-    import types from "@/components/store/users/type";
+    // import types from "@/components/store/users/type";
     import menuTypes from '@/components/store/other/type';
     import commonTypes from "@/components/store/other/type";
     import usersTypes from "@/components/store/users/type";
@@ -69,12 +69,12 @@
         },
         beforeMount() {
             this.$store.commit(commonTypes.mutations.updateGlobalLoader, true);
-            let currentUser = localStorage.__DataUser ? JSON.parse(localStorage.__DataUser).user : null;
-            console.log('Usuario --> ', currentUser);
-            if(currentUser == null){
-                this.$router.replace("login");
-            }
-            this.$store.commit(types.mutations.updateCurrentUser,currentUser);
+            // let currentUser = localStorage.__DataUser ? JSON.parse(localStorage.__DataUser).user : null;
+            // console.log('Usuario --> ', currentUser);
+            // if(currentUser == null){
+            //     this.$router.replace("login");
+            // }
+            // this.$store.commit(types.mutations.updateCurrentUser,currentUser);
             this.$store.commit(menuTypes.mutations.updateNavPosition, menu.USERS);
             this.$store.dispatch(usersTypes.actions.fetchUserByPage, {page: 1, limit: 10});
             this.$store.commit(commonTypes.mutations.updateGlobalLoader, false);

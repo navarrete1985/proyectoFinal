@@ -3,9 +3,10 @@
         <div class="navbar-wrapper">
 
             <div class="navbar-logo" logo-theme="theme1">
-                <a class="mobile-menu" id="mobile-collapse" href="#!">
+                <!-- Botón para colapso del nav -->
+                <!-- <a class="mobile-menu" id="mobile-collapse" href="#!">
                     <i class="feather icon-menu icon-toggle-right"></i>
-                </a>
+                </a> -->
                 <a href="index-1.htm">
                     <img class="img-fluid" src="..\..\assets\images\logo.png" alt="Theme-Logo">
                 </a>
