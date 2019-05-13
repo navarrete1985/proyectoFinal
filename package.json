@@ -17,6 +17,7 @@
     "webpack": "webpack --mode development --watch",
     "webpack-hot": "webpack-dev-server --mode development --config webpack.config.js --open --hot",
     "webpack-prod": "webpack --mode production",
+    "heroku-prebuild": "npm install",
     "build": "npm install",
     "heroku-postbuild": "webpack --mode production",
     "server": "pm2 start src/app.js --watch --name server",
