@@ -90,9 +90,8 @@ actions[types.actions.fetchUserByPage] = async ({commit, getters, state, dispatc
     } 
     let json = await response.json();
     json.status = response.status;
-    console.warn('Json response --> ', json);
-    console.warn('Respuesta de la store --> ', json.itemsList);
-    commit(types.mutations.updateUsers, json.itemsList);
+    console.warn('Respuesta de la store --> ', json);
+    commit(types.mutations.updatePageUser, json);
 
     return json;
 }

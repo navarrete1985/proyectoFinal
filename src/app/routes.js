@@ -5,6 +5,7 @@ import Forgot from './components/pages/forgotPasswd.vue';
 import Stablishment from './components/pages/stablishment.vue';
 import Users from './components/pages/users.vue';
 import Base from './components/shared/Base';
+import UserDetail from '@/components/pages/userDetails';
 import { basename } from 'path';
 
 export default {
@@ -13,7 +14,8 @@ export default {
         {path: '/forgot', name: 'forgot', component: Forgot},
         {path: '/dashboard', name: 'home', component: Base, children: [
             {path: 'users', name: 'users', component: Users},
-            {path: 'stablishments', name: 'stablishments', component: Stablishment},
+            {path: 'users/:id', name: 'userDetail', component: UserDetail},
+            {path: 'stablishments', name: 'stablishment', component: Stablishment},
         ]},
         {path: '/asd', name: 'notfound', component: NotFound},
         {path: '*', name: 'index', component: Prueba}
