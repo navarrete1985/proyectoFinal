@@ -3,15 +3,16 @@
         <floating-button @onEventDispatch='event'></floating-button>
         <preloader :visible="loading" :global="true"></preloader>
         <div class="row">
-            <div v-for="user in pagination.docs" v-bind:key="user._id" class="col-lg-6 col-xl-3 col-md-6">
+            <div v-for="user in pagination.docs" v-bind:key="user._id" class="col-lg-4 col-xl-3 col-md-4">
                 <div class="card rounded-card user-card">
                     <div class="card-block">
                         <div class="img-hover">
                             <img class="img-fluid img-radius" src="http://localhost:3000/src/users/default.png" alt="round-img">
                             <div class="img-overlay img-radius">
                                 <span>
-                                    <a href="#" class="btn btn-sm btn-primary" data-popup="lightbox"><i class="icofont icofont-plus"></i></a>
-                                    <a href="" class="btn btn-sm btn-primary"><i class="icofont icofont-link-alt"></i></a>
+                                    <!-- <a href="#" class="btn btn-sm btn-primary" data-popup="lightbox"><i class="icofont icofont-plus"></i></a>
+                                    <a href="" class="btn btn-sm btn-primary"><i class="icofont icofont-link-alt"></i></a> -->
+                                    <router-link :to="{path: user._id}" append class="btn btn-sm btn-primary"><i class="icofont icofont-plus"></i></router-link>
                                 </span>
                             </div>
                         </div>
@@ -59,6 +60,9 @@
                 this.loading = true;
                 await this.$store.dispatch(usersTypes.actions.fetchUserByPage, {page: index});
                 this.loading = false;
+            },
+            getUserRoute(user) {
+                // return `/${user._id}`;
             }
         },
         components: {FloatingButton, Paginator, Preloader},
