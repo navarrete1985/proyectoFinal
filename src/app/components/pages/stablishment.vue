@@ -1,140 +1,65 @@
 <template>
   <div class="wrapper">
-    <div></div>
-    <div class="col-12">
-      <div class="form-group">
-        <div class="form-check">
-          <input id="disabled" type="checkbox" v-model="enabled" class="form-check-input">
-          <label class="form-check-label" for="disabled">DnD enabled</label>
+    <div class="row">
+      <div v-for="stablishment in stablishments" v-bind:key="stablishment._id" class="col-lg-6 col-xl-3 col-md-6">
+        <div class="card rounded-card user-card">
+          <div class="card-block">
+            <div class="img-hover">
+              <img
+                class="img-fluid img-radius"
+                src="http://localhost:3000/src/users/default.png"
+                alt="round-img"
+              >
+              <div class="img-overlay img-radius">
+                <span>
+                  <a href="#" class="btn btn-sm btn-primary" data-popup="lightbox">
+                    <i class="icofont icofont-plus"></i>
+                  </a>
+                  <a href class="btn btn-sm btn-primary">
+                    <i class="icofont icofont-link-alt"></i>
+                  </a>
+                </span>
+              </div>
+            </div>
+            <div class="user-content">
+              <h4 class>{{stablishment.name}}</h4>
+              <p class="m-b-0 text-muted">{{stablishment.description}}</p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-
-    <div class="col-11">
-      <h3>Establecimientos</h3>
-      <div class="btn-group-vertical buttons" role="group" aria-label="Basic example">
-        <button class="btn btn-secondary" @click="add">Add</button>
-        <!-- <button class="btn btn-secondary" @click="replace">Replace</button> -->
-      </div>
-      <draggable
-        :list="list"
-        :disabled="!enabled"
-        class="list-group mesas"
-        ghost-class="ghost"
-        @start="dragging = true"
-        @end="dragging = false"
-      >
-        <div class="list-group-item col-md-2" v-for="element in list" :key="element.name">
-          <b-button v-b-modal.modal-prevent-closing>{{ element.name }}</b-button>
-        </div>
-      </draggable>
-    </div>
-    <div class="col-11">
-      <h3>Mesas</h3>
-      <div class="btn-group-vertical buttons" role="group" aria-label="Basic example">
-        <button class="btn btn-secondary" @click="add2">Add</button>
-        <!-- <button class="btn btn-secondary" @click="replace">Replace</button> -->
-      </div>
-      <draggable
-        :list="list"
-        :disabled="!enabled"
-        class="list-group mesas"
-        ghost-class="ghost"
-        @start="dragging = true"
-        @end="dragging = false"
-      >
-        <div
-          class="list-group-item col-md-2"
-          v-for="element in list2"
-          :key="element.name"
-        >{{ element.name }}</div>
-      </draggable>
     </div>
   </div>
 </template>
 <script>
-import draggable from "../../util/vuedraggable";
-import commonTypes from "../store/other/type";
-
-let id = 3;
-let id2 = 3;
+import menu from "@/util/MenuEnums";
+import menuTypes from "@/components/store/other/type";
+import commonTypes from "@/components/store/other/type";
+import usersTypes from "@/components/store/users/type";
+import stablishmentsTypes from "@/components/store/stablishments/type";
 
 export default {
-  components: {
-    draggable
-  },
-  data() {
-    return {
-      name: "",
-      isCheck: true,
-      nameState: null,
-      submittedNames: [],
-      enabled: true,
-      list: [{ name: "1", id: 0 }, { name: "2", id: 1 }, { name: "3", id: 2 }],
-      list2: [
-        { name: "1", id2: 0 },
-        { name: "2", id2: 1 },
-        { name: "3", id2: 2 }
-      ],
-      dragging: false
-    };
+  methods: {
+   
   },
   computed: {
-    draggingInfo() {
-      return this.dragging ? "under drag" : "";
+    stablishments() {
+      return this.$store.getters[stablishmentsTypes.getters.getAllStablishments];
     }
   },
-  methods: {
-    checkFormValidity() {
-      const valid = this.$refs.form.checkValidity();
-      this.nameState = valid ? "valid" : "invalid";
-      return valid;
-    },
-    resetModal() {
-      this.name = "";
-      this.nameState = null;
-    },
-    handleOk(bvModalEvt) {
-      // Prevent modal from closing
-      bvModalEvt.preventDefault();
-      // Trigger submit handler
-      this.handleSubmit();
-    },
-    handleSubmit() {
-      // Exit when the form isn't valid
-      if (!this.checkFormValidity()) {
-        return;
-      }
-      // Push the name to submitted names
-      this.submittedNames.push(this.name);
-      // Hide the modal manually
-      this.$nextTick(() => {
-        this.$refs.modal.hide();
-      });
-    },
-    add: function() {
-      this.list.push({ name: id + 1, id: id++ });
-    },
-    add2: function() {
-      this.list2.push({ name: id2 + 1, id2: id2++ });
-    },
-    readOrType() {
-      console.log(this.isCheck);
-      if (this.isCheck == true) {
-        this.isCheck = false;
-      } else {
-        this.isCheck = true;
-      }
-    },
-    replace: function() {
-      this.list = [{ name: "Edgard", id: id++ }];
+  beforeMount() {
+    this.$store.commit(commonTypes.mutations.updateGlobalLoader, true);
+    let currentUser = localStorage.__DataUser
+      ? JSON.parse(localStorage.__DataUser).user
+      : null;
+    console.log("Usuario --> ", currentUser);
+    if (currentUser == null) {
+      this.$router.replace("login");
     }
-  },
-  beforeCreate() {
-    setTimeout(() => {
-      this.$store.commit(commonTypes.mutations.updateGlobalLoader, false);
-      //   console.log('Visible: ', this.$store.getters[commonTypes.getters.getGlobalLoaderState]);
-    }, 3000);
+    this.$store.commit(usersTypes.mutations.updateCurrentUser, currentUser);
+    this.$store.commit(menuTypes.mutations.updateNavPosition, menu.STABLISHMENTS);
+    this.$store.commit(commonTypes.mutations.updateGlobalLoader, false);
+    this.$store.dispatch(stablishmentsTypes.actions.fetchAllStablishments);
   }
 };
 </script>
@@ -177,7 +102,7 @@ export default {
   opacity: 0.5;
   background: #c8ebfb;
 }
-.wrapper{
-    width: 100%;
+.wrapper {
+  width: 100%;
 }
 </style>

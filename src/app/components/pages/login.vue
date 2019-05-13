@@ -78,11 +78,11 @@
 </template>
 
 <script>
-const {User} = require ('../../util/models.js');
+const {User} = require ('@/util/models.js');
 const {validateEmail, validatePasswd} = require ('@/util/Validate.js');
 var SimpleCrypto = require("simple-crypto-js").default;
-import type_user from '../store/users/type';
-import common_type from '../store/other/type';
+import type_user from '@/components/store/users/type';
+import common_type from '@/components/store/other/type';
 
 export default {
     data() {

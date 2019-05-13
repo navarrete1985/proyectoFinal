@@ -80,7 +80,9 @@
             // }
             // this.$store.commit(types.mutations.updateCurrentUser,currentUser);
             this.$store.commit(menuTypes.mutations.updateNavPosition, menu.USERS);
-            this.$store.dispatch(usersTypes.actions.fetchUserByPage, {page: 1, limit: 10});
+            if (this.$store.getters[usersTypes.getters.getPageUser] === undefined) {
+                this.$store.dispatch(usersTypes.actions.fetchUserByPage, {page: 1, limit: 10});
+            }
             this.$store.commit(commonTypes.mutations.updateGlobalLoader, false);
         },
     }

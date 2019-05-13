@@ -6,7 +6,7 @@ const state = {
         remember:"",
     },
     users: [],
-    userPage: {},
+    userPage: undefined,
 }
 
 const getters = {

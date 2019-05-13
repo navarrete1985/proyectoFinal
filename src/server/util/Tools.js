@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+var fs = require("fs");
+var mkdirp = require('mkdirp');
 
 const validateUrlSchema = new Schema({
     url: {
@@ -22,12 +24,25 @@ function validateHex(value, length) {
     return regexp.test(value);
 }
 
+function createDir(directorio,carpeta,id){
+    mkdirp(directorio +carpeta + id, function (err) {
+        // path exists unless there was an error
+        if (err) {
+            console.log("error al crear directorio");
+        } else {
+            console.log("directorio creado");
+        }
+    });
+}
+
 function getResponse(err, data, post = false) {
     let status = !err ? 200 : 400;
     let response = !err ? data : err;
+    let error = err ? true : false;
     return {
         status,
         result: status === 200 ? true : false,
+        error,
         response
     };
 }
@@ -40,5 +55,8 @@ module.exports = {
     },
     response: {
         get: getResponse
-    }
+    },
+    createDir
+
+    
 }
