@@ -16,10 +16,10 @@
     "build-webpack": "cross-env NODE_ENV=production webpack",
     "webpack": "webpack --mode development --watch",
     "webpack-hot": "webpack-dev-server --mode development --config webpack.config.js --open --hot",
-    "heroku-prebuild": "npm install",
+    "heroku-prebuild------": "npm install",
     "webpack-prod": "webpack --mode production",
     "build": "npm install",
-    "heroku-postbuild": "cross-env NODE_ENV=production webpack -p",
+    "heroku-postbuild-------": "cross-env NODE_ENV=production webpack -p",
     "server": "pm2 start src/app.js --watch --name server",
     "vue": "cross-env NODE_ENV=development pm2 start webpack-dev-server --name vue --open --hot",
     "dev-hot": "npm run vue | npm run server"
