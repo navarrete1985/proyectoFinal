@@ -1,10 +1,10 @@
-import Login from './components/pages/Login.vue';
-import NotFound from './components/pages/NotFound.vue';
-import Prueba from './components/pages/Prueba.vue';
+import Login from './components/pages/login.vue';
+import NotFound from './components/pages/notfound.vue';
+import Prueba from './components/pages/prueba.vue';
 import Forgot from './components/pages/forgotPasswd.vue';
 import Stablishment from './components/pages/stablishment.vue';
 import Users from './components/pages/users.vue';
-import Base from './components/shared/Base';
+import Base from './components/shared/base';
 import UserDetail from './components/pages/userDetails';
 import { basename } from 'path';
 
