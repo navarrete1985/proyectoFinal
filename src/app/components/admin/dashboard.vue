@@ -1,7 +1,30 @@
 <template>
   <div class="wrapper">
     <div>
+         <b-modal
+        id="modal-prevent-closing"
+        ref="modal"
+        title="Submit Your Name"
+        @show="resetModal"
+        @hidden="resetModal"
+        @ok="handleOk"
+      >
+        <form ref="form" @submit.stop.prevent="handleSubmit">
+          <div>
+            <input @change="readOrType" name="campos" id="campos" type="checkbox">
+            <label for="campos">Habilitar campos</label>
+          </div>
 
+          <div>
+            <label>otra cosa</label>
+            <input :readonly="isCheck" v-bind:class="{ active: isCheck }" id="name-input">
+          </div>
+          <div>
+            <label>llamaa</label>
+            <input id="2-input" @change="readOrType" :readonly="isCheck" v-bind:class="{ active: isCheck }">  
+          </div>
+        </form>
+      </b-modal>
     </div>
     <div class="col-12">
       <div class="form-group">

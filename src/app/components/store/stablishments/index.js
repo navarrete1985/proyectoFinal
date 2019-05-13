@@ -1,23 +1,38 @@
 import types from './type';
 
 const state = {
-
+    stablishments : [],
 }
 
 const getters = {
-
+    [types.getters.getAllStablishments]: (state) => state.stablishments,
 }
 
-const mutations = {}
+const mutations = {
+    [types.mutations.updateStablishments]: (state, data) => state.stablishments = data,
+}
 //Definimos a continuación las mutaciones que vamos a tener
 
 
 const actions = {}
 //Definimos a continuación las acciones que vamos a tener
+actions[types.actions.fetchAllStablishments] = async ({ commit, getters, state, dispatch }) => {
+    console.warn('Voy a realizar la petición');
+    let response = await fetch(`${window.location.origin}/api/establishment`);
+    console.warn('Realizada --> ', response);
+    response = await response.json();
+    console.warn('Json response --> ', response);
+    if (response.result) {
+        console.warn('Respuesta de la store --> ', response);
+        commit(types.mutations.updateStablishments, response.response);
+    }
+
+    return response;
+};
 
 const module = {
     namespaced: false,
-    state, 
+    state,
     getters,
     actions,
     mutations,
@@ -25,4 +40,4 @@ const module = {
 }
 
 export default module;
-export {module, types};
+export { module, types };

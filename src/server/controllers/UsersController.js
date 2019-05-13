@@ -3,6 +3,9 @@ const Tools = require("../util/Tools");
 var bcrypt = require('bcrypt');
 var Pusher = require('pusher');
 
+var path = require("path");
+var os = require("os");
+
 var pusher = new Pusher({
   appId: '756732',
   key: 'e44d00fb9c45fb71f1f3',
@@ -14,6 +17,7 @@ var pusher = new Pusher({
 let userController = {};
 
 userController.getAll = (req, res) => {
+
     User.find({}).exec((err, users) => {
         let response = Tools.response.get(err, users);
         // pusher.trigger('my-channel', 'my-event', {
