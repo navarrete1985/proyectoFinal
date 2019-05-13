@@ -32,14 +32,14 @@
 </template>
 
 <script>
-    import menu from '@/util/MenuEnums';
+    import menu from '../../util/MenuEnums';
     // import types from "@/components/store/users/type";
-    import menuTypes from '@/components/store/other/type';
-    import commonTypes from "@/components/store/other/type";
-    import usersTypes from "@/components/store/users/type";
-    import FloatingButton from '@/components/elements/floatingButton';
-    import Paginator from '@/components/elements/paginator';
-    import Preloader from '@/components/shared/preloader';
+    import menuTypes from '../store/other/type';
+    import commonTypes from "../store/other/type";
+    import usersTypes from "../store/users/type";
+    import FloatingButton from '../elements/floatingButton';
+    import Paginator from '../elements/paginator';
+    import Preloader from '../shared/preloader';
 
     export default {
         data() {

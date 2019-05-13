@@ -29,10 +29,10 @@
 </template>
 
 <script>
-import Loader from "@/components/shared/loader";
-import HeaderComponent from "@/components/shared/header";
-import NavComponent from "@/components/shared/nav";
-import types from "@/components/store/users/type";
+import Loader from "../shared/loader";
+import HeaderComponent from "../shared/header";
+import NavComponent from "../shared/nav";
+import types from "../store/users/type";
 
 export default {
     name: "app",

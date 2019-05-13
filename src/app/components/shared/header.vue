@@ -129,7 +129,7 @@
 </template>
 
 <script>
-import usersTypes from '@/components/store/users/type';
+import usersTypes from '../store/users/type';
 
 export default {
     data() {

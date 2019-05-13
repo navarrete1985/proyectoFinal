@@ -6,14 +6,14 @@
 </template>
  
 <script>
-const { User } = require("@/util/models.js");
-import dashboardComponent from "@/components/admin/dashboard";
-import superdashboardComponent from "@/components/super/superdashboard";
-import types from "@/components/store/users/type";
-import commonTypes from "@/components/store/other/type";
-import { console } from "@/util/helper";
-import {menu, submenu} from '@/util/MenuEnums';
-import menuTypes from '@/components/store/other/type';
+const { User } = require("../../util/models.js");
+import dashboardComponent from "../admin/dashboard";
+import superdashboardComponent from "../super/superdashboard";
+import types from "../store/users/type";
+import commonTypes from "../store/other/type";
+import { console } from "../../util/helper";
+import {menu, submenu} from '../../util/MenuEnums';
+import menuTypes from '../store/other/type';
 
 let id = 3;
 let id2 = 3;

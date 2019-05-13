@@ -235,9 +235,9 @@
 </template>
 
 <script>
-    import ProfileHeader from '@/components/elements/profileHeader';
-    import TabMenu from '@/components/elements/tabMenu';
-    import commonTypes from "@/components/store/other/type";
+    import ProfileHeader from '../elements/profileHeader';
+    import TabMenu from '../elements/tabMenu';
+    import commonTypes from "../store/other/type";
 
     export default {
         components: {ProfileHeader, TabMenu},
