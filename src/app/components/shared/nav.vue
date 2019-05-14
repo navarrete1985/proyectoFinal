@@ -91,10 +91,10 @@
 </template>
 
 <script>
-    import vartical from "@/assets/js/vartical-layout.min.js";
-    import pcoded from "@/assets/js/pcoded.min.js";
-    import commonTypes from '@/components/store/other/type';
-    import menu from '@/util/MenuEnums';
+    import vartical from "../../assets/js/vartical-layout.min.js";
+    import pcoded from "../../assets/js/pcoded.min.js";
+    import commonTypes from '../store/other/type';
+    import menu from '../../util/MenuEnums';
 
     export default {
         data() {

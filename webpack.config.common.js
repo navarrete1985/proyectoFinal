@@ -8,6 +8,7 @@ const path = require('path');
 const isDev = process.env.NODE_ENV === 'development';
 const webpack = require('webpack');
 const UglifyJsPlugin = require('terser-webpack-plugin');
+// const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 
 const webpackConfig = {
   entry: {
@@ -90,6 +91,7 @@ const webpackConfig = {
         $: 'jquery',
         jQuery: 'jquery'
       }),
+      // new VuetifyLoaderPlugin(),
       // new webpack.DefinePlugin({
       //   'process.env': {
       //     // This has effect on the react lib size

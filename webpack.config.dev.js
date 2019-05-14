@@ -6,6 +6,7 @@ const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const commonConfig         = require('./webpack.config.common');
 const environment          = require('./env/dev.env');
 const path                 = require('path');
+const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 
 const webpackConfig = merge(commonConfig, {
   mode: 'development',
@@ -23,6 +24,7 @@ const webpackConfig = merge(commonConfig, {
     }
   },
   plugins: [
+    new CaseSensitivePathsPlugin(),
     new webpack.EnvironmentPlugin(environment),
     new webpack.HotModuleReplacementPlugin(),
     new FriendlyErrorsPlugin()

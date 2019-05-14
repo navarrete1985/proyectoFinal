@@ -1,6 +1,7 @@
 //Requerimos le módulo de mongoose
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const regExEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.([a-zA-Z]{2,4})+$/;
 
@@ -59,6 +60,8 @@ const UserSchema = new Schema({
         type: String
     }
 });
+
+UserSchema.plugin(mongoosePaginate);
 
 //Creamos la colección y le añadimos nuestro esquema de datos
 const User = mongoose.model('Users', UserSchema);

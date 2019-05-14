@@ -7,9 +7,9 @@ var path = require("path");
 var os = require("os");
 
 var pusher = new Pusher({
-  appId: '756732',
-  key: 'e44d00fb9c45fb71f1f3',
-  secret: 'fb18d03323c266b5eff4',
+  appId: process.env.PUSHER_APP_ID,
+  key: process.env.PUSHER_APP_KEY,
+  secret: process.env.PUSHER_APP_SECRET,
   cluster: 'eu',
   encrypted: true
 });
@@ -20,11 +20,33 @@ userController.getAll = (req, res) => {
 
     User.find({}).exec((err, users) => {
         let response = Tools.response.get(err, users);
-        pusher.trigger('my-channel', 'my-event', {
-          users
-        });
+        // pusher.trigger('my-channel', 'my-event', {
+        //   users
+        // });
         return res.status(response.status).json(response);
     })
+}
+
+userController.getUserPagination = (req, res) => {
+    // const myCustomLabels = {
+    //     totalDocs: 'itemCount',
+    //     docs: 'itemsList',
+    //     limit: 'perPage',
+    //     page: 'currentPage',
+    //     nextPage: 'next',
+    //     prevPage: 'prev',
+    //     totalPages: 'pageCount',
+    //     pagingCounter: 'slNo'
+    // };
+    
+    const options = {
+        page: req.body.page || 4,
+        limit: req.body.limit || 10,
+        // customLabels: myCustomLabels
+    };
+    User.paginate({}, options, (err, result) => {
+        return res.status(!err ? 200 : 400).json(result);
+    });
 }
 
 userController.find = (req, res) => {

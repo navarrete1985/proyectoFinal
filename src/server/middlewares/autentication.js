@@ -9,7 +9,10 @@ var jwt = require("jsonwebtoken");
 
 exports.verificaToken = function (req, res , next){
 
-    var token = req.query.token;
+    //Recogemos la cabecera authorization donde va alojado el token
+    let auth = req.headers.authorization;
+    //Recogemos el string de token que va después de Bearer
+    let token = auth ? auth.split(" ")[1] : undefined;
     
     jwt.verify(token, process.env.SEED, (err, decoded ) =>{
         if(err){
@@ -19,6 +22,7 @@ exports.verificaToken = function (req, res , next){
                 errors:err
             })
         }
+        req.currentUser = decoded;
         next();//ya puede continuar una vez realizado la autenticacion
     })  
 }

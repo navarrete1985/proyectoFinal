@@ -32,11 +32,11 @@
   </div>
 </template>
 <script>
-import menu from "@/util/MenuEnums";
-import menuTypes from "@/components/store/other/type";
-import commonTypes from "@/components/store/other/type";
-import usersTypes from "@/components/store/users/type";
-import stablishmentsTypes from "@/components/store/stablishments/type";
+import menu from "../../util/MenuEnums";
+import menuTypes from "../store/other/type";
+import commonTypes from "../store/other/type";
+import usersTypes from "../store/users/type";
+import stablishmentsTypes from "../store/stablishments/type";
 
 export default {
   methods: {
