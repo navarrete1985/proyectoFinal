@@ -12,7 +12,12 @@ ul {
     list-style-type: none;
     margin-bottom: 0
 }
-
+.previewX{
+    cursor:pointer;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
 *:focus {
     outline: none
 }
