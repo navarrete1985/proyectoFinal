@@ -1,9 +1,10 @@
 <template>
     <div class="upload-wrapper">
         <progress max="100" :value.prop="uploadPercentage"></progress>
-        <div id="file-drag-drop" @click.prevent="$refs.imageInput.click()">
+        <!--Input que dispararemos al clicar en el div del drag and drop...por si no utilizamos la acción de draggable-->
+        <input type="file" multiple ref="imageInput" @change="onInputClicked($event)" class="hidden">
+        <div id="file-drag-drop" @click.prevent="dispatchInput">
             <form ref="fileform">
-                <input type="file" multiple ref="imageInput" @change="onInputClicked()">
                 <span class="drop-files">Drop the files here!</span>
             </form>
         </div>
@@ -13,7 +14,7 @@
             {{ file.name }}
             <!--Contenedor para permitir la eliminación de un determinado archivo-->
             <div class="remove-container">
-                <a class="remove" v-on:click="removeFile( key )">Remove</a>
+                <a class="remove" v-on:click="removeFile(key)">Remove</a>
             </div>
         </div>
         <a class="submit-button" @click="submitFiles()" v-show="files.length > 0">Submit</a>
@@ -136,11 +137,15 @@
 
                 
             },
+            dispatchInput() {
+                console.warn('El evento para lanzar el input se ha lanzado');
+                this.$refs.imageInput.click();
+                console.log(this.$refs.imageInput);
+            },
             onInputClicked(event) { //Evento para la carga de archivos sin drag and drop
                 let input = event.currentTarget;
-                for(let index = 0; index < input[0].files.length; index++) {
-                    let file = this._input[0].files[index];
-                    this.files.push(file);
+                for(let index = 0; index < input.files.length; index++) {
+                    this.files.push(input.files[index]);
                 }
                 this.getImagePreviews();
             },
@@ -175,39 +180,6 @@
 </script>
 
 <style lang="scss" scoped>
-    /*.upload-wrapper {*/
-
-        /*input {*/
-
-        /*}*/
-
-        /*.preview {*/
-
-            /*display: flex;*/
-            /*flex-flow: row wrap;*/
-
-            /*>.item {*/
-
-                /*flex: 0 0 33%;*/
-                /*background-position: center;*/
-                /*background-repeat: no-repeat;*/
-                /*background-size: contain;*/
-
-                /*&:before {*/
-                    /*content: '';*/
-                    /*padding-bottom: 80%;*/
-                    /*display: block;*/
-                    /*position: absolute;*/
-                    /*top: 0;*/
-                    /*left: 0;*/
-                /*}*/
-
-            /*}*/
-
-        /*}*/
-
-    /*}*/
-
     form {
         display: block;
         height: 400px;
@@ -258,6 +230,10 @@
         display: block;
         margin-top: 20px;
         margin-bottom: 20px;
+    }
+
+    .hidden {
+        display: none;
     }
 
 </style>

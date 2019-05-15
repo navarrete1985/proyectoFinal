@@ -71,7 +71,7 @@
                 return this.$store.getters[usersTypes.getters.getPageUser];
             }
         },
-        beforeMount() {
+        async beforeMount() {
             this.$store.commit(commonTypes.mutations.updateGlobalLoader, true);
             // let currentUser = localStorage.__DataUser ? JSON.parse(localStorage.__DataUser).user : null;
             // console.log('Usuario --> ', currentUser);
@@ -81,7 +81,7 @@
             // this.$store.commit(types.mutations.updateCurrentUser,currentUser);
             this.$store.commit(menuTypes.mutations.updateNavPosition, menu.USERS);
             if (this.$store.getters[usersTypes.getters.getPageUser] === undefined) {
-                this.$store.dispatch(usersTypes.actions.fetchUserByPage, {page: 1, limit: 10});
+                await this.$store.dispatch(usersTypes.actions.fetchUserByPage, {page: 1, limit: 10});
             }
             this.$store.commit(commonTypes.mutations.updateGlobalLoader, false);
         },
