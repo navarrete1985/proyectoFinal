@@ -26,8 +26,10 @@ var upload = multer({ storage: storage,
     }
 });
 
-export {upload};
-export default upload;
+// export {upload};
+// export default upload;
+
+module.exports = upload;
 
 // /* Async usage */
 // md5File('LICENSE.md', (err, hash) => {

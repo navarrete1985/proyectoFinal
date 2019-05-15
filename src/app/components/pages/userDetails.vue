@@ -226,6 +226,23 @@
                             </div>
                             <!-- end of card-block -->
                         </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-header-text">Upload files</h5>
+                                <button id="edit-btn" type="button" class="btn btn-sm btn-primary waves-effect waves-light f-right">
+                                    <i class="icofont icofont-edit"></i>
+                                    Guardar
+                                </button>
+                            </div>
+                            <div class="card-block">
+                                <div class="view-info">
+                                    <div class="row">
+                                        <upload></upload>
+                                    </div>
+                                    <!-- end of row -->
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- tab content end -->
@@ -237,10 +254,11 @@
 <script>
     import ProfileHeader from '../elements/profileHeader';
     import TabMenu from '../elements/tabMenu';
+    import Upload from '@/components/elements/upload';
     import commonTypes from "../store/other/type";
 
     export default {
-        components: {ProfileHeader, TabMenu},
+        components: {ProfileHeader, TabMenu, Upload},
         beforeMount() {
             this.$store.commit(commonTypes.mutations.updateGlobalLoader, false);
         }

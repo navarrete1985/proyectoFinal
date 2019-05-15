@@ -10,22 +10,23 @@
 
     <!--https://serversideup.net/drag-and-drop-file-uploads-with-vuejs-and-axios/  --- Tutorial para construirlo-->
     <!--Formulario que va a hacer la petición a nuestro servidor con las imagenes a guardar-->
-    <div id="file-drag-drop">
-        <form ref="fileform">
-            <span class="drop-files">Drop the files here!</span>
-        </form>
-    </div>
-    <!--Previsualización de imágenes arrastradas-->
-    <div v-for="(file, key) in files" class="file-listing">
-        <img class="preview" v-bind:ref="'preview'+parseInt( key )"/>
-        {{ file.name }}
-        <!--Contenedor para permitir la eliminación de un determinado archivo-->
-        <div class="remove-container">
-            <a class="remove" v-on:click="removeFile( key )">Remove</a>
+    <div class="upload-wrapper">
+        <div id="file-drag-drop">
+            <form ref="fileform">
+                <span class="drop-files">Drop the files here!</span>
+            </form>
         </div>
+        <!--Previsualización de imágenes arrastradas-->
+        <div v-for="(file, key) in files" class="file-listing" :key="`key-${key}`">
+            <img class="preview" v-bind:ref="'preview'+parseInt(key)"/>
+            {{ file.name }}
+            <!--Contenedor para permitir la eliminación de un determinado archivo-->
+            <div class="remove-container">
+                <a class="remove" v-on:click="removeFile( key )">Remove</a>
+            </div>
+        </div>
+        <a class="submit-button" @click="submitFiles()" v-show="files.length > 0">Submit</a>
     </div>
-    <a class="submit-button" v-on:click="submitFiles()" v-show="files.length > 0">Submit</a>
-
 </template>
 
 <script>
@@ -84,7 +85,7 @@
                 //Eliminamos el archivo que deseamos suprimir de nuestro array
                 this.files.splice(key, 1);
             },
-            submitFiles(){
+            async submitFiles(){
 
                 let formData = new FormData();
 
@@ -112,6 +113,19 @@
                 //         console.log('FAILURE!!');
                 //     });
 
+                //Usamos fetch para hacer la petición a la base de datos para subir los archivos
+                let response = await fetch(`${window.location.origin}/upload`, {
+                    method: 'POST',
+                    body: formData
+                })
+
+                let json = await response.json();
+                json.statu = response.status;
+
+                console.warn('El resultado de la petición a la api upload es --> ', response);
+                console.warn('El resultado de la petición a la api en json --> ', json);
+
+                
             },
         },
         mounted() {
@@ -133,8 +147,8 @@
                 //arrastrando a nuestro navegador para subirlos
                 this.$refs.fileform.addEventListener('drop', event => {
                     //dataTransferFiles hace referencia a los archivos que estamos transfiriendo con el dragAndDrop
-                    for( let i = 0; i < e.dataTransfer.files.length; i++ ){
-                        this.files.push( e.dataTransfer.files[i] );
+                    for( let i = 0; i < event.dataTransfer.files.length; i++ ){
+                        this.files.push( event.dataTransfer.files[i] );
                     }
                     this.getImagePreviews();
                 })
