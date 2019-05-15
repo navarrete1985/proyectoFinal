@@ -11,6 +11,7 @@
     <!--https://serversideup.net/drag-and-drop-file-uploads-with-vuejs-and-axios/  --- Tutorial para construirlo-->
     <!--Formulario que va a hacer la petición a nuestro servidor con las imagenes a guardar-->
     <div class="upload-wrapper">
+        <progress max="100" :value.prop="uploadPercentage"></progress>
         <div id="file-drag-drop">
             <form ref="fileform">
                 <span class="drop-files">Drop the files here!</span>
@@ -31,11 +32,14 @@
 
 <script>
 
+    import axios from 'axios';
+
     export default {
         data() {
             return {
                 dragAndDropCapable: false,
                 files: [],
+                uploadPercentage: 0,
             }
         },
         props: {
@@ -96,22 +100,37 @@
                     formData.append('files[' + i + ']', file);
                 }
 
-                // /*
-                //   Make the request to the POST /file-drag-drop URL
-                // */
-                // axios.post( '/file-drag-drop',
-                //     formData,
-                //     {
-                //         headers: {
-                //             'Content-Type': 'multipart/form-data'
-                //         }
-                //     }
-                // ).then(function(){
-                //     console.log('SUCCESS!!');
-                // })
-                //     .catch(function(){
-                //         console.log('FAILURE!!');
-                //     });
+                //Hacemos la petición con axios para que podamos actualizar el progreso de la subida
+                axios.post( '/file-drag-drop',
+                    formData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }
+                ).then(function(){
+                    console.log('SUCCESS!!');
+                })
+                    .catch(function(){
+                        console.log('FAILURE!!');
+                    });
+
+                try {
+
+                    let response = await axios(`${window.location.origin}/upload`,
+                                                formData,
+                                                {
+                                                    headers: {
+                                                        'Content-Type': 'multipart/form-data',
+                                                    },
+                                                    onUploadProgress: (progressEvent) => {
+                                                        this.uploadPercentage = parseInt(Math.round((progressEvent.loaded * 100) / progressEvent.total));
+                                                    }
+                                                },)
+
+                }catch (e) {
+                    console.error('Error en la petición');
+                }
 
                 //Usamos fetch para hacer la petición a la base de datos para subir los archivos
                 let response = await fetch(`${window.location.origin}/upload`, {
@@ -233,6 +252,14 @@
         color: white;
         font-weight: bold;
         margin-top: 20px;
+    }
+
+    progress{
+        width: 400px;
+        margin: auto;
+        display: block;
+        margin-top: 20px;
+        margin-bottom: 20px;
     }
 
 </style>
