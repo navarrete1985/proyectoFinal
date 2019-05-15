@@ -85,30 +85,31 @@
                 let formData = new FormData();
 
                 //Agregamos cada uno de los archivos a nuestro formData
-                for( var i = 0; i < this.files.length; i++ ){
-                    let file = this.files[i];
-
-                    formData.append('files[' + i + ']', file);
-                }
+                // for( var i = 0; i < this.files.length; i++ ){
+                //     let file = this.files[i];
+                //
+                //     formData.append('files[' + i + ']', file);
+                // }
+                formData.append('files[]', this.files);
 
                 //Hacemos la petición con axios para que podamos actualizar el progreso de la subida
-                axios.post( '/file-drag-drop',
-                    formData,
-                    {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    }
-                ).then(function(){
-                    console.log('SUCCESS!!');
-                })
-                    .catch(function(){
-                        console.log('FAILURE!!');
-                    });
+                // axios.post( '/file-drag-drop',
+                //     formData,
+                //     {
+                //         headers: {
+                //             'Content-Type': 'multipart/form-data'
+                //         }
+                //     }
+                // ).then(function(){
+                //     console.log('SUCCESS!!');
+                // })
+                //     .catch(function(){
+                //         console.log('FAILURE!!');
+                //     });
 
                 try {
 
-                    let response = await axios(`${window.location.origin}/upload`,
+                    let response = await axios.post(`${window.location.origin}/upload`,
                                                 formData,
                                                 {
                                                     headers: {
@@ -117,23 +118,23 @@
                                                     onUploadProgress: (progressEvent) => {
                                                         this.uploadPercentage = parseInt(Math.round((progressEvent.loaded * 100) / progressEvent.total));
                                                     }
-                                                },)
+                                                },);
+                    console.warn('La respuesta es --> ', response);
 
                 }catch (e) {
                     console.error('Error en la petición');
                 }
-
                 //Usamos fetch para hacer la petición a la base de datos para subir los archivos
-                let response = await fetch(`${window.location.origin}/upload`, {
-                    method: 'POST',
-                    body: formData
-                })
-
-                let json = await response.json();
-                json.statu = response.status;
-
-                console.warn('El resultado de la petición a la api upload es --> ', response);
-                console.warn('El resultado de la petición a la api en json --> ', json);
+                // let response = await fetch(`${window.location.origin}/upload`, {
+                //     method: 'POST',
+                //     body: formData
+                // })
+                //
+                // let json = await response.json();
+                // json.statu = response.status;
+                //
+                // console.warn('El resultado de la petición a la api upload es --> ', response);
+                // console.warn('El resultado de la petición a la api en json --> ', json);
 
                 
             },
