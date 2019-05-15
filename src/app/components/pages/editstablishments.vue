@@ -145,7 +145,7 @@ export default {
       menu.STABLISHMENTS
     );
     this.$store.commit(commonTypes.mutations.updateGlobalLoader, false);
-    this.$store.dispatch(stablishmentsTypes.actions.fetchAllStablishments);
+    // this.$store.dispatch(stablishmentsTypes.actions.fetchAllStablishments);
   }
 };
 </script>
