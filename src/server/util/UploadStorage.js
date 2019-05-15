@@ -4,10 +4,12 @@ const path = require('path');
 
 var storage = multer.diskStorage({
     destination: function(req,file,cb){
+        console.log('Vamos a definir la ruta de destino');
         let type = req.body.type || 'default';
         cb(null, `../../public/uploads/${type}`);
     },
     filename:function(req,file,cb){
+        console.log('Vamos a nombrear el archivo');
         if (requ.uploadFiles === undefined) req.uploadFiles = [];
         let user_id = req.body.user_id;
         let hash = md5File.sync(file);
@@ -19,6 +21,7 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage,
     fileFilter: function (req, file, cb) {
+        console.log('Vamos a realizar el filtrado de archivo');
         if (!file.originalname.match(/\.(jpg|png)$/)) {
             return cb(new Error('Error en el tipo de archivo.'));
         }
@@ -26,8 +29,10 @@ var upload = multer({ storage: storage,
     }
 });
 
-export {upload};
-export default upload;
+// export {upload};
+// export default upload;
+
+module.exports = upload;
 
 // /* Async usage */
 // md5File('LICENSE.md', (err, hash) => {
