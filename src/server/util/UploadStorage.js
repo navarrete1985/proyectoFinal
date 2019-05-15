@@ -1,20 +1,25 @@
 const md5File = require('md5-file');
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
+const base = path.resolve('src/public/src/upload');
 
 var storage = multer.diskStorage({
     destination: function(req,file,cb){
         console.log('Vamos a definir la ruta de destino');
         let type = req.body.type || 'default';
-        cb(null, `../../public/uploads/${type}`);
+        let dest = path.join(base, type);
+        if (!fs.existsSync(dest)) {
+            fs.mkdirSync(dest);
+        }
+        cb(null, `${base}/${type}/`);
     },
     filename:function(req,file,cb){
         console.log('Vamos a nombrear el archivo');
-        if (requ.uploadFiles === undefined) req.uploadFiles = [];
+        if (req.uploadFiles === undefined) req.uploadFiles = [];
         let user_id = req.body.user_id;
-        let hash = md5File.sync(file);
-        let filename = user_id + hash + path.extname(file.originalname);
-        cb(null, filename); //Appending extension
+        let filename = file.originalname;
+        cb(null, filename);
         req.uploadFiles.push(filename);
     }
 });
@@ -29,18 +34,4 @@ var upload = multer({ storage: storage,
     }
 });
 
-// export {upload};
-// export default upload;
-
 module.exports = upload;
-
-// /* Async usage */
-// md5File('LICENSE.md', (err, hash) => {
-//     if (err) throw err
-//
-//     console.log(`The MD5 sum of LICENSE.md is: ${hash}`)
-// })
-//
-// /* Sync usage */
-// const hash = md5File.sync('LICENSE.md')
-// console.log(`The MD5 sum of LICENSE.md is: ${hash}`)

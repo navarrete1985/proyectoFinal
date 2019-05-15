@@ -9,7 +9,7 @@
             </form>
         </div>
         <!--Previsualización de imágenes arrastradas-->
-        <div v-for="(file, key) in files" class="file-listing" :key="`key-${key}`">
+        <div v-for="(file, key) in files" class="file-listing" :key="`${key}`">
             <img class="preview" v-bind:ref="'preview'+parseInt(key)"/>
             {{ file.name }}
             <!--Contenedor para permitir la eliminación de un determinado archivo-->
@@ -22,7 +22,6 @@
 </template>
 
 <script>
-
     import axios from 'axios';
 
     export default {
@@ -85,28 +84,13 @@
                 let formData = new FormData();
 
                 //Agregamos cada uno de los archivos a nuestro formData
-                // for( var i = 0; i < this.files.length; i++ ){
-                //     let file = this.files[i];
-                //
-                //     formData.append('files[' + i + ']', file);
-                // }
-                formData.append('files[]', this.files);
-
-                //Hacemos la petición con axios para que podamos actualizar el progreso de la subida
-                // axios.post( '/file-drag-drop',
-                //     formData,
-                //     {
-                //         headers: {
-                //             'Content-Type': 'multipart/form-data'
-                //         }
-                //     }
-                // ).then(function(){
-                //     console.log('SUCCESS!!');
-                // })
-                //     .catch(function(){
-                //         console.log('FAILURE!!');
-                //     });
-
+                for( var i = 0; i < this.files.length; i++ ){
+                    let file = this.files[i];
+                
+                    formData.append('files', this.files[i]);
+                }
+                // formData.append('files[]', this.files);
+                console.log('FormData --> ', formData)
                 try {
 
                     let response = await axios.post(`${window.location.origin}/upload`,
@@ -124,19 +108,6 @@
                 }catch (e) {
                     console.error('Error en la petición');
                 }
-                //Usamos fetch para hacer la petición a la base de datos para subir los archivos
-                // let response = await fetch(`${window.location.origin}/upload`, {
-                //     method: 'POST',
-                //     body: formData
-                // })
-                //
-                // let json = await response.json();
-                // json.statu = response.status;
-                //
-                // console.warn('El resultado de la petición a la api upload es --> ', response);
-                // console.warn('El resultado de la petición a la api en json --> ', json);
-
-                
             },
             dispatchInput() {
                 console.warn('El evento para lanzar el input se ha lanzado');
