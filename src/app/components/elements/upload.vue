@@ -1,19 +1,9 @@
 <template>
-    <!--<div class="upload-wrapper">-->
-        <!--<input type="file" multiple>-->
-        <!--<div class="preview">-->
-            <!--<div v-for="(image, index) in files" class="item"-->
-                 <!--:key="image.path"-->
-                 <!--:data-background="image.path" :style="{'background-image': `url(${item.path})`}"></div>-->
-        <!--</div>-->
-    <!--</div>-->
-
-    <!--https://serversideup.net/drag-and-drop-file-uploads-with-vuejs-and-axios/  --- Tutorial para construirlo-->
-    <!--Formulario que va a hacer la petición a nuestro servidor con las imagenes a guardar-->
     <div class="upload-wrapper">
         <progress max="100" :value.prop="uploadPercentage"></progress>
-        <div id="file-drag-drop">
+        <div id="file-drag-drop" @click.prevent="$refs.imageInput.click()">
             <form ref="fileform">
+                <input type="file" multiple ref="imageInput" @change="onInputClicked()">
                 <span class="drop-files">Drop the files here!</span>
             </form>
         </div>
@@ -145,6 +135,14 @@
                 console.warn('El resultado de la petición a la api en json --> ', json);
 
                 
+            },
+            onInputClicked(event) { //Evento para la carga de archivos sin drag and drop
+                let input = event.currentTarget;
+                for(let index = 0; index < input[0].files.length; index++) {
+                    let file = this._input[0].files[index];
+                    this.files.push(file);
+                }
+                this.getImagePreviews();
             },
         },
         mounted() {
