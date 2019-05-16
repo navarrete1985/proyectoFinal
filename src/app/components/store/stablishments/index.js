@@ -30,6 +30,20 @@ actions[types.actions.fetchAllStablishments] = async ({ commit, getters, state, 
     return response;
 };
 
+
+actions[types.actions.insertStablishment] = async ({ commit, getters, state, dispatch }, { stablishment }) => {
+    let response = await fetch(`${window.location.origin}/api/establishment`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(stablishment)
+    });
+    if (response.status === 200) {
+        let newStablishment = response.response[0];
+        commit[types.mutations.insertStablisments]({ stablishment: newStablishment });
+    }
+    return response;
+};
+
 const module = {
     namespaced: false,
     state,

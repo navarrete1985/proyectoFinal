@@ -12,6 +12,7 @@ const type_stablishments = {
     },
     actions: {
         fetchAllStablishments: `${namespace}/action:fetchAllStablishments`,
+        insertStablishment: `${namespace}/action:insertStablishment`,
     }
 }
 
