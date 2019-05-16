@@ -9,8 +9,8 @@
         </div>
         <div v-for="(file, key) in files" class="file-listing" :key="key">
             <!--<img class="preview" v-bind:ref="`preview${key}`"/>-->
-            <div class="image-prev" v-bind:ref="`preview${key}`"></div>
-            {{ file.name }}
+            <div class="image-prev" :style="{'backgroundImage': file.background}"></div>
+            {{ file.file.name }}
             <div class="remove-container">
                 <a class="remove" v-on:click="removeFile(key)">
                     <slot name="remove">Eliminar</slot>
@@ -66,29 +66,25 @@
                         || ('ondragstart' in div && 'ondrop' in div)
                         && 'FormData' in window && 'FileReader' in window);
             },
-            async getImagePreviews(){
-                await this.$nextTick();
-                for( let i = 0; i < this.files.length; i++ ){
-                    if ( /\.(jpe?g|png|gif)$/i.test( this.files[i].name ) ) {
-                        let reader = new FileReader();
-                        reader.addEventListener("load", () => {
-                            // this.$refs['preview'+parseInt(i)][0].src = reader.result;
-                            let $ref = this.$refs['preview'+parseInt(i)];
-                            console.log('Nodo --> ', $ref[0]);
-                            $ref[0].style.backgroundImage = `src(${reader.result})`;
-                            console.log('Background image --> ', $ref[0].style.backgroundImage);
-                        });
-                        reader.readAsDataURL( this.files[i] );
-                    }else{
-                        this.$nextTick(function(){
-                            this.$refs['preview'+parseInt( i )][0].src = '/images/file.png';
-                        });
-                    }
-                }
+            getImagePreviews(){
+                Object.keys(this.files).forEach(key => {
+                   let file = this.files[key].file;
+                   if(this.filter.test(file.name)) {
+                       let reader = new FileReader();
+                       reader.addEventListener("load", () => {
+                           this.$set(this.files[key], 'background', `url(${reader.result})`);
+                           console.log('Background image --> ', this.files[key].background);
+                       });
+                       reader.readAsDataURL(file);
+                   }else {
+                       this.files[key].background = this.defaultImagePreview;
+                   }
+                });
             },
             removeFile(key) {
                 console.warn('Índice de archivo a eliminar --> ', key);
                 this.files.splice(parseInt(key), 1);
+                // delete this.files[key];
                 this.getImagePreviews();
             },
             async submitFiles(){
@@ -119,7 +115,8 @@
             onInputClicked(event) {
                 let input = event.currentTarget;
                 for(let index = 0; index < input.files.length; index++) {
-                    this.files.push(input.files[index]);
+                    let file = input.files[index];
+                    this.files.push({file});
                 }
                 this.getImagePreviews();
             },
@@ -136,7 +133,9 @@
                 });
                 this.$refs.fileform.addEventListener('drop', event => {
                     for( let i = 0; i < event.dataTransfer.files.length; i++ ){
-                        this.files.push( event.dataTransfer.files[i] );
+                        let file = event.dataTransfer.files[i];
+                        // this.files.push( event.dataTransfer.files[i] );
+                        this.files.push({file});
                     }
                     this.getImagePreviews();
                 })
