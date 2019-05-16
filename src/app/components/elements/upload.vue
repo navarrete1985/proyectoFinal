@@ -4,14 +4,17 @@
         <input type="file" multiple ref="imageInput" @change="onInputClicked($event)" class="hidden">
         <div id="file-drag-drop" @click.prevent="dispatchInput">
             <form ref="fileform">
-                <span class="drop-files">Drop the files here!</span>
+                <span class="drop-files">Arrastra tus archivos aquí</span>
             </form>
         </div>
         <div v-for="(file, key) in files" class="file-listing" :key="key">
-            <img class="preview" v-bind:ref="`preview${key}`"/>
+            <!--<img class="preview" v-bind:ref="`preview${key}`"/>-->
+            <div class="image-prev" v-bind:ref="`preview${key}`"></div>
             {{ file.name }}
             <div class="remove-container">
-                <a class="remove" v-on:click="removeFile(key)">Remove</a>
+                <a class="remove" v-on:click="removeFile(key)">
+                    <slot name="remove">Eliminar</slot>
+                </a>
             </div>
         </div>
         <a class="submit-button" @click="submitFiles()" v-show="files.length > 0">Submit</a>
@@ -19,6 +22,9 @@
 </template>
 
 <script>
+    /**
+     * Eventos --> onUploadProgress, BeforeUpload, onFinish
+     */
     import axios from 'axios';
 
     export default {
@@ -35,6 +41,22 @@
                 default: () => {
                     return true;
                 }
+            },
+            extraRequestParams: {
+                type: Object,
+                required: false,
+            },
+            defaultImagePreview: {
+                type: String,
+                required: false,
+            },
+            endpoint: {
+                type: String,
+                required: true,
+            },
+            filter: {
+                type: RegExp,
+                required: true,
             }
         },
         methods: {
@@ -50,7 +72,11 @@
                     if ( /\.(jpe?g|png|gif)$/i.test( this.files[i].name ) ) {
                         let reader = new FileReader();
                         reader.addEventListener("load", () => {
-                            this.$refs['preview'+parseInt(i)][0].src = reader.result;
+                            // this.$refs['preview'+parseInt(i)][0].src = reader.result;
+                            let $ref = this.$refs['preview'+parseInt(i)];
+                            console.log('Nodo --> ', $ref[0]);
+                            $ref[0].style.backgroundImage = `src(${reader.result})`;
+                            console.log('Background image --> ', $ref[0].style.backgroundImage);
                         });
                         reader.readAsDataURL( this.files[i] );
                     }else{
@@ -174,6 +200,21 @@
 
     .hidden {
         display: none;
+    }
+
+    .image-prev {
+        width: 25%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+
+        &:before {
+            content: '';
+            display: block;
+            top: 0;
+            left: 0;
+            padding-bottom: 100%;
+        }
     }
 
 </style>

@@ -229,7 +229,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h5 class="card-header-text">Upload files</h5>
-                                <button id="edit-btn" type="button" class="btn btn-sm btn-primary waves-effect waves-light f-right">
+                                <button type="button" class="btn btn-sm btn-primary waves-effect waves-light f-right">
                                     <i class="icofont icofont-edit"></i>
                                     Guardar
                                 </button>
@@ -237,7 +237,13 @@
                             <div class="card-block">
                                 <div class="view-info">
                                     <div class="row">
-                                        <upload></upload>
+                                        <upload :filter="/\.(jpe?g|png|gif)$/i"
+                                                :defaultImagePreview="'../../images/default.png'"
+                                                :endpoint="endpoint"
+                                                :extraRequestParams="requestParams"
+                                                :onUploadProgress="onUploadProgress"
+                                                :onFinish="onFinish"
+                                                :beforeUpload="beforeUpload"></upload>
                                     </div>
                                     <!-- end of row -->
                                 </div>
@@ -258,7 +264,26 @@
     import commonTypes from "../store/other/type";
 
     export default {
+        data() {
+            return {
+                requestParams: {
+                    type: 'users'
+                },
+                endpoint: `${window.location.origin}/upload`
+            }
+        },
         components: {ProfileHeader, TabMenu, Upload},
+        methods: {
+            beforeUpload() {
+                console.log('Entro en beforeUpload');
+            },
+            onUploadProgress(percentage) {
+                console.warn('On progress state --> ', percentage);
+            },
+            onFinish() {
+                console.log('Entro en onFinis');
+            }
+        },
         beforeMount() {
             this.$store.commit(commonTypes.mutations.updateGlobalLoader, false);
         }
