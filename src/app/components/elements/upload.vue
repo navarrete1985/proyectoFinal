@@ -1,18 +1,15 @@
 <template>
     <div class="upload-wrapper">
         <progress max="100" :value.prop="uploadPercentage"></progress>
-        <!--Input que dispararemos al clicar en el div del drag and drop...por si no utilizamos la acción de draggable-->
         <input type="file" multiple ref="imageInput" @change="onInputClicked($event)" class="hidden">
         <div id="file-drag-drop" @click.prevent="dispatchInput">
             <form ref="fileform">
                 <span class="drop-files">Drop the files here!</span>
             </form>
         </div>
-        <!--Previsualización de imágenes arrastradas-->
-        <div v-for="(file, key) in files" class="file-listing" :key="`key-${key}`">
-            <img class="preview" v-bind:ref="'preview'+parseInt(key)"/>
+        <div v-for="(file, key) in files" class="file-listing" :key="key">
+            <img class="preview" v-bind:ref="`preview${key}`"/>
             {{ file.name }}
-            <!--Contenedor para permitir la eliminación de un determinado archivo-->
             <div class="remove-container">
                 <a class="remove" v-on:click="removeFile(key)">Remove</a>
             </div>
@@ -48,28 +45,16 @@
                         || ('ondragstart' in div && 'ondrop' in div)
                         && 'FormData' in window && 'FileReader' in window);
             },
-            getImagePreviews(){
-
-                //Iteramos sobre nuestra lista de archivos que hemos arrastrado
+            async getImagePreviews(){
+                await this.$nextTick();
                 for( let i = 0; i < this.files.length; i++ ){
-
-                    //Comprobamos si es de tipo imagen para previsualizar
                     if ( /\.(jpe?g|png|gif)$/i.test( this.files[i].name ) ) {
-
-                        //Creamos un flujo de lectura para poder previsualizar la imagen
                         let reader = new FileReader();
-
-                        //Cuando se lance el evento y tengamos el flujo de la imagen....
                         reader.addEventListener("load", () => {
                             this.$refs['preview'+parseInt(i)][0].src = reader.result;
                         });
-
-                        //Leemos cada una de las imágenes para que las previsualicemos
                         reader.readAsDataURL( this.files[i] );
                     }else{
-
-                        //Utilizamos nextTick por que vue está renderizando la plantilla y tenemos que asegurarnos de que
-                        //las referencias estén unidas
                         this.$nextTick(function(){
                             this.$refs['preview'+parseInt( i )][0].src = '/images/file.png';
                         });
@@ -77,36 +62,14 @@
                 }
             },
             removeFile(key) {
-                //Eliminamos el archivo que deseamos suprimir de nuestro array
-                this.files.splice(key, 1);
+                console.warn('Índice de archivo a eliminar --> ', key);
+                this.files.splice(parseInt(key), 1);
+                this.getImagePreviews();
             },
             async submitFiles(){
 
                 let formData = new FormData();
-
-                //Agregamos cada uno de los archivos a nuestro formData
-                // for( var i = 0; i < this.files.length; i++ ){
-                //     let file = this.files[i];
-                //
-                //     formData.append('files[' + i + ']', file);
-                // }
                 formData.append('files[]', this.files);
-
-                //Hacemos la petición con axios para que podamos actualizar el progreso de la subida
-                // axios.post( '/file-drag-drop',
-                //     formData,
-                //     {
-                //         headers: {
-                //             'Content-Type': 'multipart/form-data'
-                //         }
-                //     }
-                // ).then(function(){
-                //     console.log('SUCCESS!!');
-                // })
-                //     .catch(function(){
-                //         console.log('FAILURE!!');
-                //     });
-
                 try {
 
                     let response = await axios.post(`${window.location.origin}/upload`,
@@ -124,26 +87,13 @@
                 }catch (e) {
                     console.error('Error en la petición');
                 }
-                //Usamos fetch para hacer la petición a la base de datos para subir los archivos
-                // let response = await fetch(`${window.location.origin}/upload`, {
-                //     method: 'POST',
-                //     body: formData
-                // })
-                //
-                // let json = await response.json();
-                // json.statu = response.status;
-                //
-                // console.warn('El resultado de la petición a la api upload es --> ', response);
-                // console.warn('El resultado de la petición a la api en json --> ', json);
-
-                
             },
             dispatchInput() {
                 console.warn('El evento para lanzar el input se ha lanzado');
                 this.$refs.imageInput.click();
                 console.log(this.$refs.imageInput);
             },
-            onInputClicked(event) { //Evento para la carga de archivos sin drag and drop
+            onInputClicked(event) {
                 let input = event.currentTarget;
                 for(let index = 0; index < input.files.length; index++) {
                     this.files.push(input.files[index]);
@@ -152,24 +102,16 @@
             },
         },
         mounted() {
-            //Para determinar si el navegador es comparible para el uso de drag and drop y si es compatible, pues añadimos los eventos necesarios
             this.dragAndDropCapable = this.isBrowserDraggable();
 
             if (this.dragAndDropCapable) {
-
-                //Añadimos todos los tipos de eventos dragables a nuestro formulario, para evitar que al arrastrar un archivo al
-                //navegador nos abra otro nueva ventana con la renderización de dicho archivo que es el comportamiento por defecto
                 ['drag', 'dragstart', 'dragend', 'dragover', 'dragenter', 'dragleave', 'drop'].forEach( event => {
                     this.$refs.fileform.addEventListener(event, e => {
                        e.preventDefault();
                        e.stopPropagation();
                     });
                 });
-
-                //Añadimos el evento de drop a nuestro formulario, que es el que se va a encargar de detectar los archivos que estamos
-                //arrastrando a nuestro navegador para subirlos
                 this.$refs.fileform.addEventListener('drop', event => {
-                    //dataTransferFiles hace referencia a los archivos que estamos transfiriendo con el dragAndDrop
                     for( let i = 0; i < event.dataTransfer.files.length; i++ ){
                         this.files.push( event.dataTransfer.files[i] );
                     }
