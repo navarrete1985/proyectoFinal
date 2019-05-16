@@ -241,9 +241,11 @@
                                                 :defaultImagePreview="'../../images/default.png'"
                                                 :endpoint="endpoint"
                                                 :extraRequestParams="requestParams"
+                                                :limit="1"
                                                 :onUploadProgress="onUploadProgress"
                                                 :onFinish="onFinish"
-                                                :beforeUpload="beforeUpload"></upload>
+                                                :beforeUpload="beforeUpload"
+                                                :onError="onError"></upload>
                                     </div>
                                     <!-- end of row -->
                                 </div>
@@ -282,6 +284,9 @@
             },
             onFinish() {
                 console.log('Entro en onFinis');
+            },
+            onError() {
+                console.log('Entro en on error');
             }
         },
         beforeMount() {

@@ -23,7 +23,7 @@
 
 <script>
     /**
-     * Eventos --> onUploadProgress, BeforeUpload, onFinish
+     * Eventos --> onUploadProgress, BeforeUpload, onFinish, onError
      */
     import axios from 'axios';
 
@@ -56,6 +56,10 @@
             },
             filter: {
                 type: RegExp,
+                required: true,
+            },
+            limit: {
+                type: Number,
                 required: true,
             }
         },
@@ -114,12 +118,17 @@
             },
             onInputClicked(event) {
                 let input = event.currentTarget;
-                for(let index = 0; index < input.files.length; index++) {
-                    let file = input.files[index];
-                    this.files.push({file});
+                if (!this.isLimitExceeded(input.files.length)) {
+                    for(let index = 0; index < input.files.length; index++) {
+                        let file = input.files[index];
+                        this.files.push({file});
+                    }
+                    this.getImagePreviews();
                 }
-                this.getImagePreviews();
             },
+            isLimitExceeded(nextItems) {
+                return this.files.length + nextItems <= this.limit;
+            }
         },
         mounted() {
             this.dragAndDropCapable = this.isBrowserDraggable();
@@ -132,12 +141,14 @@
                     });
                 });
                 this.$refs.fileform.addEventListener('drop', event => {
-                    for( let i = 0; i < event.dataTransfer.files.length; i++ ){
-                        let file = event.dataTransfer.files[i];
-                        // this.files.push( event.dataTransfer.files[i] );
-                        this.files.push({file});
+                    if (!this.isLimitExceeded(event.dataTransfer.files.length)) {
+                        for( let i = 0; i < event.dataTransfer.files.length; i++ ){
+                            let file = event.dataTransfer.files[i];
+                            // this.files.push( event.dataTransfer.files[i] );
+                            this.files.push({file});
+                        }
+                        this.getImagePreviews();
                     }
-                    this.getImagePreviews();
                 })
             }
         }
