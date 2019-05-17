@@ -3,7 +3,10 @@
         <progress max="100" :value.prop="uploadPercentage"></progress>
         <input type="file" multiple ref="imageInput" @change="onInputClicked($event)" class="hidden">
         <div id="file-drag-drop" @click.prevent="dispatchInput">
+            <div class="jFiler-input-dragDrop"><div class="jFiler-input-inner"><div class="jFiler-input-icon"><i class="icon-jfi-cloud-up-o"></i></div><div class="jFiler-input-text"><h3>Drag &amp; Drop files here</h3> <span style="display:inline-block; margin: 15px 0">or</span></div><a class="jFiler-input-choose-btn btn btn-primary waves-effect waves-light">Browse Files</a></div></div>
             <form ref="fileform">
+                <div class="dashed-wrapper"></div>
+                <i class="fa fa-cloud-upload"></i>
                 <span class="drop-files">Arrastra tus archivos aquí</span>
             </form>
         </div>
@@ -77,7 +80,6 @@
                        let reader = new FileReader();
                        reader.addEventListener("load", () => {
                            this.$set(this.files[key], 'background', `url(${reader.result})`);
-                           console.log('Background image --> ', this.files[key].background);
                        });
                        reader.readAsDataURL(file);
                    }else {
@@ -86,9 +88,7 @@
                 });
             },
             removeFile(key) {
-                console.warn('Índice de archivo a eliminar --> ', key);
                 this.files.splice(parseInt(key), 1);
-                // delete this.files[key];
                 this.getImagePreviews();
             },
             async submitFiles(){
@@ -112,22 +112,28 @@
                 }
             },
             dispatchInput() {
-                console.warn('El evento para lanzar el input se ha lanzado');
                 this.$refs.imageInput.click();
-                console.log(this.$refs.imageInput);
             },
             onInputClicked(event) {
                 let input = event.currentTarget;
-                if (!this.isLimitExceeded(input.files.length)) {
+                if (this.checkBeforeUpload() && !this.isLimitExceeded(input.files.length)) {
                     for(let index = 0; index < input.files.length; index++) {
                         let file = input.files[index];
-                        this.files.push({file});
+                        if (this.filter.test(file.name)) {
+                            this.files.push({file});
+                        }
                     }
                     this.getImagePreviews();
+                }else {
+                    this.$emit('onError', `El número máximo de elementos a insertar es de ${this.limit}`);
                 }
             },
             isLimitExceeded(nextItems) {
-                return this.files.length + nextItems <= this.limit;
+                return this.files.length + nextItems > this.limit;
+            },
+            checkBeforeUpload() {
+                let beforeUpload = this.$emit('beforeUpload');
+                return beforeUpload || beforeUpload === undefined;
             }
         },
         mounted() {
@@ -141,13 +147,16 @@
                     });
                 });
                 this.$refs.fileform.addEventListener('drop', event => {
-                    if (!this.isLimitExceeded(event.dataTransfer.files.length)) {
+                    if (this.checkBeforeUpload() && !this.isLimitExceeded(event.dataTransfer.files.length)) {
                         for( let i = 0; i < event.dataTransfer.files.length; i++ ){
                             let file = event.dataTransfer.files[i];
-                            // this.files.push( event.dataTransfer.files[i] );
-                            this.files.push({file});
+                            if (this.filter.test(file.name)) {
+                                this.files.push({file});
+                            }
                         }
                         this.getImagePreviews();
+                    }else {
+                        this.$emit('onError', `El número máximo de elementos a insertar es de ${this.limit}`);
                     }
                 })
             }
@@ -156,15 +165,20 @@
 </script>
 
 <style lang="scss" scoped>
+    @import '/src/app/assets/styles/jquery.filer.css';
+    @import '/src/app/assets/styles/jquery.filer-dragdropbox-theme.css';
+
     form {
-        display: block;
-        height: 400px;
-        width: 400px;
-        background: #ccc;
+        height: 200px;
+        width: 90%x;
+        background: rgba(204, 204, 204, 0.548);
         margin: auto;
         margin-top: 40px;
         text-align: center;
-        line-height: 400px;
+        position: relative;
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: center;
     }
 
     div.file-listing{
@@ -226,5 +240,20 @@
             padding-bottom: 100%;
         }
     }
+
+    .dashed-wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: transparent;
+        outline: 2px dashed black;
+        outline-offset: -10px;
+    }
+
+    // .box.has-advanced-upload .box__dragndrop {
+    //     display: inline;
+    // }
 
 </style>

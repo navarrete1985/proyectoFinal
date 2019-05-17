@@ -236,16 +236,17 @@
                             </div>
                             <div class="card-block">
                                 <div class="view-info">
-                                    <div class="row">
+                                    <div class="row d-flex flex-row justify-content-center">
                                         <upload :filter="/\.(jpe?g|png|gif)$/i"
                                                 :defaultImagePreview="'../../images/default.png'"
                                                 :endpoint="endpoint"
                                                 :extraRequestParams="requestParams"
                                                 :limit="1"
-                                                :onUploadProgress="onUploadProgress"
-                                                :onFinish="onFinish"
-                                                :beforeUpload="beforeUpload"
-                                                :onError="onError"></upload>
+                                                @onUploadProgress="onUploadProgress"
+                                                @onFinish="onFinish"
+                                                @beforeUpload="beforeUpload"
+                                                @onError="onError">
+                                        </upload>
                                     </div>
                                     <!-- end of row -->
                                 </div>
@@ -276,8 +277,12 @@
         },
         components: {ProfileHeader, TabMenu, Upload},
         methods: {
-            beforeUpload() {
-                console.log('Entro en beforeUpload');
+            async beforeUpload() {
+                console.log('Entro en beforeUpload, voy a realizar un proceso....');
+                const sleep = m => new Promise(r => window.setTimeout(r, m));
+                await sleep(3000);
+                console.log('Proceso finalizado...');
+                return true;
             },
             onUploadProgress(percentage) {
                 console.warn('On progress state --> ', percentage);
@@ -285,8 +290,8 @@
             onFinish() {
                 console.log('Entro en onFinis');
             },
-            onError() {
-                console.log('Entro en on error');
+            onError(message) {
+                console.log(message);
             }
         },
         beforeMount() {

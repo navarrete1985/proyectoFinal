@@ -52,5 +52,4 @@ class Stablishment extends Common{
     }
 }
 
-module.exports = {User};
-module.exports = {Stablishment};
+module.exports = {Stablishment, User};
