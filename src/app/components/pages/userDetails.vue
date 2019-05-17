@@ -229,15 +229,28 @@
                         <div class="card">
                             <div class="card-header">
                                 <h5 class="card-header-text">Upload files</h5>
-                                <button id="edit-btn" type="button" class="btn btn-sm btn-primary waves-effect waves-light f-right">
+                                <button type="button" class="btn btn-sm btn-primary waves-effect waves-light f-right">
                                     <i class="icofont icofont-edit"></i>
                                     Guardar
                                 </button>
                             </div>
                             <div class="card-block">
                                 <div class="view-info">
-                                    <div class="row">
-                                        <upload></upload>
+                                    <div class="row d-flex flex-row justify-content-center">
+                                        <div class="col-md-12">
+                                            <upload :filter="/\.(jpe?g|png|gif)$/i"
+                                                    :defaultImagePreview="'../../images/default.png'"
+                                                    :endpoint="endpoint"
+                                                    :extraRequestParams="requestParams"
+                                                    :limit="10"
+                                                    @onUploadProgress="onUploadProgress"
+                                                    @onFinish="onFinish"
+                                                    @beforeUpload="beforeUpload"
+                                                    @onError="onError"
+                                                    @onAdded="onAdded"
+                                                    @beforeAdded="beforeAdded">
+                                            </upload>
+                                        </div>
                                     </div>
                                     <!-- end of row -->
                                 </div>
@@ -258,7 +271,39 @@
     import commonTypes from "../store/other/type";
 
     export default {
+        data() {
+            return {
+                requestParams: {
+                    type: 'users'
+                },
+                endpoint: `${window.location.origin}/upload`
+            }
+        },
         components: {ProfileHeader, TabMenu, Upload},
+        methods: {
+            async beforeUpload() {
+                console.log('Entro en beforeUpload, voy a realizar un proceso....');
+                const sleep = m => new Promise(r => window.setTimeout(r, m));
+                await sleep(3000);
+                console.log('Proceso finalizado...');
+                return true;
+            },
+            onUploadProgress(percentage) {
+                console.warn('On progress state --> ', percentage);
+            },
+            onFinish() {
+                console.log('Entro en onFinis');
+            },
+            onError(message) {
+                console.log(message);
+            },
+            onAdded(elements) {
+                console.log(`OnAdded elements --> ${elements}`);
+            },
+            beforeAdded() {
+                console.log('BeforeAdded...');
+            }
+        },
         beforeMount() {
             this.$store.commit(commonTypes.mutations.updateGlobalLoader, false);
             this.$store.dispatch(stablishmentsTypes.actions.fetchAllStablishments);
