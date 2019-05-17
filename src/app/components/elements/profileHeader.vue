@@ -3,13 +3,13 @@
         <div class="col-lg-12">
             <div class="cover-profile">
                 <div class="profile-bg-img">
-                    <div class="dynamic-bg bg profile-bg-image profile-bg-img img-fluid" :data-img="imageProfile"></div>
+                    <div class="dynamic-bg bg profile-bg-image profile-bg-img img-fluid" :style="{'background-image':`url(${imageBanner})`}"></div>
                     <!-- <img class="profile-bg-img img-fluid" src="http://localhost:3000/src/users/default-bg.jpg" alt="bg-img"> -->
                     <div class="card-block user-info">
                         <div class="col-md-12">
                             <div class="media-left">
                                 <a href="#" class="profile-image">
-                                    <div class="dynamic-bg bg user-img user-image img-radius" :data-img="imageUser" alt="user-image"></div>
+                                    <div class="dynamic-bg bg user-img user-image img-radius" :style="{'background-image':`url(${imageProfile})`}" alt="user-image"></div>
                                 </a>
                             </div>
                             <div class="media-body row">
@@ -38,13 +38,13 @@
 <script>
     export default {
         props: {
-            imageUser: {
+            imageProfile: {
                 type: String,
                 default: () => {
                     return 'http://localhost:3000/src/users/default.png';
                 }
             },
-            imageProfile: {
+            imageBanner: {
                 type: String,
                 default: () => {
                     return 'http://localhost:3000/src/users/default-bg.jpg';
@@ -52,7 +52,7 @@
             }
         },
         mounted() {
-            document.querySelectorAll('.dynamic-bg').forEach(item => item.style.backgroundImage = `url('${item.dataset.img}')`);
+            // document.querySelectorAll('.dynamic-bg').forEach(item => item.style.backgroundImage = `url('${item.dataset.img}')`);
         }
     }
 </script>

@@ -1,7 +1,11 @@
 <template>
   <div class="wrapper">
     <div class="row">
-      <div v-for="stablishment in stablishments" v-bind:key="stablishment._id" class="col-lg-6 col-xl-3 col-md-6">
+      <div
+        v-for="stablishment in stablishments"
+        v-bind:key="stablishment._id"
+        class="col-lg-6 col-xl-3 col-md-6"
+      >
         <div class="card rounded-card user-card">
           <div class="card-block">
             <div class="img-hover">
@@ -12,12 +16,13 @@
               >
               <div class="img-overlay img-radius">
                 <span>
-                  <a href="#" class="btn btn-sm btn-primary" data-popup="lightbox">
-                    <i class="icofont icofont-plus"></i>
-                  </a>
-                  <a href class="btn btn-sm btn-primary">
-                    <i class="icofont icofont-link-alt"></i>
-                  </a>
+                  <span>
+                    <!-- <a href="#" class="btn btn-sm btn-primary" data-popup="lightbox"><i class="icofont icofont-plus"></i></a>
+                    <a href="" class="btn btn-sm btn-primary"><i class="icofont icofont-link-alt"></i></a>-->
+                    <router-link :to="{path: stablishment._id}" append class="btn btn-sm btn-primary">
+                      <i class="icofont icofont-plus"></i>
+                    </router-link>
+                  </span>
                 </span>
               </div>
             </div>
@@ -39,12 +44,12 @@ import usersTypes from "../store/users/type";
 import stablishmentsTypes from "../store/stablishments/type";
 
 export default {
-  methods: {
-   
-  },
+  methods: {},
   computed: {
     stablishments() {
-      return this.$store.getters[stablishmentsTypes.getters.getAllStablishments];
+      return this.$store.getters[
+        stablishmentsTypes.getters.getAllStablishments
+      ];
     }
   },
   beforeMount() {
@@ -57,7 +62,10 @@ export default {
       this.$router.replace("login");
     }
     this.$store.commit(usersTypes.mutations.updateCurrentUser, currentUser);
-    this.$store.commit(menuTypes.mutations.updateNavPosition, menu.STABLISHMENTS);
+    this.$store.commit(
+      menuTypes.mutations.updateNavPosition,
+      menu.STABLISHMENTS
+    );
     this.$store.commit(commonTypes.mutations.updateGlobalLoader, false);
     this.$store.dispatch(stablishmentsTypes.actions.fetchAllStablishments);
   }

@@ -8,10 +8,12 @@ const type_stablishments = {
     },
     mutations: {
         updateStablishmentById: `${namespace}/mutation:updateStablishmentById`,
+        updateStablishmentByIdGet: `${namespace}/mutation:updateStablishmentById`,
         updateStablishments: `${namespace}/mutation:updateStablishments`,
     },
     actions: {
         fetchAllStablishments: `${namespace}/action:fetchAllStablishments`,
+        getStablishmentById: `${namespace}/action:getStablishmentById`,
         insertStablishment: `${namespace}/action:insertStablishment`,
     }
 }

@@ -38,19 +38,17 @@ class Stablishment extends Common{
     constructor() {
         super();
         this.description = '';
-        this.image_logo = '';
-        this.location={
-            lat:null,
-            long:null
-        };
+        this.image_logo = 'default.png';
+        // this.location={
+        //     lat:null,
+        //     long:null
+        // };
         this.name = '';
         this.ocupation = null;
-        this.offers = '';
         this.photo_url = [];
         this.uuid = '';
         
     }
 }
 
-module.exports = {User};
-module.exports = {Stablishment};
+module.exports = {User,Stablishment};

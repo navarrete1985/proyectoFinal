@@ -7,6 +7,7 @@ import Stablishment from './components/pages/stablishment.vue';
 import Users from './components/pages/users.vue';
 import Base from './components/shared/base';
 import UserDetail from './components/pages/userDetails';
+import StablishmentDetail from './components/pages/stablishmentDetails.vue';
 import { basename } from 'path';
 
 export default {
@@ -17,6 +18,7 @@ export default {
             {path: 'users', name: 'users', component: Users},
             {path: 'editstablishments', name: 'editstablishments', component: EditStablishments},            
             {path: 'users/:id', name: 'userDetail', component: UserDetail},
+            {path: 'stablishments/:id', name: 'stablishmentDetail', component: StablishmentDetail},
             {path: 'stablishments', name: 'stablishments', component: Stablishment},
         ]},
         {path: '/asd', name: 'notfound', component: NotFound},

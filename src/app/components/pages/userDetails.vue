@@ -261,6 +261,8 @@
         components: {ProfileHeader, TabMenu, Upload},
         beforeMount() {
             this.$store.commit(commonTypes.mutations.updateGlobalLoader, false);
+            this.$store.dispatch(stablishmentsTypes.actions.fetchAllStablishments);
+
         }
     }
 </script>

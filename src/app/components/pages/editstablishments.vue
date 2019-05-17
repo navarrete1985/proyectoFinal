@@ -41,20 +41,7 @@
                   </div>
                 </div>
 
-                <div class="form-group row">
-                  <label class="col-sm-2 col-form-label">Ofertas</label>
-                  <div class="col-sm-10">
-                    <input
-                      v-model="stablishment.offers"
-                      type="text"
-                      class="form-control"
-                      name="offers"
-                      id="offers"
-                      placeholder="offers"
-                    >
-                    <span class="messages"></span>
-                  </div>
-                </div>
+               
 
                 <div class="form-group row">
                   <label class="col-sm-2 col-form-label">Uuid</label>
@@ -119,16 +106,13 @@ export default {
     };
   },
   methods: {
-    insert() {
+    async insert() {
       console.log(this.stablishment);
+      let result = await this.$store.dispatch(stablishmentsTypes.actions.insertStablishment,this.stablishment);
     }
   },
   computed: {
-    stablishments() {
-      return this.$store.getters[
-        stablishmentsTypes.getters.getAllStablishments
-      ];
-    }
+    
   },
   beforeMount() {
     this.$store.commit(commonTypes.mutations.updateGlobalLoader, true);

@@ -10,7 +10,9 @@ const EstablishmentSchema = new Schema({
     description: {
         type: String,
     },
-    image_logo: validator.validateUrlSchema,
+    image_logo: {
+        type: String,
+    },
     location: {
         lat:  Schema.Types.Decimal128,
         long: Schema.Types.Decimal128
@@ -24,7 +26,7 @@ const EstablishmentSchema = new Schema({
         default: 0
     },
     offers: [Schema.Types.ObjectId],
-    photo_url: [validator.validateUrlSchema],
+    photo_url: [{type: String}],
     uuid: {
         type: String,
         required: true,
