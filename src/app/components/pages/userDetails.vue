@@ -237,16 +237,20 @@
                             <div class="card-block">
                                 <div class="view-info">
                                     <div class="row d-flex flex-row justify-content-center">
-                                        <upload :filter="/\.(jpe?g|png|gif)$/i"
-                                                :defaultImagePreview="'../../images/default.png'"
-                                                :endpoint="endpoint"
-                                                :extraRequestParams="requestParams"
-                                                :limit="1"
-                                                @onUploadProgress="onUploadProgress"
-                                                @onFinish="onFinish"
-                                                @beforeUpload="beforeUpload"
-                                                @onError="onError">
-                                        </upload>
+                                        <div class="col-md-12">
+                                            <upload :filter="/\.(jpe?g|png|gif)$/i"
+                                                    :defaultImagePreview="'../../images/default.png'"
+                                                    :endpoint="endpoint"
+                                                    :extraRequestParams="requestParams"
+                                                    :limit="10"
+                                                    @onUploadProgress="onUploadProgress"
+                                                    @onFinish="onFinish"
+                                                    @beforeUpload="beforeUpload"
+                                                    @onError="onError"
+                                                    @onAdded="onAdded"
+                                                    @beforeAdded="beforeAdded">
+                                            </upload>
+                                        </div>
                                     </div>
                                     <!-- end of row -->
                                 </div>
@@ -292,6 +296,12 @@
             },
             onError(message) {
                 console.log(message);
+            },
+            onAdded(elements) {
+                console.log(`OnAdded elements --> ${elements}`);
+            },
+            beforeAdded() {
+                console.log('BeforeAdded...');
             }
         },
         beforeMount() {

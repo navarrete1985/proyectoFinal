@@ -1,25 +1,56 @@
 <template>
-    <div class="upload-wrapper">
-        <progress max="100" :value.prop="uploadPercentage"></progress>
+    <div class="upload-wrapper jFiler">
+        <!-- <progress max="100" :value.prop="uploadPercentage"></progress> -->
         <input type="file" multiple ref="imageInput" @change="onInputClicked($event)" class="hidden">
-        <div id="file-drag-drop" @click.prevent="dispatchInput">
-            <div class="jFiler-input-dragDrop"><div class="jFiler-input-inner"><div class="jFiler-input-icon"><i class="icon-jfi-cloud-up-o"></i></div><div class="jFiler-input-text"><h3>Drag &amp; Drop files here</h3> <span style="display:inline-block; margin: 15px 0">or</span></div><a class="jFiler-input-choose-btn btn btn-primary waves-effect waves-light">Browse Files</a></div></div>
-            <form ref="fileform">
-                <div class="dashed-wrapper"></div>
-                <i class="fa fa-cloud-upload"></i>
-                <span class="drop-files">Arrastra tus archivos aquí</span>
-            </form>
-        </div>
-        <div v-for="(file, key) in files" class="file-listing" :key="key">
-            <!--<img class="preview" v-bind:ref="`preview${key}`"/>-->
-            <div class="image-prev" :style="{'backgroundImage': file.background}"></div>
-            {{ file.file.name }}
-            <div class="remove-container">
-                <a class="remove" v-on:click="removeFile(key)">
-                    <slot name="remove">Eliminar</slot>
-                </a>
+        <div ref="fileform" class="jFiler-input-dragDrop" :class="{dragged}">
+            <div class="jFiler-input-inner">
+                <div class="jFiler-input-icon">
+                    <i class="icon-jfi-cloud-up-o"></i>
+                </div>
+                <div class="jFiler-input-text">
+                    <h3>Arrastra y suelta tus archivos aquí</h3>
+                    <span style="display:inline-block; margin: 15px 0">or</span>
+                </div>
+                <a class="jFiler-input-choose-btn btn btn-primary waves-effect waves-light" @click.prevent="$refs.imageInput.click()">Selecciona archivos</a>
             </div>
         </div>
+        <div class="jFiler-items jFiler-row">
+            <ul class="jFiler-items-list jFiler-items-grid">
+                <li v-for="(file, key) in files" :key="key" class="jFiler-item" :data-jfiler-index="key" style="">
+                    <div class="jFiler-item-container">
+                        <div class="jFiler-item-inner">
+                            <div class="jFiler-item-thumb">
+                                <div class="jFiler-item-thumb-image">
+                                    <div class="image-prev" :style="{'backgroundImage': file.background}"></div>
+                                </div>
+                            </div>
+                            <div class="jFiler-item-assets jFiler-row">
+                                <ul class="list-inline pull-left">
+                                    <li>
+                                        <span class="jFiler-item-others text-error inline-text"> 
+                                            {{file.file.name}}
+                                        </span>
+                                    </li>
+                                </ul>
+                                <ul class="list-inline pull-right">
+                                    <li><a class="icon-jfi-trash jFiler-item-trash-action" @click="removeFile(key)"></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!-- <div v-for="(file, key) in files" class="file-listing" :key="key"> -->
+            <!--<img class="preview" v-bind:ref="`preview${key}`"/>-->
+            <!-- <div class="image-prev" :style="{'backgroundImage': file.background}"></div> -->
+            <!-- {{ file.file.name }} -->
+            <!-- <div class="remove-container"> -->
+                <!-- <a class="remove" v-on:click="removeFile(key)"> -->
+                    <!-- <slot name="remove">Eliminar</slot> -->
+                <!-- </a> -->
+            <!-- </div> -->
+        <!-- </div> -->
         <a class="submit-button" @click="submitFiles()" v-show="files.length > 0">Submit</a>
     </div>
 </template>
@@ -36,6 +67,7 @@
                 dragAndDropCapable: false,
                 files: [],
                 uploadPercentage: 0,
+                dragged: false,
             }
         },
         props: {
@@ -74,12 +106,15 @@
                         && 'FormData' in window && 'FileReader' in window);
             },
             getImagePreviews(){
+                let count = 0;
                 Object.keys(this.files).forEach(key => {
                    let file = this.files[key].file;
                    if(this.filter.test(file.name)) {
                        let reader = new FileReader();
                        reader.addEventListener("load", () => {
+                           count++;
                            this.$set(this.files[key], 'background', `url(${reader.result})`);
+                           if (count === this.files.length) this.$emit('onAdded', count);
                        });
                        reader.readAsDataURL(file);
                    }else {
@@ -92,10 +127,12 @@
                 this.getImagePreviews();
             },
             async submitFiles(){
+                this.$emit('beforeUpload');
+                let response = undefined;
                 let formData = new FormData();
                 formData.append('files[]', this.files);
                 try {
-                    let response = await axios.post(`${window.location.origin}/upload`,
+                    response = await axios.post(`${window.location.origin}/upload`,
                                                 formData,
                                                 {
                                                     headers: {
@@ -103,20 +140,19 @@
                                                     },
                                                     onUploadProgress: (progressEvent) => {
                                                         this.uploadPercentage = parseInt(Math.round((progressEvent.loaded * 100) / progressEvent.total));
+                                                        this.$emit('onUploadProgress', this.uploadPercentage);
                                                     }
                                                 },);
                     console.warn('La respuesta es --> ', response);
 
                 }catch (e) {
-                    console.error('Error en la petición');
+                    this.$emit('onError', 'Error en la petición');
                 }
-            },
-            dispatchInput() {
-                this.$refs.imageInput.click();
+                this.$emit('onFinish', response);
             },
             onInputClicked(event) {
                 let input = event.currentTarget;
-                if (this.checkBeforeUpload() && !this.isLimitExceeded(input.files.length)) {
+                if (!this.isLimitExceeded(input.files.length)) {
                     for(let index = 0; index < input.files.length; index++) {
                         let file = input.files[index];
                         if (this.filter.test(file.name)) {
@@ -131,10 +167,6 @@
             isLimitExceeded(nextItems) {
                 return this.files.length + nextItems > this.limit;
             },
-            checkBeforeUpload() {
-                let beforeUpload = this.$emit('beforeUpload');
-                return beforeUpload || beforeUpload === undefined;
-            }
         },
         mounted() {
             this.dragAndDropCapable = this.isBrowserDraggable();
@@ -146,8 +178,11 @@
                        e.stopPropagation();
                     });
                 });
+                this.$refs.fileform.addEventListener('dragenter', event => this.dragged = true);
+                this.$refs.fileform.addEventListener('dragleave', event => this.dragged = false);
                 this.$refs.fileform.addEventListener('drop', event => {
-                    if (this.checkBeforeUpload() && !this.isLimitExceeded(event.dataTransfer.files.length)) {
+                    this.$emit('beforeAdded');
+                    if (!this.isLimitExceeded(event.dataTransfer.files.length)) {
                         for( let i = 0; i < event.dataTransfer.files.length; i++ ){
                             let file = event.dataTransfer.files[i];
                             if (this.filter.test(file.name)) {
@@ -165,95 +200,47 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '/src/app/assets/styles/jquery.filer.css';
-    @import '/src/app/assets/styles/jquery.filer-dragdropbox-theme.css';
-
-    form {
-        height: 200px;
-        width: 90%x;
-        background: rgba(204, 204, 204, 0.548);
-        margin: auto;
-        margin-top: 40px;
-        text-align: center;
-        position: relative;
-        display: flex;
-        flex-flow: column nowrap;
-        justify-content: center;
-    }
-
-    div.file-listing{
-        width: 400px;
-        margin: auto;
-        padding: 10px;
-        border-bottom: 1px solid #ddd;
-    }
-
-    div.file-listing img{
-        height: 100px;
-    }
-
-    div.remove-container{
-        text-align: center;
-    }
-
-    div.remove-container a{
-        color: red;
-        cursor: pointer;
-    }
-
-    a.submit-button{
-        display: block;
-        margin: auto;
-        text-align: center;
-        width: 200px;
-        padding: 10px;
-        text-transform: uppercase;
-        background-color: #CCC;
-        color: white;
-        font-weight: bold;
-        margin-top: 20px;
-    }
-
-    progress{
-        width: 400px;
-        margin: auto;
-        display: block;
-        margin-top: 20px;
-        margin-bottom: 20px;
-    }
 
     .hidden {
         display: none;
     }
 
     .image-prev {
-        width: 25%;
+        width: 100%;
+        height: 100%;
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
+    }
 
-        &:before {
-            content: '';
-            display: block;
-            top: 0;
-            left: 0;
-            padding-bottom: 100%;
+    .list-inline.pull-left {
+        
+        span {
+            max-width: 155px;
         }
     }
 
-    .dashed-wrapper {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: transparent;
-        outline: 2px dashed black;
-        outline-offset: -10px;
+    .jFiler-items-grid .jFiler-item .jFiler-item-container {
+
+        >.jFiler-item-assets {
+            width: 190px;
+        }
+
+        a {
+            transition: color .25s;
+
+            &:hover {
+                color: #dc3545 !important;
+            }
+        }
+
     }
 
-    // .box.has-advanced-upload .box__dragndrop {
-    //     display: inline;
-    // }
+    .upload-wrapper {
+        
+        >.jFiler-input-dragDrop {
+            width: 100%;
+        }
+    }
 
 </style>
