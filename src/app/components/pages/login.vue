@@ -128,7 +128,7 @@ export default {
             if (response.ok) {
                 this.updateUser(response.user);
                 this.persist();
-                this.$router.replace('dashboard');
+                this.$router.replace('dashboard/stablishments');
             } else {
                 this.error.validate.state = false;
             }

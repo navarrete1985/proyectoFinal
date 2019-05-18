@@ -8,7 +8,7 @@ const type_stablishments = {
     },
     mutations: {
         updateStablishmentById: `${namespace}/mutation:updateStablishmentById`,
-        updateStablishmentByIdGet: `${namespace}/mutation:updateStablishmentById`,
+        updateStablishmentByIdGet: `${namespace}/mutation:updateStablishmentByIdGet`,
         updateStablishments: `${namespace}/mutation:updateStablishments`,
     },
     actions: {

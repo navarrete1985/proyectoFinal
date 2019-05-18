@@ -1,29 +1,60 @@
 <template>
-    <!-- tab header start v-for options-->
-    <div class="tab-header card">
-        <ul class="nav nav-tabs md-tabs tab-timeline" role="tablist" id="mytab">
-            <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#personal" role="tab">Personal Info</a>
-                <div class="slide"></div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#personal" role="tab">Otro</a>
-                <div class="slide"></div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#personal" role="tab">Algo</a>
-                <div class="slide"></div>
-            </li>
-        </ul>
-    </div>
+  <!-- tab header start v-for options-->
+  <div class="tab-header card">
+    <ul class="nav nav-tabs md-tabs tab-timeline" role="tablist" id="mytab">
+      <!-- :class="{ 'uk-active' : letter == selectedLetter}"-->
+      <li
+        class="nav-item"
+        v-for="(tab, index) in arrayTabs"
+        :value="tab"
+        :key="index"
+        @click="setOption(index)"
+      >
+        <a
+          class="nav-link"
+          :class="{'active':index == position}"
+          role="tab"
+        >{{tab}}</a>
+        <div class="slide" :style="{'width':`calc(100% / ${arrayTabs.length})`}"></div>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
-    export default {
-        
+import { console } from "../../util/helper";
+export default {
+    data(){
+        return {
+            position:0
+        }
+    },
+  props: {
+    arrayTabs: {
+      type: Array,
+      default: () => {
+        return ["Descripcion", "Galeria", "nicolas"];
+      }
+    } //,
+    // imageBanner: {
+    //     type: String,
+    //     default: () => {
+    //         return 'http://localhost:3000/src/users/default-bg.jpg';
+    //     }
+    // }
+  },
+  methods: {
+    setOption(index) {
+      console.log(index);
+      this.position = index;
+      this.$emit("changeTab",index);
     }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-
+.md-tabs .nav-item {
+  flex: 1 1 25%;
+}
 </style>

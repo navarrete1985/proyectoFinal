@@ -18,7 +18,10 @@ const getters = {
 
 const mutations = {
     [types.mutations.updateStablishments]: (state, data) => state.stablishments = data,
-    [types.mutations.updateStablishmentByIdGet]: (state, data) => state.stablishments.push(data[0]),
+    [types.mutations.updateStablishmentByIdGet]: (state, data) =>{
+        console.log("resultado de mutacion-->"+data)
+        state.stablishments.push(data[0]);
+    } ,
     [types.mutations.updateStablishmentById]: (state, data) => state.stablishments.find(x => {
         if (x._id === data._id) {
             state.stablishments.push(x);
@@ -51,7 +54,7 @@ actions[types.actions.getStablishmentById] = async ({ commit, getters, state, di
     let response = await fetch(`${window.location.origin}/api/establishment/${id}`);
     response = await response.json();
     if (response.result) {
-        console.log(response.response);
+        console.log("antes del commit"+response.response);
         commit(types.mutations.updateStablishmentByIdGet, response.response);
     }
     return response.response[0];
