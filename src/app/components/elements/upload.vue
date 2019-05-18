@@ -122,9 +122,13 @@
                 let formData = new FormData();
                 
                 this.files.forEach(file => formData.append('files[]', file.file));
-                // formData.append('params', this.extraRequestParams);
+                // let params = this.extraRequestParams;
+                // params = JSON.stringify(params);
+                // params = new Blob([params], {type: 'application/json'});
+                // formData.append('parametros', params);
+                console.warn('Endpoint --> ', this.endpoint);
                 try {
-                    response = await axios.post(`${window.location.origin}/upload`,
+                    response = await axios.post(this.endpoint,
                                                 formData,
                                                 {
                                                     headers: {

@@ -241,7 +241,7 @@
                                             <upload :filter="/\.(jpe?g|png|gif|pdf)$/i"
                                                     :defaultImagePreview="'../../images/default.png'"
                                                     :endpoint="endpoint"
-                                                    :extraRequestParams="requestParams"
+                                                    :extraRequestParams="params"
                                                     :limit="10"
                                                     @onUploadProgress="onUploadProgress"
                                                     @onFinish="onFinish"
@@ -273,10 +273,8 @@
     export default {
         data() {
             return {
-                requestParams: {
-                    type: 'users'
-                },
-                endpoint: `${window.location.origin}/upload`
+                params: {},
+                endpoint: `${window.location.origin}/upload/user/${this.$route.params.id}`
             }
         },
         components: {ProfileHeader, TabMenu, Upload},
@@ -306,6 +304,7 @@
         },
         beforeMount() {
             this.$store.commit(commonTypes.mutations.updateGlobalLoader, false);
+            console.log(this.$route.params.id);
         }
     }
 </script>

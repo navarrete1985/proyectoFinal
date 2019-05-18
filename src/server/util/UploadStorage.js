@@ -15,25 +15,29 @@ var storage = multer.diskStorage({
         cb(null, `${base}/${type}/`);
     },
     filename: function(req,file,cb){
-        console.log('Vamos a nombrear el archivo');
-        if (req.uploadFiles === undefined) req.uploadFiles = [];
+        console.log('Vamos a nombrar el archivo');
         let user_id = req.body.user_id;
         let filename = file.originalname;
         cb(null, filename);
-        req.uploadFiles.push(filename);
     }
 });
 
 var upload = multer({ storage: storage,
     fileFilter: function (req, file, cb) {
         console.log('Vamos a realizar el filtrado de archivo');
-        if (!file.originalname.match(/\.(jpg|png)$/)) {
-            // req.res.error = true;
-            // req.res.errorMessage = 'Error en el tipo de archivo';
-            return cb(new Error('Error en el tipo de archivo.'));
-            // cb(null, false);
+        let filename = file.originalname;
+        if (req.uploadFiles === undefined) req.uploadFiles = {};
+        req.uploadFiles[filename] = {};
+        if (!file.originalname.match(/\.(jpg|jpge|png|gif)$/)) {
+            req.uploadFiles[filename].complete = false;
+            req.uploadFiles[filename].error = 'Error en el tipo de archivo';
+            cb(null, false);
+        }else {
+            req.uploadFiles[filename].complete = true;
+            req.uploadFiles[filename].filename = filename;
+            console.log('Entro por allí');
+            cb(null, true);
         }
-        cb(null, true);
     }
 });
 
