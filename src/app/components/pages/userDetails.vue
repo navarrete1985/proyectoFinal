@@ -238,7 +238,7 @@
                                 <div class="view-info">
                                     <div class="row d-flex flex-row justify-content-center">
                                         <div class="col-md-12">
-                                            <upload :filter="/\.(jpe?g|png|gif)$/i"
+                                            <upload :filter="/\.(jpe?g|png|gif|pdf)$/i"
                                                     :defaultImagePreview="'../../images/default.png'"
                                                     :endpoint="endpoint"
                                                     :extraRequestParams="requestParams"
@@ -306,8 +306,6 @@
         },
         beforeMount() {
             this.$store.commit(commonTypes.mutations.updateGlobalLoader, false);
-            this.$store.dispatch(stablishmentsTypes.actions.fetchAllStablishments);
-
         }
     }
 </script>

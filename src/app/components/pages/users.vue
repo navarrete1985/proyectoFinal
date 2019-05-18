@@ -71,16 +71,10 @@
                 return this.$store.getters[usersTypes.getters.getPageUser];
             }
         },
-        async beforeMount() {
+        async beforeCreate() {
             this.$store.commit(commonTypes.mutations.updateGlobalLoader, true);
-            // let currentUser = localStorage.__DataUser ? JSON.parse(localStorage.__DataUser).user : null;
-            // console.log('Usuario --> ', currentUser);
-            // if(currentUser == null){
-            //     this.$router.replace("login");
-            // }
-            // this.$store.commit(types.mutations.updateCurrentUser,currentUser);
             this.$store.commit(menuTypes.mutations.updateNavPosition, menu.USERS);
-            if (this.$store.getters[usersTypes.getters.getPageUser] === undefined) {
+            if (Object.entries(this.$store.getters[usersTypes.getters.getPageUser]).length === 0) {
                 await this.$store.dispatch(usersTypes.actions.fetchUserByPage, {page: 1, limit: 10});
             }
             this.$store.commit(commonTypes.mutations.updateGlobalLoader, false);

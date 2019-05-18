@@ -41,17 +41,7 @@
                 </li>
             </ul>
         </div>
-        <!-- <div v-for="(file, key) in files" class="file-listing" :key="key"> -->
-            <!--<img class="preview" v-bind:ref="`preview${key}`"/>-->
-            <!-- <div class="image-prev" :style="{'backgroundImage': file.background}"></div> -->
-            <!-- {{ file.file.name }} -->
-            <!-- <div class="remove-container"> -->
-                <!-- <a class="remove" v-on:click="removeFile(key)"> -->
-                    <!-- <slot name="remove">Eliminar</slot> -->
-                <!-- </a> -->
-            <!-- </div> -->
-        <!-- </div> -->
-        <a class="submit-button" @click="submitFiles()" v-show="files.length > 0">Submit</a>
+        <a class="submit-button jFiler-input-choose-btn btn btn-primary waves-effect waves-light" @click="submitFiles()" v-show="files.length > 0">Submit</a>
     </div>
 </template>
 
@@ -130,7 +120,9 @@
                 this.$emit('beforeUpload');
                 let response = undefined;
                 let formData = new FormData();
-                formData.append('files[]', this.files);
+                
+                this.files.forEach(file => formData.append('files[]', file.file));
+                // formData.append('params', this.extraRequestParams);
                 try {
                     response = await axios.post(`${window.location.origin}/upload`,
                                                 formData,
@@ -193,6 +185,7 @@
                     }else {
                         this.$emit('onError', `El número máximo de elementos a insertar es de ${this.limit}`);
                     }
+                    this.dragged = false;
                 })
             }
         }
