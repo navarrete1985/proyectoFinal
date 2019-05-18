@@ -13,8 +13,9 @@ const StablishmentModel = require("../models/Establishment").model;
 let uploadStorage = require('../util/UploadStorage');
 let router = express.Router();
 
-let storage = uploadStorage.array('files[]', 20);
+let storage;
 
+//Comprobación de los parámetros requeridos
 let requiredParams = (req, resp, next) => {
     console.log('onParamsRequired');
     let validTypes = ['user', 'stablishment'];
@@ -29,9 +30,36 @@ let requiredParams = (req, resp, next) => {
 
 //Comprobamos si el establecimiento o el usuario existe para continuar
 let exist = (req, resp, next) => {
-
+    switch(req.params.type) {
+        case 'stablishment':
+            StablishmentModel.find({_id: req.params.id}).exec((err, stablishment) => {
+                if (err) {
+                    return resp.status(404).json({error: `El establecimiento con id ${req.params.id} no se ha encontrado en la base de datos`});
+                }
+                req.stablishment = stablishment;
+            });
+            break;
+        case 'user':
+            UserModel.find({_id: req.params.id}).exec((err, user) => {
+                if (err) {
+                    return resp.status(404).json({error: `El usuario con id ${req.params.id} no se ha encontrado en la base de datos`});
+                }
+                req.user = user;
+            });
+            break;
+    }
+    next();
 }
 
+//Configuración del storage para guardar el número de archivos y si es el usuario poner el id por como nombre defecto de este
+let storageConfig = (req, resp, next) => {
+    let length = req.params.type === 'stablishment' ? 20 : 1;
+    storage = uploadStorage.array('files[]', length);
+    if (req.params.type === 'user') req.defaultNameFile = req.params.id;
+    next();
+}
+
+//Guardamos los archivos si todo ha ido guay
 let upload = (req, resp, next) => {
     console.log('onUpload');
     storage(req, resp, err => {
@@ -44,6 +72,7 @@ let upload = (req, resp, next) => {
     })
 }
 
+//Actualizamos el nombre de los archivos en nuestra base de datos
 let save = async (req, resp) => {
     console.log('onSave');
     let type = req.params.type;
