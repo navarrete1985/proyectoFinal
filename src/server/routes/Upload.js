@@ -9,16 +9,50 @@ Antes de todo comprobamos con el middleware el token
 const express = require("express");
 const UserModel = require("../models/Users").model;
 const StablishmentModel = require("../models/Establishment").model;
+const MenuModel = require('../models/Menu');
+const OfferModel = require('../models/Offers');
+const types = {
+    'stablishments': {
+        route: 'upload/stablishments',
+        limit: 20,
+        name: undefined,
+        folder: true,
+    },
+    'user': {
+        route: 'upload/users',
+        limit: 1,
+        name: 'id',
+        folder: false,
+    },
+    'menu': {
+        route: 'upload/menu',
+        limit: 1,
+        name: 'id',
+        folder: false,
+    },
+    'offer': {
+        route: 'upload/offer',
+        limit: 1,
+        name: 'id',
+        folder: false,
+    },
+}
 
 let uploadStorage = require('../util/UploadStorage');
 let router = express.Router();
 
 let storage;
 
+let errorResponse = (resp, id, type) => {
+    let message = `El ${type} con id ${id} no se ha encontrado en la base de datos`;
+    console.error(message);
+    return resp.status(404).json({error: message});
+}
+
 //Comprobación de los parámetros requeridos
 let requiredParams = (req, resp, next) => {
     console.log('onParamsRequired');
-    let validTypes = ['user', 'stablishment'];
+    let validTypes = ['user', 'stablishment', 'menu', 'offer'];
     let params = req.params;
     console.log(params);
     if (params.type && validTypes.includes(params.type) && params.id) next();
@@ -30,32 +64,57 @@ let requiredParams = (req, resp, next) => {
 
 //Comprobamos si el establecimiento o el usuario existe para continuar
 let exist = (req, resp, next) => {
-    switch(req.params.type) {
+    console.log('onExist');
+    let id = req.params.id;
+    let type = req.params.type;
+    switch(type) {
         case 'stablishment':
-            StablishmentModel.find({_id: req.params.id}).exec((err, stablishment) => {
+            StablishmentModel.find({_id: id}).exec((err, stablishment) => {
                 if (err) {
-                    return resp.status(404).json({error: `El establecimiento con id ${req.params.id} no se ha encontrado en la base de datos`});
+                    return errorResponse(resp, id, type);
                 }
-                req.stablishment = stablishment;
+                req.modelObject = stablishment;
+                next();
             });
             break;
         case 'user':
-            UserModel.find({_id: req.params.id}).exec((err, user) => {
+            UserModel.find({_id: id}).exec((err, user) => {
                 if (err) {
-                    return resp.status(404).json({error: `El usuario con id ${req.params.id} no se ha encontrado en la base de datos`});
+                    return errorResponse(resp, id, type);
                 }
-                req.user = user;
+                req.modelObject = user;
+                next();
+            });
+            break;
+        case 'menu':
+            MenuModel.find({_id: id}).exec((err, menu) => {
+                if (err) {
+                    return errorResponse(resp, id, type);
+                }
+                req.modelObject = menu;
+                next();
+            });
+            break;
+        case 'offer':
+            OfferModel.find({_id: id}).exec((err, offer) => {
+                if (err) {
+                    return errorResponse(resp, id, type);
+                }
+                req.modelObject = offer;
+                next();
             });
             break;
     }
-    next();
 }
 
 //Configuración del storage para guardar el número de archivos y si es el usuario poner el id por como nombre defecto de este
 let storageConfig = (req, resp, next) => {
-    let length = req.params.type === 'stablishment' ? 20 : 1;
-    storage = uploadStorage.array('files[]', length);
-    if (req.params.type === 'user') req.defaultNameFile = req.params.id;
+    console.log(req.modelObject);
+    console.log('onStorageConfig');
+    storage = uploadStorage.array('files[]', types[req.params.type].limit);
+    if (types[req.params.type].name !== undefined) types[req.params.type].name = req.params.id;
+    if (types[req.params.type].folder) types[req.params.type].folder += `/${req.params.id}`;
+    req.paramsType = types[req.params.type];
     next();
 }
 
@@ -63,11 +122,9 @@ let storageConfig = (req, resp, next) => {
 let upload = (req, resp, next) => {
     console.log('onUpload');
     storage(req, resp, err => {
-        console.log(err);
         if (err) {
             return resp.status(400).json({error: true, uploadFiles: req.uploadFiles});
         }
-        // return resp.status(200).json({error: false, uploadFiles: req.uploadFiles});
         next();
     })
 }
@@ -79,25 +136,44 @@ let save = async (req, resp) => {
     let id = req.params._id;
     switch(type) {
         case 'stablishment':
-            let stablishment = await StablishmentModel.find({_id: id}).exec();
-            if (stablishment) {
-                Object.keys(req.uploadFiles).forEach(file => stablishment.photo_url.push(`/upload/stablishments/${stablishment._id}/${file.originalname}`));
-                let result = await StablishmentModel.update({_id: stablishment._id}, {$set: stablishment}).exec();
-                return resp.status(200).json({error: false, uploadFiles: req.uploadFiles, result});
-            }
+            Object.keys(req.uploadFiles).forEach(file => req.modelObject.photo_url.push(`${req.paramsType.route}/${req.uploadFiles[file].filename}`));
+            StablishmentModel.update({_id: req.modelObject._id}, {$set: req.modelObject}).exec((err, stablishment) => {
+                if (err) {
+                    resp.status(500).json({error: true, result: err});
+                }
+            });
             break;
         case 'user':
-            let user = await UserModel.find({_id: id}).exec();
-            if (user) {
-                Object.keys(req.uploadFiles).forEach(file => user.photo_url = `/upload/users/${file.originalname}`);
-                let result = await StablishmentModel.update({_id: stablishment._id}, {$set: stablishment}).exec();
-                return resp.status(200).json({error: false, uploadFiles: req.uploadFiles, result});
-            }
+            Object.keys(req.uploadFiles).forEach(file => req.modelObject.photo_url = `${req.paramsType.route}/${req.uploadFiles[file].filename}`);
+            UserModel.update({_id: req.modelObject._id}, {$set: req.modelObject}).exec((err, user) => {
+                if (err) {
+                    resp.status(500).json({error: true, result: err});
+                }
+            });
+            break;
+        case 'menu':
+            Object.keys(req.uploadFiles).forEach(file => req.modelObject.urlpdf = `${req.paramsType.route}/${req.uploadFiles[file].filename}`);
+            MenuModel.update({_id: req.modelObject._id}, {$set: req.modelObject}).exec((err, menu) => {
+                if (err) {
+                    resp.status(500).json({error: true, result: err});
+                }
+            });
+            break;
+        case 'offer':
+            Object.keys(req.uploadFiles).forEach(file => req.modelObject.image = `${req.paramsType.route}/${req.uploadFiles[file].filename}`);
+            OfferModel.update({_id: req.modelObject._id}, {$set: req.modelObject}).exec((err, offer) => {
+                if (err) {
+                    resp.status(500).json({error: true, result: err});
+                }
+            });
             break;
     }
+    resp.status(200).json({error: false, result: req.modelObject});
+    console.log('Respuesta --> ', req.modelObject);
+    return resp;
 }
 
 // router.post("/upload", uploadStorage.array('files[]', 20), upload.upload);
-router.post("/upload/:type/:id", requiredParams, upload, save);
+router.post("/upload/:type/:id", requiredParams, exist, storageConfig, upload, save);
 
 module.exports = router;

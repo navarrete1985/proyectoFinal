@@ -67,10 +67,6 @@
                     return true;
                 }
             },
-            extraRequestParams: {
-                type: Object,
-                required: false,
-            },
             defaultImagePreview: {
                 type: String,
                 required: false,
