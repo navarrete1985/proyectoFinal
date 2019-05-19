@@ -13,6 +13,24 @@ const EstablishmentSchema = new Schema({
     image_logo: {
         type: String,
     },
+    email: {
+        type: String,
+    },
+    twitter: {
+        type: String,
+    },
+    facebook: {
+        type: String,
+    },
+    instagram: {
+        type: String,
+    },
+    website: {
+        type: String,
+    },
+    phone: {
+        type: String,
+    },
     location: {
         lat:  Schema.Types.Decimal128,
         long: Schema.Types.Decimal128

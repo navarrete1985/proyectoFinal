@@ -50,6 +50,7 @@ establishmentController.create = (req, res) => {
 }
 
 establishmentController.update = (req, res) => {
+    console.log("api"+req);
     Establishment.update({ _id: req.body._id }, { $set: req.body }).exec((err, establishment) => {
         let response = Tools.response.get(err, establishment);
         if (response.status === 200) {
