@@ -22,9 +22,18 @@ const mutations = {
         console.log("resultado de mutacion-->"+data)
         state.stablishments.push(data[0]);
     } ,
+    // [types.mutations.updateStablishmentById]: (state, data) => state.stablishments.find(x => {
+    //     if (x._id === data._id) {
+    //         state.stablishments.push(x);
+    //         return true;
+    //     }
+    //     return false;
+    // }),
     [types.mutations.updateStablishmentById]: (state, data) => state.stablishments.find(x => {
+        console.log("ANTES DE BUSCAR EN MUTACION"+data);
         if (x._id === data._id) {
-            state.stablishments.push(x);
+            console.log("mutacion de update para la store del update"+data);
+            x = data;
             return true;
         }
         return false;
@@ -72,6 +81,22 @@ actions[types.actions.insertStablishment] = async ({ commit, getters, state, dis
     if (response.status === 200) {
         let newStablishment = response.response;
         state.stablishments.push(newStablishment);
+    }
+    return response;
+};
+
+
+actions[types.actions.updateStablishmentById] = async ({ commit, getters, state, dispatch }, stablishment) => {
+    console.log(stablishment);
+    let response = await fetch(`${window.location.origin}/api/establishment`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(stablishment)
+    });
+
+    console.log("respuesta de la bd al update"+response);
+    if (response.status === 200) {
+        commit(types.mutations.updateStablishmentById, stablishment);
     }
     return response;
 };

@@ -51,7 +51,7 @@
                                     <th scope="row">Nombre de establecimiento</th>
                                     <input
                                       type="text"
-                                      :v-model="stablishment.name"
+                                      v-model="stablishment.name"
                                       :class="{'white':editInputs==true}"
                                       :readonly="!editInputs"
                                     >
@@ -60,7 +60,7 @@
                                     <th scope="row">Ocupación actual</th>
                                     <input
                                       type="text"
-                                      :v-model="stablishment.ocupation"
+                                      v-model="stablishment.ocupation"
                                       :class="{'white':editInputs==true}"
                                       :readonly="!editInputs"
                                     >
@@ -69,7 +69,7 @@
                                     <th scope="row">Identificador de establecimiento</th>
                                     <input
                                       type="text"
-                                      :v-model="stablishment._id"
+                                      v-model="stablishment._id"
                                       :class="{'white':editInputs==true}"
                                       :readonly="!editInputs"
                                     >
@@ -78,7 +78,7 @@
                                     <th scope="row">Uuid</th>
                                     <input
                                       type="text"
-                                      :v-model="stablishment.uuid"
+                                      v-model="stablishment.uuid"
                                       :class="{'white':editInputs==true}"
                                       :readonly="!editInputs"
                                     >
@@ -92,7 +92,7 @@
                                     <input
                                       type="text"
                                       :class="{'white':editInputs==true}"
-                                      :v-model="stablishment.email"
+                                      v-model="stablishment.email"
                                       :readonly="!editInputs"
                                     >
                                   </tr>
@@ -100,7 +100,7 @@
                                     <th scope="row">Teléfono</th>
                                     <input
                                       type="text"
-                                      :v-model="stablishment.phone"
+                                      v-model="stablishment.phone"
                                       :class="{'white':editInputs==true}"
                                       :readonly="!editInputs"
                                     >
@@ -109,7 +109,7 @@
                                     <th scope="row">Facebook</th>
                                     <input
                                       type="text"
-                                      :v-model="stablishment.facebook"
+                                      v-model="stablishment.facebook"
                                       :class="{'white':editInputs==true}"
                                       :readonly="!editInputs"
                                     >
@@ -119,7 +119,7 @@
                                     <input
                                       type="text"
                                       :class="{'white':editInputs==true}"
-                                      :v-model="stablishment.instagram"
+                                      v-model="stablishment.instagram"
                                       :readonly="!editInputs"
                                     >
                                   </tr>
@@ -128,7 +128,7 @@
                                     <input
                                       type="text"
                                       :class="{'white':editInputs==true}"
-                                      :v-model="stablishment.twitter"
+                                      v-model="stablishment.twitter"
                                       :readonly="!editInputs"
                                     >
                                   </tr>
@@ -137,7 +137,7 @@
                                     <input
                                       type="text"
                                       :class="{'white':editInputs==true}"
-                                      :v-model="stablishment.website"
+                                      v-model="stablishment.website"
                                       :readonly="!editInputs"
                                     >
                                   </tr>
@@ -145,7 +145,7 @@
                                     <th scope="row">Descripción</th>
                                     <textarea
                                       :class="{'white':editInputs==true}"
-                                      :v-model="stablishment.description"
+                                      v-model="stablishment.description"
                                       :readonly="!editInputs"
                                     ></textarea>
                                   </tr>
@@ -256,6 +256,7 @@ import stablishmentsTypes from "../store/stablishments/type";
 import {
 	console
 } from "../../util/helper";
+import { all } from 'q';
 
 export default {
 	data() {
@@ -295,8 +296,20 @@ export default {
 				this.editInputs = false;
 			}
 		},
-		sendEdit() {
-			console.log(this.stablishment);
+		async sendEdit() {
+      this.$store.commit(commonTypes.mutations.updateGlobalLoader, true);
+
+      console.log(this.stablishment);
+      let result = await this.$store.dispatch(stablishmentsTypes.actions.updateStablishmentById,this.stablishment);
+
+      this.$store.commit(commonTypes.mutations.updateGlobalLoader, false);
+      console.log("resultado antes de alert"+result)
+      if(result.status == 200 ){
+        alert("editado correctamente");
+      }else{
+        alert("error al editar")
+      }
+
 		}
 	},
 

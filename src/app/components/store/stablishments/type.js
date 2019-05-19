@@ -14,6 +14,7 @@ const type_stablishments = {
     actions: {
         fetchAllStablishments: `${namespace}/action:fetchAllStablishments`,
         getStablishmentById: `${namespace}/action:getStablishmentById`,
+        updateStablishmentById: `${namespace}/action:updateStablishmentById`,
         insertStablishment: `${namespace}/action:insertStablishment`,
     }
 }
