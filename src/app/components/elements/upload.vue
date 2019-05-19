@@ -113,52 +113,49 @@
                 this.getImagePreviews();
             },
             submitFiles(evt){
-                // let action = await this.$emit('beforeUpload');
-                // let response = undefined;
-                // let formData = new FormData();
-                
-                // this.files.forEach(file => formData.append('files[]', file.file));
-                // // let params = this.extraRequestParams;
-                // // params = JSON.stringify(params);
-                // // params = new Blob([params], {type: 'application/json'});
-                // // formData.append('parametros', params);
-                // console.warn('Endpoint --> ', this.endpoint);
-                // try {
-                //     response = await axios.post(this.endpoint,
-                //                                 formData,
-                //                                 {
-                //                                     headers: {
-                //                                         'Content-Type': 'multipart/form-data',
-                //                                     },
-                //                                     onUploadProgress: (progressEvent) => {
-                //                                         this.uploadPercentage = parseInt(Math.round((progressEvent.loaded * 100) / progressEvent.total));
-                //                                         this.$emit('onUploadProgress', this.uploadPercentage);
-                //                                     }
-                //                                 },);
-                //     console.warn('La respuesta es --> ', response);
+                var promise = Promise.resolve();
+                evt.waitUntil = p => promise = p;
+                this.$emit('beforeUpload', evt);
+                let response = undefined;
 
-                // }catch (e) {
-                //     this.$emit('onError', 'Error en la petición');
-                // }
-                // this.$emit('onFinish', response);
-                var promise = Promise.resolve()
-                evt.waitUntil = p => promise = p
-                this.$emit('beforeUpload', evt)
-                console.log(promise)   // promise is a Promise
-                promise.then(data =>  console.log(data))
-                       .catch(data => console.log(data));
-                    
+                promise.then(() => {
+                    let formData = new FormData();
+                
+                    this.files.forEach(file => formData.append('files[]', file.file));
+                    return axios.post(this.endpoint, formData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        },
+                        onUploadProgress: (progressEvent) => {
+                            this.uploadPercentage = parseInt(Math.round((progressEvent.loaded * 100) / progressEvent.total));
+                            this.$emit('onUploadProgress', this.uploadPercentage);
+                        }
+                    });
+                })
+                .then(response => {
+                    if (response && !response.error) this.files = [];
+                    console.warn('La respuesta es --> ', response);
+                    this.$emit('onFinish', response);
+                })
+                .catch(error => this.$emit('onError', 'Error en la petición'))
             },
             onInputClicked(event) {
+                this.$emit('beforeAdded');
                 let input = event.currentTarget;
                 if (!this.isLimitExceeded(input.files.length)) {
+                    let error = {count: 0, files:[]};
                     for(let index = 0; index < input.files.length; index++) {
                         let file = input.files[index];
                         if (this.filter.test(file.name)) {
                             this.files.push({file});
+                        }else {
+                            error.count++;
+                            error.files.push(file.name);
                         }
                     }
                     this.getImagePreviews();
+                    if (error.count > 0) this.$emit('onError', `Uno o varios archivos no se han insertado por que no cumplen con el formato válido: \n ${error.files}`);
                 }else {
                     this.$emit('onError', `El número máximo de elementos a insertar es de ${this.limit}`);
                 }
@@ -182,13 +179,18 @@
                 this.$refs.fileform.addEventListener('drop', event => {
                     this.$emit('beforeAdded');
                     if (!this.isLimitExceeded(event.dataTransfer.files.length)) {
+                        let error = {count: 0, files:[]};
                         for( let i = 0; i < event.dataTransfer.files.length; i++ ){
                             let file = event.dataTransfer.files[i];
                             if (this.filter.test(file.name)) {
                                 this.files.push({file});
+                            }else {
+                                error.count++;
+                                error.files.push(file.name);
                             }
                         }
                         this.getImagePreviews();
+                        if (error.count > 0) this.$emit('onError', `Uno o varios archivos no se han insertado por que no cumplen con el formato válido: \n ${error.files}`);
                     }else {
                         this.$emit('onError', `El número máximo de elementos a insertar es de ${this.limit}`);
                     }

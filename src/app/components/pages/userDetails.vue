@@ -238,7 +238,7 @@
                                 <div class="view-info">
                                     <div class="row d-flex flex-row justify-content-center">
                                         <div class="col-md-12">
-                                            <upload :filter="/\.(jpe?g|png|gif|pdf)$/i"
+                                            <upload :filter="/\.(jpe?g|png|gif)$/i"
                                                     :defaultImagePreview="'../../images/default.png'"
                                                     :endpoint="endpoint"
                                                     :limit="1"
@@ -279,26 +279,18 @@
         components: {ProfileHeader, TabMenu, Upload},
         methods: {
             beforeUpload(evt) {
-                let that = this;
-                // console.log('Entro en beforeUpload, voy a realizar un proceso....');
-                // const sleep = m => new Promise(r => window.setTimeout(r, m));
-                // await sleep(3000);
-                // console.log('Proceso finalizado...');
-                // return true;
                 evt.waitUntil(new Promise((resolve, reject) => {
                      this.$swal({
-                        title: 'Are you sure?',
-                        text: "You won't be able to revert this!",
+                        title: 'Confirmación',
+                        text: "¿Desea cambiar la imagen de usuario?",
                         type: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, delete it!'
+                        confirmButtonText: 'Confirmar'
                     }).then((result) => {
                         if (result.value) {
-                            resolve('Operación aceptada');
-                        }else {
-                            reject('Operación cancelada');
+                            resolve();
                         }
                     })
                 })) 
@@ -306,11 +298,13 @@
             onUploadProgress(percentage) {
                 console.warn('On progress state --> ', percentage);
             },
-            onFinish() {
-                console.log('Entro en onFinis');
+            onFinish(response) {
+                if (response && !response.error) {
+                    this.$root.alertSuccess();
+                }
             },
             onError(message) {
-                console.log(message);
+                this.$root.alertError({text: message});
             },
             onAdded(elements) {
                 console.log(`OnAdded elements --> ${elements}`);
