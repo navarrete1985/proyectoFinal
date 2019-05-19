@@ -7,7 +7,7 @@
                 <div class="card rounded-card user-card">
                     <div class="card-block">
                         <div class="img-hover">
-                            <img class="img-fluid img-radius" src="http://localhost:3000/src/users/default.png" alt="round-img">
+                            <img class="img-fluid img-radius" :src="getImageUri(user)" alt="round-img">
                             <div class="img-overlay img-radius">
                                 <span>
                                     <!-- <a href="#" class="btn btn-sm btn-primary" data-popup="lightbox"><i class="icofont icofont-plus"></i></a>
@@ -33,7 +33,6 @@
 
 <script>
     import menu from '../../util/MenuEnums';
-    // import types from "@/components/store/users/type";
     import menuTypes from '../store/other/type';
     import commonTypes from "../store/other/type";
     import usersTypes from "../store/users/type";
@@ -63,6 +62,10 @@
             },
             getUserRoute(user) {
                 // return `/${user._id}`;
+            },
+            getImageUri(user) {
+                let image = user.photo_url || 'src/users/default.png';
+                return window.location.origin + '/' + image;
             }
         },
         components: {FloatingButton, Paginator, Preloader},

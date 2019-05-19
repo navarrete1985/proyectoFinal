@@ -1,7 +1,7 @@
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const base = path.resolve('src/public/src');
+const base = path.resolve('src/public');
 
 // Array.prototype.diff = function(a) {
 //     return this.filter(function(i) {return a.indexOf(i) < 0;});

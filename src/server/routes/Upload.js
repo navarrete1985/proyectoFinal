@@ -13,25 +13,25 @@ const MenuModel = require('../models/Menu');
 const OfferModel = require('../models/Offers');
 const types = {
     'stablishments': {
-        route: 'upload/stablishments',
+        route: 'src/upload/stablishments',
         limit: 20,
         name: undefined,
         folder: true,
     },
     'user': {
-        route: 'upload/users',
+        route: 'src/upload/users',
         limit: 1,
         name: 'id',
         folder: false,
     },
     'menu': {
-        route: 'upload/menu',
+        route: 'src/upload/menu',
         limit: 1,
         name: 'id',
         folder: false,
     },
     'offer': {
-        route: 'upload/offer',
+        route: 'src/upload/offer',
         limit: 1,
         name: 'id',
         folder: false,
@@ -69,7 +69,7 @@ let exist = (req, resp, next) => {
     let type = req.params.type;
     switch(type) {
         case 'stablishment':
-            StablishmentModel.find({_id: id}).exec((err, stablishment) => {
+            StablishmentModel.findOne({_id: id}).exec((err, stablishment) => {
                 if (err) {
                     return errorResponse(resp, id, type);
                 }
@@ -78,7 +78,7 @@ let exist = (req, resp, next) => {
             });
             break;
         case 'user':
-            UserModel.find({_id: id}).exec((err, user) => {
+            UserModel.findOne({_id: id}).exec((err, user) => {
                 if (err) {
                     return errorResponse(resp, id, type);
                 }
@@ -87,7 +87,7 @@ let exist = (req, resp, next) => {
             });
             break;
         case 'menu':
-            MenuModel.find({_id: id}).exec((err, menu) => {
+            MenuModel.findOne({_id: id}).exec((err, menu) => {
                 if (err) {
                     return errorResponse(resp, id, type);
                 }
@@ -96,7 +96,7 @@ let exist = (req, resp, next) => {
             });
             break;
         case 'offer':
-            OfferModel.find({_id: id}).exec((err, offer) => {
+            OfferModel.findOne({_id: id}).exec((err, offer) => {
                 if (err) {
                     return errorResponse(resp, id, type);
                 }
@@ -137,15 +137,16 @@ let save = async (req, resp) => {
     switch(type) {
         case 'stablishment':
             Object.keys(req.uploadFiles).forEach(file => req.modelObject.photo_url.push(`${req.paramsType.route}/${req.uploadFiles[file].filename}`));
-            StablishmentModel.update({_id: req.modelObject._id}, {$set: req.modelObject}).exec((err, stablishment) => {
+            StablishmentModel.updateOne({_id: req.modelObject._id}, {$set: req.modelObject}).exec((err, stablishment) => {
                 if (err) {
                     resp.status(500).json({error: true, result: err});
                 }
             });
             break;
         case 'user':
+        console.log('Usuario --> ', req.modelObject);
             Object.keys(req.uploadFiles).forEach(file => req.modelObject.photo_url = `${req.paramsType.route}/${req.uploadFiles[file].filename}`);
-            UserModel.update({_id: req.modelObject._id}, {$set: req.modelObject}).exec((err, user) => {
+            UserModel.updateOne({_id: req.modelObject._id}, {$set: req.modelObject}).exec((err, user) => {
                 if (err) {
                     resp.status(500).json({error: true, result: err});
                 }
@@ -153,7 +154,7 @@ let save = async (req, resp) => {
             break;
         case 'menu':
             Object.keys(req.uploadFiles).forEach(file => req.modelObject.urlpdf = `${req.paramsType.route}/${req.uploadFiles[file].filename}`);
-            MenuModel.update({_id: req.modelObject._id}, {$set: req.modelObject}).exec((err, menu) => {
+            MenuModel.updateOne({_id: req.modelObject._id}, {$set: req.modelObject}).exec((err, menu) => {
                 if (err) {
                     resp.status(500).json({error: true, result: err});
                 }
@@ -161,7 +162,7 @@ let save = async (req, resp) => {
             break;
         case 'offer':
             Object.keys(req.uploadFiles).forEach(file => req.modelObject.image = `${req.paramsType.route}/${req.uploadFiles[file].filename}`);
-            OfferModel.update({_id: req.modelObject._id}, {$set: req.modelObject}).exec((err, offer) => {
+            OfferModel.updateOne({_id: req.modelObject._id}, {$set: req.modelObject}).exec((err, offer) => {
                 if (err) {
                     resp.status(500).json({error: true, result: err});
                 }

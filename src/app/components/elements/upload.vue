@@ -41,7 +41,7 @@
                 </li>
             </ul>
         </div>
-        <a class="submit-button jFiler-input-choose-btn btn btn-primary waves-effect waves-light" @click="submitFiles()" v-show="files.length > 0">Submit</a>
+        <a class="submit-button jFiler-input-choose-btn btn btn-primary waves-effect waves-light" @click="submitFiles($event)" v-show="files.length > 0">Submit</a>
     </div>
 </template>
 
@@ -112,35 +112,42 @@
                 this.files.splice(parseInt(key), 1);
                 this.getImagePreviews();
             },
-            async submitFiles(){
-                this.$emit('beforeUpload');
-                let response = undefined;
-                let formData = new FormData();
+            submitFiles(evt){
+                // let action = await this.$emit('beforeUpload');
+                // let response = undefined;
+                // let formData = new FormData();
                 
-                this.files.forEach(file => formData.append('files[]', file.file));
-                // let params = this.extraRequestParams;
-                // params = JSON.stringify(params);
-                // params = new Blob([params], {type: 'application/json'});
-                // formData.append('parametros', params);
-                console.warn('Endpoint --> ', this.endpoint);
-                try {
-                    response = await axios.post(this.endpoint,
-                                                formData,
-                                                {
-                                                    headers: {
-                                                        'Content-Type': 'multipart/form-data',
-                                                    },
-                                                    onUploadProgress: (progressEvent) => {
-                                                        this.uploadPercentage = parseInt(Math.round((progressEvent.loaded * 100) / progressEvent.total));
-                                                        this.$emit('onUploadProgress', this.uploadPercentage);
-                                                    }
-                                                },);
-                    console.warn('La respuesta es --> ', response);
+                // this.files.forEach(file => formData.append('files[]', file.file));
+                // // let params = this.extraRequestParams;
+                // // params = JSON.stringify(params);
+                // // params = new Blob([params], {type: 'application/json'});
+                // // formData.append('parametros', params);
+                // console.warn('Endpoint --> ', this.endpoint);
+                // try {
+                //     response = await axios.post(this.endpoint,
+                //                                 formData,
+                //                                 {
+                //                                     headers: {
+                //                                         'Content-Type': 'multipart/form-data',
+                //                                     },
+                //                                     onUploadProgress: (progressEvent) => {
+                //                                         this.uploadPercentage = parseInt(Math.round((progressEvent.loaded * 100) / progressEvent.total));
+                //                                         this.$emit('onUploadProgress', this.uploadPercentage);
+                //                                     }
+                //                                 },);
+                //     console.warn('La respuesta es --> ', response);
 
-                }catch (e) {
-                    this.$emit('onError', 'Error en la petición');
-                }
-                this.$emit('onFinish', response);
+                // }catch (e) {
+                //     this.$emit('onError', 'Error en la petición');
+                // }
+                // this.$emit('onFinish', response);
+                var promise = Promise.resolve()
+                evt.waitUntil = p => promise = p
+                this.$emit('beforeUpload', evt)
+                console.log(promise)   // promise is a Promise
+                promise.then(data =>  console.log(data))
+                       .catch(data => console.log(data));
+                    
             },
             onInputClicked(event) {
                 let input = event.currentTarget;

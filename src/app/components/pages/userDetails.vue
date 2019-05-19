@@ -278,12 +278,30 @@
         },
         components: {ProfileHeader, TabMenu, Upload},
         methods: {
-            async beforeUpload() {
-                console.log('Entro en beforeUpload, voy a realizar un proceso....');
-                const sleep = m => new Promise(r => window.setTimeout(r, m));
-                await sleep(3000);
-                console.log('Proceso finalizado...');
-                return true;
+            beforeUpload(evt) {
+                let that = this;
+                // console.log('Entro en beforeUpload, voy a realizar un proceso....');
+                // const sleep = m => new Promise(r => window.setTimeout(r, m));
+                // await sleep(3000);
+                // console.log('Proceso finalizado...');
+                // return true;
+                evt.waitUntil(new Promise((resolve, reject) => {
+                     this.$swal({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                        if (result.value) {
+                            resolve('Operación aceptada');
+                        }else {
+                            reject('Operación cancelada');
+                        }
+                    })
+                })) 
             },
             onUploadProgress(percentage) {
                 console.warn('On progress state --> ', percentage);
