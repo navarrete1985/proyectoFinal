@@ -41,17 +41,7 @@
                 </li>
             </ul>
         </div>
-        <!-- <div v-for="(file, key) in files" class="file-listing" :key="key"> -->
-            <!--<img class="preview" v-bind:ref="`preview${key}`"/>-->
-            <!-- <div class="image-prev" :style="{'backgroundImage': file.background}"></div> -->
-            <!-- {{ file.file.name }} -->
-            <!-- <div class="remove-container"> -->
-                <!-- <a class="remove" v-on:click="removeFile(key)"> -->
-                    <!-- <slot name="remove">Eliminar</slot> -->
-                <!-- </a> -->
-            <!-- </div> -->
-        <!-- </div> -->
-        <a class="submit-button" @click="submitFiles()" v-show="files.length > 0">Submit</a>
+        <a class="submit-button jFiler-input-choose-btn btn btn-primary waves-effect waves-light" @click="submitFiles($event)" v-show="files.length > 0">Submit</a>
     </div>
 </template>
 
@@ -76,10 +66,6 @@
                 default: () => {
                     return true;
                 }
-            },
-            extraRequestParams: {
-                type: Object,
-                required: false,
             },
             defaultImagePreview: {
                 type: String,
@@ -126,40 +112,50 @@
                 this.files.splice(parseInt(key), 1);
                 this.getImagePreviews();
             },
-            async submitFiles(){
-                this.$emit('beforeUpload');
+            submitFiles(evt){
+                var promise = Promise.resolve();
+                evt.waitUntil = p => promise = p;
+                this.$emit('beforeUpload', evt);
                 let response = undefined;
-                let formData = new FormData();
-                formData.append('files[]', this.files);
-                try {
-                    response = await axios.post(`${window.location.origin}/upload`,
-                                                formData,
-                                                {
-                                                    headers: {
-                                                        'Content-Type': 'multipart/form-data',
-                                                    },
-                                                    onUploadProgress: (progressEvent) => {
-                                                        this.uploadPercentage = parseInt(Math.round((progressEvent.loaded * 100) / progressEvent.total));
-                                                        this.$emit('onUploadProgress', this.uploadPercentage);
-                                                    }
-                                                },);
-                    console.warn('La respuesta es --> ', response);
 
-                }catch (e) {
-                    this.$emit('onError', 'Error en la petición');
-                }
-                this.$emit('onFinish', response);
+                promise.then(() => {
+                    let formData = new FormData();
+                
+                    this.files.forEach(file => formData.append('files[]', file.file));
+                    return axios.post(this.endpoint, formData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        },
+                        onUploadProgress: (progressEvent) => {
+                            this.uploadPercentage = parseInt(Math.round((progressEvent.loaded * 100) / progressEvent.total));
+                            this.$emit('onUploadProgress', this.uploadPercentage);
+                        }
+                    });
+                })
+                .then(response => {
+                    if (response && !response.error) this.files = [];
+                    console.warn('La respuesta es --> ', response);
+                    this.$emit('onFinish', response);
+                })
+                .catch(error => this.$emit('onError', 'Error en la petición'))
             },
             onInputClicked(event) {
+                this.$emit('beforeAdded');
                 let input = event.currentTarget;
                 if (!this.isLimitExceeded(input.files.length)) {
+                    let error = {count: 0, files:[]};
                     for(let index = 0; index < input.files.length; index++) {
                         let file = input.files[index];
                         if (this.filter.test(file.name)) {
                             this.files.push({file});
+                        }else {
+                            error.count++;
+                            error.files.push(file.name);
                         }
                     }
                     this.getImagePreviews();
+                    if (error.count > 0) this.$emit('onError', `Uno o varios archivos no se han insertado por que no cumplen con el formato válido: \n ${error.files}`);
                 }else {
                     this.$emit('onError', `El número máximo de elementos a insertar es de ${this.limit}`);
                 }
@@ -183,16 +179,22 @@
                 this.$refs.fileform.addEventListener('drop', event => {
                     this.$emit('beforeAdded');
                     if (!this.isLimitExceeded(event.dataTransfer.files.length)) {
+                        let error = {count: 0, files:[]};
                         for( let i = 0; i < event.dataTransfer.files.length; i++ ){
                             let file = event.dataTransfer.files[i];
                             if (this.filter.test(file.name)) {
                                 this.files.push({file});
+                            }else {
+                                error.count++;
+                                error.files.push(file.name);
                             }
                         }
                         this.getImagePreviews();
+                        if (error.count > 0) this.$emit('onError', `Uno o varios archivos no se han insertado por que no cumplen con el formato válido: \n ${error.files}`);
                     }else {
                         this.$emit('onError', `El número máximo de elementos a insertar es de ${this.limit}`);
                     }
+                    this.dragged = false;
                 })
             }
         }

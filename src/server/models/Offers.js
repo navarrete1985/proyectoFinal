@@ -22,7 +22,10 @@ const OfferSchema = new Schema({
     id_establisment:{
         type: Schema.Types.ObjectId,
         ref: 'Establishment'
-    }
+    },
+    image: {
+        type: String,
+    },
 });
 
 //Creamos la colección y le añadimos nuestro esquema de datos

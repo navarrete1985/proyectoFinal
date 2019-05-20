@@ -241,8 +241,7 @@
                                             <upload :filter="/\.(jpe?g|png|gif)$/i"
                                                     :defaultImagePreview="'../../images/default.png'"
                                                     :endpoint="endpoint"
-                                                    :extraRequestParams="requestParams"
-                                                    :limit="10"
+                                                    :limit="1"
                                                     @onUploadProgress="onUploadProgress"
                                                     @onFinish="onFinish"
                                                     @beforeUpload="beforeUpload"
@@ -273,29 +272,39 @@
     export default {
         data() {
             return {
-                requestParams: {
-                    type: 'users'
-                },
-                endpoint: `${window.location.origin}/upload`
+                params: {},
+                endpoint: `${window.location.origin}/upload/user/${this.$route.params.id}`
             }
         },
         components: {ProfileHeader, TabMenu, Upload},
         methods: {
-            async beforeUpload() {
-                console.log('Entro en beforeUpload, voy a realizar un proceso....');
-                const sleep = m => new Promise(r => window.setTimeout(r, m));
-                await sleep(3000);
-                console.log('Proceso finalizado...');
-                return true;
+            beforeUpload(evt) {
+                evt.waitUntil(new Promise((resolve, reject) => {
+                     this.$swal({
+                        title: 'Confirmación',
+                        text: "¿Desea cambiar la imagen de usuario?",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Confirmar'
+                    }).then((result) => {
+                        if (result.value) {
+                            resolve();
+                        }
+                    })
+                })) 
             },
             onUploadProgress(percentage) {
                 console.warn('On progress state --> ', percentage);
             },
-            onFinish() {
-                console.log('Entro en onFinis');
+            onFinish(response) {
+                if (response && !response.error) {
+                    this.$root.alertSuccess();
+                }
             },
             onError(message) {
-                console.log(message);
+                this.$root.alertError({text: message});
             },
             onAdded(elements) {
                 console.log(`OnAdded elements --> ${elements}`);
@@ -306,8 +315,7 @@
         },
         beforeMount() {
             this.$store.commit(commonTypes.mutations.updateGlobalLoader, false);
-            this.$store.dispatch(stablishmentsTypes.actions.fetchAllStablishments);
-
+            console.log(this.$route.params.id);
         }
     }
 </script>

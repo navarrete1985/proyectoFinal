@@ -4,8 +4,11 @@ import VueRouter from 'vue-router';
 import Routes from './routes';
 import store from './components/store/Store.js';
 import directives from './components/directives';
-
+import VueSweetalert2 from 'vue-sweetalert2';
+import Mixins from './mixing';
+ 
 Vue.use(VueRouter);
+Vue.use(VueSweetalert2);
 
 let routes = Routes.routes;
 
@@ -19,5 +22,6 @@ new Vue({
     el: '#app',
     router,
     store,
+    mixins: Mixins,
     render: h => h(App),
 });

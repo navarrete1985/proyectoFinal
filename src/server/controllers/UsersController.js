@@ -104,8 +104,3 @@ userController.delete = (req, res) => {
 };
 
 module.exports = userController;
-
-/*"name": "Nacho",
-    "lastName": "Peña",
-    "email": "asd@gmail.com",
-    "password": "asd"*/
