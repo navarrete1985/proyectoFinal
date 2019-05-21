@@ -13,6 +13,7 @@ const type_users = {
         updateCurrentUser: `${namespace}/mutation:updateCurrentUser`,
         updateUsers: `${namespace}/mutation:updateUsers`,
         updatePageUser: `${namespace}/mutation:updatePageUser`,
+        addUser: `${namespace}/mutation:addUser`,
     },
     actions: {
         fetchUserById: `${namespace}/action:fetchUserById`,

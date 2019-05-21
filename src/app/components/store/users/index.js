@@ -11,7 +11,7 @@ const state = {
 
 const getters = {
     [types.getters.getUserById]: (state, getters) => (id) => {
-        state.users.find(item => item._id === id);
+        return state.users.find(item => item._id === id);
     },
     [types.getters.getAllUsers]: (state) => state.users,
     [types.getters.getCurrentUser]: (state) => state.currentUser,
@@ -30,6 +30,7 @@ const mutations = {
     },
     [types.mutations.updateUsers]: (state, data) => state.users = data,
     [types.mutations.updatePageUser]: (state, data) => state.userPage = data,
+    [types.mutations.addUser]: (state, data) => state.users.push(data),
 }
 
 const actions = {};
@@ -98,10 +99,15 @@ actions[types.actions.fetchUserByPage] = async ({commit, getters, state, dispatc
 
 actions[types.actions.fetchGetUserById] = async ({commit, getters, state, dispatch}, id) => {
     let user = getters[types.getters.getUserById](id);
-
+    console.log('El usuario que intento recoger de vuex es --> ', user);
     if (user) return user;
 
-    let response = await fetch(`${window.location.origin}/api/user/${id}`);
+    let response = await fetch(`${window.location.origin}/api/user/${id}`, {
+        methods: 'GET',
+        headers: {
+            'Authorization': `basic ${getters[types.getters.getCurrentUser].token}`
+        }
+    });
 
     if (response.status !== 200) {
         console.log('Error en la petición');
@@ -109,7 +115,9 @@ actions[types.actions.fetchGetUserById] = async ({commit, getters, state, dispat
     }
 
     let jsonResponse = await response.json();
-
+    if (jsonResponse.result && jsonResponse.response.length > 0) {
+        commit(types.mutations.addUser, jsonResponse.response[0]);
+    }
     return jsonResponse;
 }
 

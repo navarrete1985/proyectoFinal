@@ -13,6 +13,8 @@ exports.verificaToken = function (req, res , next){
     let auth = req.headers.authorization;
     //Recogemos el string de token que va después de Bearer
     let token = auth ? auth.split(" ")[1] : undefined;
+    console.log('token --> ', token);
+    console.log(req.headers);
     
     jwt.verify(token, process.env.SEED, (err, decoded ) =>{
         if(err){
