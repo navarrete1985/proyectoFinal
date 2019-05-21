@@ -7,7 +7,7 @@
                 <div class="card rounded-card user-card">
                     <div class="card-block">
                         <div class="img-hover">
-                            <img class="img-fluid img-radius" :src="getImageUri(user)" alt="round-img">
+                            <div class="img-responsive pb-100" :style="{backgroundImage: getImageUri(user)}" alt="round-img"></div>
                             <div class="img-overlay img-radius">
                                 <span>
                                     <!-- <a href="#" class="btn btn-sm btn-primary" data-popup="lightbox"><i class="icofont icofont-plus"></i></a>
@@ -65,7 +65,7 @@
             },
             getImageUri(user) {
                 let image = user.photo_url || 'src/users/default.png';
-                return window.location.origin + '/' + image;
+                return `url(${window.location.origin}/${image})`;
             }
         },
         components: {FloatingButton, Paginator, Preloader},

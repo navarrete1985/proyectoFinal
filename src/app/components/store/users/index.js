@@ -96,6 +96,23 @@ actions[types.actions.fetchUserByPage] = async ({commit, getters, state, dispatc
     return json;
 }
 
+actions[types.actions.fetchGetUserById] = async ({commit, getters, state, dispatch}, id) => {
+    let user = getters[types.getters.getUserById](id);
+
+    if (user) return user;
+
+    let response = await fetch(`${window.location.origin}/api/user/${id}`);
+
+    if (response.status !== 200) {
+        console.log('Error en la petición');
+        return undefined;
+    }
+
+    let jsonResponse = await response.json();
+
+    return jsonResponse;
+}
+
 
 const module = {
     namespaced: false,

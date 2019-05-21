@@ -1,5 +1,6 @@
 <template>
     <div>
+        <loader :visible="loading" :global="true"></loader>
         <div class="page-header">
             <div class="row align-items-end">
                 <div class="col-lg-8">
@@ -12,16 +13,16 @@
                 </div>
             </div>
         </div>
-        <profile-header></profile-header>
+        <profile-header :imageBanner="getImageBanner()" :imageProfile="getImageProfile()"></profile-header>
         <div class="row">
             <div class="col-lg-12">
-                <tab-menu></tab-menu>
+                <tab-menu :arrayTabs="['General', 'Imágenes']" @changeTab="changeTab"></tab-menu>
                 <!-- tab content start -->
                 <div class="tab-content">
                     <!-- tab panel personal start -->
                     <div class="tab-pane active" id="personal" role="tabpanel">
                         <!-- personal card start -->
-                        <div class="card">
+                        <div v-show="index === 0" class="card">
                             <div class="card-header">
                                 <h5 class="card-header-text">About Me</h5>
                                 <button id="edit-btn" type="button" class="btn btn-sm btn-primary waves-effect waves-light f-right">
@@ -226,7 +227,7 @@
                             </div>
                             <!-- end of card-block -->
                         </div>
-                        <div class="card">
+                        <div v-show="index === 1" class="card">
                             <div class="card-header">
                                 <h5 class="card-header-text">Upload files</h5>
                                 <button type="button" class="btn btn-sm btn-primary waves-effect waves-light f-right">
@@ -268,15 +269,19 @@
     import TabMenu from '../elements/tabMenu';
     import Upload from '@/components/elements/upload';
     import commonTypes from "../store/other/type";
+    import userTypes from '@/components/store/users/type';
+    import Loader from "@/components/shared/preloader"
 
     export default {
         data() {
             return {
                 params: {},
-                endpoint: `${window.location.origin}/upload/user/${this.$route.params.id}`
+                endpoint: `${window.location.origin}/upload/user/${this.$route.params.id}`,
+                index: 0,
+                loading: false,
             }
         },
-        components: {ProfileHeader, TabMenu, Upload},
+        components: {ProfileHeader, TabMenu, Upload, Loader},
         methods: {
             beforeUpload(evt) {
                 evt.waitUntil(new Promise((resolve, reject) => {
@@ -311,11 +316,24 @@
             },
             beforeAdded() {
                 console.log('BeforeAdded...');
+            },
+            getImageBanner() {
+                return `${window.location.origin}/src/users/default-bg.jpg`;
+            },
+            getImageProfile() {
+                return `${window.location.origin}/src/users/default.png`;
+            },
+            changeTab(index) {
+                this.index = index;
             }
         },
-        beforeMount() {
+        async beforeMount() {
+            this.loading = true;
             this.$store.commit(commonTypes.mutations.updateGlobalLoader, false);
+            let response = await this.$store.dispatch(userTypes.actions.fetchUserById, this.$route.params.id);
             console.log(this.$route.params.id);
+            console.log(response);
+            this.loading = false;
         }
     }
 </script>

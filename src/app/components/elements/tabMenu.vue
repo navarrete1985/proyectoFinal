@@ -24,37 +24,38 @@
 <script>
 import { console } from "../../util/helper";
 export default {
-    data(){
-        return {
-            position:0
+    data() {
+            return {
+                position: 0
+            }
+        },
+        props: {
+            arrayTabs: {
+                type: Array,
+                required: true,
+            } //,
+            // imageBanner: {
+            //     type: String,
+            //     default: () => {
+            //         return 'http://localhost:3000/src/users/default-bg.jpg';
+            //     }
+            // }
+        },
+        methods: {
+            setOption(index) {
+                this.position = index;
+                this.$emit("changeTab", index);
+            }
         }
-    },
-  props: {
-    arrayTabs: {
-      type: Array,
-      default: () => {
-        return ["Descripcion", "Galeria", "nicolas"];
-      }
-    } //,
-    // imageBanner: {
-    //     type: String,
-    //     default: () => {
-    //         return 'http://localhost:3000/src/users/default-bg.jpg';
-    //     }
-    // }
-  },
-  methods: {
-    setOption(index) {
-      console.log(index);
-      this.position = index;
-      this.$emit("changeTab",index);
-    }
-  }
 };
 </script>
 
 <style lang="scss" scoped>
-.md-tabs .nav-item {
-  flex: 1 1 25%;
-}
+    .md-tabs .nav-item {
+        flex: 1 1 25%;
+    }
+
+    li {
+        cursor: pointer;
+    }
 </style>

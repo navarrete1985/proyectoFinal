@@ -19,6 +19,7 @@ const type_users = {
         fetchLogin: `${namespace}/action:fetchLogin`,
         fetchAllUsers: `${namespace}/action:fetchAllUsers`,
         fetchUserByPage: `${namespace}/action:fetchUserByPage`,
+        fetchGetUserById: `${namespace}/action:fetchGetUserById`
     }
 }
 
