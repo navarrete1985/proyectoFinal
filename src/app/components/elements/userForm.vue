@@ -117,9 +117,9 @@
                                 </div>
                             </div>
                             <!-- end of row -->
-                            <div class="text-center mt-3" v-if="!valuesChanged">
-                                <a href="#!" class="btn btn-primary waves-effect waves-light m-r-20">Save</a>
-                                <a href="#!" id="edit-cancel" class="btn btn-default waves-effect">Cancel</a>
+                            <div class="text-center mt-3">
+                                <a class="btn btn-primary waves-effect waves-light m-r-20" :class="{disabled: valuesChanged}" @click="update">Save</a>
+                                <a id="edit-cancel" class="btn btn-default waves-effect" @click="reset">Cancel</a>
                             </div>
                         </div>
                         <!-- end of edit info -->
@@ -154,6 +154,12 @@
             toggleEdit() {
                 this.isEdit = !this.isEdit;
             },
+            reset() {
+                this.lastState = clone(this.user);
+            },
+            update() {
+
+            }
         },
         computed: {
             valuesChanged() {
@@ -177,7 +183,12 @@
         vertical-align: top;
         border-top: 1px solid #e9ecef;
     }
+
     .white {
         background-color: #bababa !important;
+    }
+
+    .btn {
+        cursor: pointer;
     }
 </style>
