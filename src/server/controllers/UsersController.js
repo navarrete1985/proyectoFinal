@@ -51,7 +51,7 @@ userController.getUserPagination = (req, res) => {
 
 userController.find = (req, res) => {
     let id = req.params.id;
-    User.find({ _id: id }).exec((err, users) => {
+    User.findOne({ _id: id }).exec((err, users) => {
         let response = Tools.response.get(err, users);
         return res.status(response.status).json(response);
     })

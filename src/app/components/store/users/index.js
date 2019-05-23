@@ -43,7 +43,7 @@ actions[types.actions.fetchUserById] = async ({ commit, getters, state, dispatch
         body: JSON.stringify(user)
     });
     if (response.status === 200) {
-        let newUser = response.response[0];
+        let newUser = response.response;
         commit[types.mutations.updateUserById]({ id: newUser.user_id, newUser });
     }
 
@@ -115,8 +115,8 @@ actions[types.actions.fetchGetUserById] = async ({commit, getters, state, dispat
     }
 
     let jsonResponse = await response.json();
-    if (jsonResponse.result && jsonResponse.response.length > 0) {
-        commit(types.mutations.addUser, jsonResponse.response[0]);
+    if (jsonResponse.result) {
+        commit(types.mutations.addUser, jsonResponse.response);
     }
     return jsonResponse;
 }
