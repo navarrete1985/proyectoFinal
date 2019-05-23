@@ -32,8 +32,8 @@ const EstablishmentSchema = new Schema({
         type: String,
     },
     location: {
-        lat:  Schema.Types.Decimal128,
-        long: Schema.Types.Decimal128
+        lat:  {type: String},
+        long: {type: String}
     },
     name: {
         type: String,
