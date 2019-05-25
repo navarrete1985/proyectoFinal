@@ -62,7 +62,7 @@
                             </div>
                             <div class="card-block">
                                 <div class="view-info">
-                                    <!-- Componente para el listado de establecimientos favoritos de un usuario -->
+                                    <favorites :establishments="establishments"></favorites>
                                 </div>
                             </div>
                         </div>
@@ -84,6 +84,7 @@
     import userTypes from '@/components/store/users/type';
     import Loader from "@/components/shared/preloader";
     import UserForm from "@/components/elements/userForm";
+    import Favorites from "@/components/elements/favorites";
 
     export default {
         data() {
@@ -96,10 +97,11 @@
                 load: false,
                 imageBanner: `${window.location.origin}/src/users/default-bg.jpg`,
                 imageProfile:  `${window.location.origin}/src/users/default.png`,
-                firstloader: false
+                firstloader: false,
+                establishments: [1, 2, 3]
             }
         },
-        components: {ProfileHeader, TabMenu, Upload, Loader, UserForm},
+        components: {ProfileHeader, TabMenu, Upload, Loader, UserForm, Favorites},
         methods: {
             beforeUpload(evt) {
                 evt.waitUntil(new Promise((resolve, reject) => {
