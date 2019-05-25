@@ -124,6 +124,7 @@
             onFinish(response) {
                 if (response && response.data && !response.data.error) {
                     this.$root.alertSuccess();
+                    delete response.data.result.password;
                     this.$store.commit(userTypes.mutations.updateUserById, response.data.result);
                     if (response.data.result.photo_url) this.imageProfile = `${window.location.origin}/${response.data.result.photo_url}?t=${new Date().getTime()}`;
                 }

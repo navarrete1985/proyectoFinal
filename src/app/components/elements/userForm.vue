@@ -289,6 +289,7 @@
                 Object.keys(this.errors).forEach(key => count += this.errors[key].error ? 1 : 0);
                 if (count === 0) {
                     this.$emit('onUpdateUser', this.lastState);
+                    this.isEdit = false;
                 }else {
                     console.error('Formulario no relleno correctamente....');
                 }

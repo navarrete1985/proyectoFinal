@@ -46,6 +46,7 @@ actions[types.actions.fetchUserById] = async ({ commit, getters, state, dispatch
     if (response.status === 200) {
         response = await response.json();
         let newUser = response.response;
+        delete newUser.password;
         console.log('Vamos a actualizar a --> ', newUser );
         commit(types.mutations.updateUserById, newUser);
     }
