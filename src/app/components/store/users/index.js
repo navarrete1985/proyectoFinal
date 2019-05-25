@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import types from './type';
 
 const state = {
@@ -20,10 +21,10 @@ const getters = {
 
 const mutations = {
     [types.mutations.updateCurrentUser]: (state, data) => state.currentUser = data,
-    [types.mutations.updateUserById]: (state, { id, newUser }) => {
-        return state.users.find(user => {
-            if (user._id === id) {
-                user = newUser;
+    [types.mutations.updateUserById]: (state, newUser) => {
+        state.users.find((user, index) => {
+            if (user._id === newUser._id) {
+                Vue.set(state.users, index, newUser);
                 return true;
             }
         });
@@ -35,16 +36,18 @@ const mutations = {
 
 const actions = {};
 
-actions[types.actions.fetchUserById] = async ({ commit, getters, state, dispatch }, { user, id }) => {
-    user.id = id;
+actions[types.actions.fetchUserById] = async ({ commit, getters, state, dispatch }, user) => {
+    
     let response = await fetch(`${window.location.origin}/api/user`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(user)
     });
     if (response.status === 200) {
+        response = await response.json();
         let newUser = response.response;
-        commit[types.mutations.updateUserById]({ id: newUser.user_id, newUser });
+        console.log('Vamos a actualizar a --> ', newUser );
+        commit(types.mutations.updateUserById, newUser);
     }
 
     return response;

@@ -17,8 +17,12 @@
                             <div class="media-body row">
                                 <div class="col-lg-12">
                                     <div class="user-title">
-                                        <h2>Josephin Villa</h2>
-                                        <span class="text-white">Web designer</span>
+                                        <h2>
+                                            <slot name="title"></slot>
+                                        </h2>
+                                        <span class="text-white">
+                                            <slot name="subtitle"></slot>
+                                        </span>
                                     </div>
                                 </div>
                                 <div>
@@ -47,7 +51,7 @@
             imageBanner: {
                 type: String,
                 required: true
-            }
+            },
         },
         mounted() {
             // document.querySelectorAll('.dynamic-bg').forEach(item => item.style.backgroundImage = `url('${item.dataset.img}')`);

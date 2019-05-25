@@ -8,7 +8,13 @@ function validatePasswd(passwd) {
     return re.test(passwd);
 }
 
+function validatePhoneNumber(number) {
+    return /^[9|6]{1}([\d]{2}[-]*){3}[\d]{2}$/.test(number);
+}
+
 module.exports = {
     validateEmail,
-    validatePasswd
+    validatePasswd,
+    validatePhoneNumber,
+    
 }

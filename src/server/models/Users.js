@@ -4,6 +4,16 @@ const Schema = mongoose.Schema;
 const mongoosePaginate = require('mongoose-paginate-v2');
 
 const regExEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.([a-zA-Z]{2,4})+$/;
+const ROL = {
+    NORMAL: 0,
+    WAITER: 1,
+    ADMIN: 2
+}
+
+const GENDER = {
+    MALE: false,
+    FEMALE: true
+}
 
 //Creamos el esquema de nuestro modelo de datos
 const UserSchema = new Schema({
@@ -46,8 +56,7 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
-    
-    phone_numher: {
+    phone_number: {
         type: Number
     },
     token:{
@@ -58,6 +67,16 @@ const UserSchema = new Schema({
     },
     table_id: {
         type: String
+    },
+    rol: {
+        type: Number,
+        min: ROL.NORMAL,
+        max: ROL.ADMIN,
+        default: ROL.NORMAL
+    },
+    active: {
+        type: Boolean,
+        default: false
     }
 });
 
