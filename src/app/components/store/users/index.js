@@ -47,7 +47,6 @@ actions[types.actions.fetchUserById] = async ({ commit, getters, state, dispatch
         response = await response.json();
         let newUser = response.response;
         delete newUser.password;
-        console.log('Vamos a actualizar a --> ', newUser );
         commit(types.mutations.updateUserById, newUser);
     }
 
@@ -82,20 +81,17 @@ actions[types.actions.fetchAllUsers] = async ({ commit, getters, state, dispatch
 };
 
 actions[types.actions.fetchUserByPage] = async ({commit, getters, state, dispatch}, page) => {
-    console.warn('Voy a realizar la petición');
     let response = await fetch(`${window.location.origin}/api/user/pagination`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(page)
     });
-    console.warn('Realizada --> ', response);
     if (response.status !== 200) {
         console.error('Error en la petición');
         return;
     } 
     let json = await response.json();
     json.status = response.status;
-    console.warn('Respuesta de la store --> ', json);
     commit(types.mutations.updatePageUser, json);
 
     return json;
@@ -103,7 +99,6 @@ actions[types.actions.fetchUserByPage] = async ({commit, getters, state, dispatc
 
 actions[types.actions.fetchGetUserById] = async ({commit, getters, state, dispatch}, id) => {
     let user = getters[types.getters.getUserById](id);
-    console.log('El usuario que intento recoger de vuex es --> ', user);
     if (user) return user;
 
     let response = await fetch(`${window.location.origin}/api/user/${id}`, {

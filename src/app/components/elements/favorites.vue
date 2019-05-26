@@ -74,7 +74,6 @@
                     body: JSON.stringify({ids: this.idsEstablishments}),
                 });
                 let jsonResponse = await response.json();
-                console.log(jsonResponse);
                 if (jsonResponse.status === 200 && !jsonResponse.error) {
                     this.establishments = jsonResponse.response;
                 }
