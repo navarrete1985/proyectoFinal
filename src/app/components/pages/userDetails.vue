@@ -62,7 +62,7 @@
                             </div>
                             <div class="card-block">
                                 <div class="view-info">
-                                    <favorites :establishments="establishments"></favorites>
+                                    <favorites :idsEstablishments="establishments"></favorites>
                                 </div>
                             </div>
                         </div>
