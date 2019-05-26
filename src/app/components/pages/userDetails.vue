@@ -98,7 +98,11 @@
                 imageBanner: `${window.location.origin}/src/users/default-bg.jpg`,
                 imageProfile:  `${window.location.origin}/src/users/default.png`,
                 firstloader: false,
-                establishments: [1, 2, 3]
+                establishments: [
+                                    "5cae1cc2066265087ae606a7",
+                                    "5cdb2f9bd432f241402447c1",
+                                    "5cdc55161d433c2b604ef2f1",
+                                ]
             }
         },
         components: {ProfileHeader, TabMenu, Upload, Loader, UserForm, Favorites},

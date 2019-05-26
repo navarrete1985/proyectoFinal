@@ -25,6 +25,20 @@ establishmentController.find = (req, res) => {
     })
 }
 
+establishmentController.arrayFind = (req, res) => {
+    let ids = req.body.ids;
+    console.log('Cuerpo de la petición --> '. req);
+    if (!ids || !Array.isArray(ids)) {
+        return res.status(400).json({result: 'error', response: 'Solicitud mal formulada, se necesita un array de ids de establecimientos'});
+    }
+    Establishment.find({_id: {$in: ids}}).exec((err, establishments) => {
+        let status = err ? 404 : 200;
+        let error = err ? true : false;
+        let response = err ? 'No se han encontrado los establecimientos en la base de datos' : establishments;
+        return res.status(status).json({error, response, status});
+    })
+}
+
 
 establishmentController.create = (req, res) => {
     let establishment = new Establishment(req.body);
@@ -78,3 +92,16 @@ establishmentController.delete = (req, res) => {
 };
 
 module.exports = establishmentController;
+
+/*
+[
+"5cae1cc2066265087ae606a7",
+"5cdb2f9bd432f241402447c1",
+"5cdc55161d433c2b604ef2f1",
+"5cdc598213cdca163cd98f49",
+"5cdc5ad6ec487a2870485aca",
+"5cdc5cfe0654421d20f074a6",
+"5cdc5d0d0654421d20f074a7"
+]
+
+*/

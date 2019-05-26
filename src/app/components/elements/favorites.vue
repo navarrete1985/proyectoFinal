@@ -54,6 +54,9 @@
 </template>
 
 <script>
+
+    import usersTypes from "../store/users/type";
+
     export default {
         props: {
             establishments: {
@@ -65,6 +68,18 @@
             isFavorites() {
                 return establishments.length > 0;
             }
+        },
+        async beforeMount() {
+            let headers = new Headers();
+            headers.append('Content-Type', 'application/json');
+            headers.append('Authorization', JSON.stringify(`basic ${this.$store.getters[usersTypes.getters.getCurrentUser].token}`))
+
+            let response = await fetch(`${window.location.origin}/api/establishment/find`, {
+                method: 'POST',
+                headers,
+                body: {ids: this.establishments},
+            });
+            console.log(response);
         }
     }
 </script>
