@@ -212,12 +212,12 @@
                     <div class="thumbnail">
                       <div class="thumb">
                         <a
-                          href="..\files\assets\images\gallery-grid\1.png"
+                          href="..\..\assets\images\gallery-grid\1.png"
                           data-lightbox="1"
                           data-title="My caption 1"
                         >
                           <img
-                            src="..\files\assets\images\gallery-grid\1.png"
+                            src="..\..\assets\images\gallery-grid\1.png"
                             alt
                             class="img-fluid img-thumbnail"
                           >
@@ -229,12 +229,12 @@
                     <div class="thumbnail">
                       <div class="thumb">
                         <a
-                          href="..\files\assets\images\gallery-grid\1.png"
+                          href="..\..\assets\images\gallery-grid\1.png"
                           data-lightbox="2"
                           data-title="My caption 2"
                         >
                           <img
-                            src="..\files\assets\images\gallery-grid\1.png"
+                            src="..\..\assets\images\gallery-grid\1.png"
                             alt
                             class="img-fluid img-thumbnail"
                           >
@@ -246,12 +246,12 @@
                     <div class="thumbnail">
                       <div class="thumb">
                         <a
-                          href="..\files\assets\images\gallery-grid\1.png"
+                          href="..\..\assets\images\gallery-grid\1.png"
                           data-lightbox="3"
                           data-title="My caption 3"
                         >
                           <img
-                            src="..\files\assets\images\gallery-grid\1.png"
+                            src="..\..\assets\images\gallery-grid\1.png"
                             alt
                             class="img-fluid img-thumbnail"
                           >
@@ -263,12 +263,12 @@
                     <div class="thumbnail">
                       <div class="thumb">
                         <a
-                          href="..\files\assets\images\gallery-grid\1.png"
+                          href="..\..\assets\images\gallery-grid\1.png"
                           data-lightbox="4"
                           data-title="My caption 4"
                         >
                           <img
-                            src="..\files\assets\images\gallery-grid\1.png"
+                            src="..\..\assets\images\gallery-grid\1.png"
                             alt
                             class="img-fluid img-thumbnail"
                           >
@@ -280,12 +280,12 @@
                     <div class="thumbnail">
                       <div class="thumb">
                         <a
-                          href="..\files\assets\images\gallery-grid\1.png"
+                          href="..\..\assets\images\gallery-grid\1.png"
                           data-lightbox="5"
                           data-title="My caption 5"
                         >
                           <img
-                            src="..\files\assets\images\gallery-grid\1.png"
+                            src="..\..\assets\images\gallery-grid\1.png"
                             alt
                             class="img-fluid img-thumbnail"
                           >
@@ -297,12 +297,12 @@
                     <div class="thumbnail">
                       <div class="thumb">
                         <a
-                          href="..\files\assets\images\gallery-grid\1.png"
+                          href="..\..\assets\images\gallery-grid\1.png"
                           data-lightbox="6"
                           data-title="My caption 6"
                         >
                           <img
-                            src="..\files\assets\images\gallery-grid\1.png"
+                            src="..\..\assets\images\gallery-grid\1.png"
                             alt
                             class="img-fluid img-thumbnail"
                           >
@@ -314,12 +314,12 @@
                     <div class="thumbnail">
                       <div class="thumb">
                         <a
-                          href="..\files\assets\images\gallery-grid\1.png"
+                          href="..\..\assets\images\gallery-grid\1.png"
                           data-lightbox="7"
                           data-title="My caption 7"
                         >
                           <img
-                            src="..\files\assets\images\gallery-grid\1.png"
+                            src="..\..\assets\images\gallery-grid\1.png"
                             alt
                             class="img-fluid img-thumbnail"
                           >
@@ -331,12 +331,12 @@
                     <div class="thumbnail">
                       <div class="thumb">
                         <a
-                          href="..\files\assets\images\gallery-grid\1.png"
+                          href="..\..\assets\images\gallery-grid\1.png"
                           data-lightbox="8"
                           data-title="My caption 8"
                         >
                           <img
-                            src="..\files\assets\images\gallery-grid\1.png"
+                            src="..\..\assets\images\gallery-grid\1.png"
                             alt
                             class="img-fluid img-thumbnail"
                           >
@@ -348,12 +348,12 @@
                     <div class="thumbnail">
                       <div class="thumb">
                         <a
-                          href="..\files\assets\images\gallery-grid\1.png"
+                          href="..\..\assets\images\gallery-grid\1.png"
                           data-lightbox="9"
                           data-title="My caption 9"
                         >
                           <img
-                            src="..\files\assets\images\gallery-grid\1.png"
+                            src="..\..\assets\images\gallery-grid\1.png"
                             alt
                             class="img-fluid img-thumbnail"
                           >
