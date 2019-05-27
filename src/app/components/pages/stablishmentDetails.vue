@@ -1,20 +1,8 @@
 <template>
   <div>
     <preloader :visible="loading" :global="true"></preloader>
-
     <div>
-      <div class="page-header">
-        <div class="row align-items-end">
-          <div class="col-lg-8">
-            <div class="page-header-title">
-              <div class="d-inline">
-                <h4>Establecimiento {{stablishment._id}}</h4>
-                <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div class="row align-items-end"></div>
       <!-- "item == undefined"?urlbuena:default -->
       <profile-header
         :imageProfile="stablishment.image_logo == '' || stablishment.image_logo == undefined? defaultUrlLogo : urlStablishment+stablishment.image_logo"
@@ -22,13 +10,13 @@
       ></profile-header>
       <div class="row">
         <div class="col-lg-12">
-          <tab-menu :arrayTabs="tabs" @changeTab="setOptionShow"></tab-menu>
+          <tab-menu :arrayTabs="tabs" @changeTab="changeTab"></tab-menu>
           <!-- tab content start -->
           <div class="tab-content">
             <!-- tab panel personal start -->
             <div class="tab-pane active" id="personal" role="tabpanel">
               <!-- personal card start -->
-              <div class="card">
+              <div class="card" v-show="optionTab==0">
                 <div class="card-header">
                   <h5 class="card-header-text">About Me</h5>
                   <button
@@ -218,6 +206,177 @@
                 </div>
                 <!-- end of card-block -->
               </div>
+              <div class="card-block" v-show="optionTab==2">
+                <div class="row">
+                  <div class="col-lg-4 col-sm-6">
+                    <div class="thumbnail">
+                      <div class="thumb">
+                        <a
+                          href="..\files\assets\images\gallery-grid\1.png"
+                          data-lightbox="1"
+                          data-title="My caption 1"
+                        >
+                          <img
+                            src="..\files\assets\images\gallery-grid\1.png"
+                            alt
+                            class="img-fluid img-thumbnail"
+                          >
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-sm-6">
+                    <div class="thumbnail">
+                      <div class="thumb">
+                        <a
+                          href="..\files\assets\images\gallery-grid\1.png"
+                          data-lightbox="2"
+                          data-title="My caption 2"
+                        >
+                          <img
+                            src="..\files\assets\images\gallery-grid\1.png"
+                            alt
+                            class="img-fluid img-thumbnail"
+                          >
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-sm-6">
+                    <div class="thumbnail">
+                      <div class="thumb">
+                        <a
+                          href="..\files\assets\images\gallery-grid\1.png"
+                          data-lightbox="3"
+                          data-title="My caption 3"
+                        >
+                          <img
+                            src="..\files\assets\images\gallery-grid\1.png"
+                            alt
+                            class="img-fluid img-thumbnail"
+                          >
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-sm-6">
+                    <div class="thumbnail">
+                      <div class="thumb">
+                        <a
+                          href="..\files\assets\images\gallery-grid\1.png"
+                          data-lightbox="4"
+                          data-title="My caption 4"
+                        >
+                          <img
+                            src="..\files\assets\images\gallery-grid\1.png"
+                            alt
+                            class="img-fluid img-thumbnail"
+                          >
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-sm-6">
+                    <div class="thumbnail">
+                      <div class="thumb">
+                        <a
+                          href="..\files\assets\images\gallery-grid\1.png"
+                          data-lightbox="5"
+                          data-title="My caption 5"
+                        >
+                          <img
+                            src="..\files\assets\images\gallery-grid\1.png"
+                            alt
+                            class="img-fluid img-thumbnail"
+                          >
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-sm-6">
+                    <div class="thumbnail">
+                      <div class="thumb">
+                        <a
+                          href="..\files\assets\images\gallery-grid\1.png"
+                          data-lightbox="6"
+                          data-title="My caption 6"
+                        >
+                          <img
+                            src="..\files\assets\images\gallery-grid\1.png"
+                            alt
+                            class="img-fluid img-thumbnail"
+                          >
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-sm-6">
+                    <div class="thumbnail">
+                      <div class="thumb">
+                        <a
+                          href="..\files\assets\images\gallery-grid\1.png"
+                          data-lightbox="7"
+                          data-title="My caption 7"
+                        >
+                          <img
+                            src="..\files\assets\images\gallery-grid\1.png"
+                            alt
+                            class="img-fluid img-thumbnail"
+                          >
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-sm-6">
+                    <div class="thumbnail">
+                      <div class="thumb">
+                        <a
+                          href="..\files\assets\images\gallery-grid\1.png"
+                          data-lightbox="8"
+                          data-title="My caption 8"
+                        >
+                          <img
+                            src="..\files\assets\images\gallery-grid\1.png"
+                            alt
+                            class="img-fluid img-thumbnail"
+                          >
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-sm-6">
+                    <div class="thumbnail">
+                      <div class="thumb">
+                        <a
+                          href="..\files\assets\images\gallery-grid\1.png"
+                          data-lightbox="9"
+                          data-title="My caption 9"
+                        >
+                          <img
+                            src="..\files\assets\images\gallery-grid\1.png"
+                            alt
+                            class="img-fluid img-thumbnail"
+                          >
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card" v-show="optionTab==1">
+                <div class="card-header">
+                  <h5 class="card-header-text">Galeria</h5>
+                </div>
+                <div class="contenedordegaleria">
+                  <div
+                    class="miResponfsif"
+                    v-for="item in stablishment.photo_url"
+                    v-bind:key="item._id"
+                    :style="{'background-image':`url(http://localhost:3000/src/stablishments/5ce03bf18fbdb6278824563d/${item})`}"
+                  ></div>
+                </div>
+                <Upload></Upload>
+              </div>
               <!-- <div class="card">
               <div class="card-header">
                 <h5 class="card-header-text">Upload files</h5>
@@ -262,6 +421,7 @@ import { all } from "q";
 export default {
   data() {
     return {
+      optionTab: 0,
       loading: false,
       editInputs: false,
       tabs: ["Descripción", "Galeria", "Ofertas", "Carta"],
@@ -289,8 +449,9 @@ export default {
     Upload
   },
   methods: {
-    setOptionShow(index) {
-      console("position del papi" + index);
+    changeTab(index) {
+      console.log("position del papi" + index);
+      this.optionTab = index;
     },
     setDataInputs() {
       console.log(this.editInputs);
@@ -309,13 +470,16 @@ export default {
         this.stablishment
       );
 
-        this.loading = false;
+      // this.loading = false;
+      // this.editInputs = false;
       console.log("resultado antes de alert" + result);
-      //   if (result.status == 200) {
-      //     alert("editado correctamente");
-      //   } else {
-      //     alert("error al editar");
-      //   }
+      if (result.status == 200) {
+        this.$root.alertSuccess();
+      } else {
+        this.$root.alertError();
+      }
+      this.loading = false;
+      this.editInputs = false;
     }
   },
 
@@ -361,5 +525,18 @@ input {
 .loaderStyle {
   width: 100%;
   height: 100%;
+}
+.miResponfsif {
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 25%;
+  height: 145px;
+  margin: 30px;
+  background-position: center;
+}
+.contenedordegaleria {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
 }
 </style>

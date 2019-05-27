@@ -45,7 +45,6 @@ export default {
   },
   methods: {
     setOption(index) {
-      console.log(index);
       this.position = index;
       this.$emit("changeTab",index);
     }
