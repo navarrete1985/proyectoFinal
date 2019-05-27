@@ -7,7 +7,7 @@
                 <div class="card rounded-card user-card">
                     <div class="card-block">
                         <div class="img-hover">
-                            <img class="img-fluid img-radius" :src="getImageUri(user)" alt="round-img">
+                            <div class="img-responsive pb-100" :style="{backgroundImage: getImageUri(user)}" alt="round-img"></div>
                             <div class="img-overlay img-radius">
                                 <span>
                                     <!-- <a href="#" class="btn btn-sm btn-primary" data-popup="lightbox"><i class="icofont icofont-plus"></i></a>
@@ -48,7 +48,6 @@
         },
         methods: {
             getFullName(user) {
-                console.log(user);
                 return `${user.name} ${user.lastName}`
             },
             event(event) {
@@ -64,8 +63,13 @@
                 // return `/${user._id}`;
             },
             getImageUri(user) {
-                let image = user.photo_url || 'src/users/default.png';
-                return window.location.origin + '/' + image;
+                let image;
+                if (user.photo_url) {
+                    image = `${user.photo_url}?t=${new Date().getTime()}`;
+                }else {
+                    image = 'src/users/default.png';
+                }
+                return `url(${window.location.origin}/${image})`;
             }
         },
         components: {FloatingButton, Paginator, Preloader},
@@ -77,7 +81,8 @@
         async beforeCreate() {
             this.$store.commit(commonTypes.mutations.updateGlobalLoader, true);
             this.$store.commit(menuTypes.mutations.updateNavPosition, menu.USERS);
-            if (Object.entries(this.$store.getters[usersTypes.getters.getPageUser]).length === 0) {
+            let page = this.$store.getters[usersTypes.getters.getPageUser];
+            if (Object.entries(page).length === 0) {
                 await this.$store.dispatch(usersTypes.actions.fetchUserByPage, {page: 1, limit: 10});
             }
             this.$store.commit(commonTypes.mutations.updateGlobalLoader, false);

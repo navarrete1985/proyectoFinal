@@ -76,7 +76,8 @@
                                     </tr>
                                     <tr>
                                       <th scope="row">Localización</th>
-                                      <td :class="{'white':editInputs==true}">New York, USA</td>
+                                      <td :class="{'white':editInputs==true}">New York,
+USA</td>
                                     </tr>
                                     <tr>
                                       <th scope="row">Email</th>
@@ -151,7 +152,7 @@
                                 >
                                   <i class="icofont icofont-edit"></i>
                                   Guardar
-                                </button>
+</button>
                               </div>
                             </div>
                             <!-- end of table col-lg-6 -->
@@ -243,7 +244,8 @@
                     </div>
                   </div>
                   <div class="col-lg-4 col-sm-6">
-                    <div class="thumbnail">
+                    <div class="thum
+bnail">
                       <div class="thumb">
                         <a
                           href="..\..\assets\images\gallery-grid\1.png"
@@ -331,7 +333,7 @@
                     <div class="thumbnail">
                       <div class="thumb">
                         <a
-                          href="..\..\assets\images\gallery-grid\1.png"
+                          href="..\z\assets\images\gallery-grid\1.png"
                           data-lightbox="8"
                           data-title="My caption 8"
                         >
@@ -344,7 +346,8 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-lg-4 col-sm-6">
+                  <div class="col-
+lg-4 col-sm-6">
                     <div class="thumbnail">
                       <div class="thumb">
                         <a
@@ -375,7 +378,25 @@
                     :style="{'background-image':`url(http://localhost:3000/src/stablishments/5ce03bf18fbdb6278824563d/${item})`}"
                   ></div>
                 </div>
-                <Upload></Upload>
+                <!-- <Upload></Upload> -->
+              </div>
+              <div v-show="optionTab === 3" class="card">
+                <div class="card-header">
+                    <h5 class="card-header-text">Actividad en Vivo</h5>
+                    <span>Visualice y gestione la actividad de su establecimiento en vivo, reserve mesas, atiendelas y gestione la cola de trabajos a realizar.</span>
+                </div>
+                <div class="card-block">
+                    <div class="view-info">
+                        <div class="row">
+                            <div class="col-md-12 col-xl-5">
+                                <latest-activity :activity="{}" :tables="{}"></latest-activity>
+                            </div>
+                            <div class="col-md-12 col-xl-7">
+                                <live-queue :activity="{}" :tables="{}"></live-queue>
+                            </div>
+                        </div>
+                    </div>
+                </div>
               </div>
               <!-- <div class="card">
               <div class="card-header">
@@ -417,6 +438,8 @@ import commonTypes from "../store/other/type";
 import stablishmentsTypes from "../store/stablishments/type";
 import { console } from "../../util/helper";
 import { all } from "q";
+import latestActivity from "@/components/elements/latestActivity";
+import liveQueue from "@/components/elements/liveQueue";
 
 export default {
   data() {
@@ -446,7 +469,9 @@ export default {
     ProfileHeader,
     TabMenu,
     Preloader,
-    Upload
+    Upload,
+    latestActivity,
+    liveQueue
   },
   methods: {
     changeTab(index) {
@@ -475,7 +500,7 @@ export default {
       console.log("resultado antes de alert" + result);
       if (result.status == 200) {
         this.$root.alertSuccess();
-      } else {
+} else {
         this.$root.alertError();
       }
       this.loading = false;

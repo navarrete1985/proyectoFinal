@@ -1,238 +1,38 @@
 <template>
     <div>
+        <loader :visible="loading" :global="true"></loader>
         <div class="page-header">
             <div class="row align-items-end">
                 <div class="col-lg-8">
                     <div class="page-header-title">
                         <div class="d-inline">
-                            <h4>User Profile</h4>
-                            <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span>
+                            <h4>Perfil de Usuario</h4>
+                            <span>Realize las operaciones pertinentes de edición de usaurios</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <profile-header></profile-header>
+        <profile-header :imageBanner="imageBanner" :imageProfile="imageProfile">
+            <template v-if="firstloader" v-slot:title>{{`${user.name} ${user.lastName}`}}</template>
+            <template v-if="firstloader" v-slot:subtitle>{{user.email}}</template>
+        </profile-header>
         <div class="row">
             <div class="col-lg-12">
-                <tab-menu></tab-menu>
+                <tab-menu :arrayTabs="['General', 'Imágenes', 'Favoritos']" @changeTab="changeTab"></tab-menu>
                 <!-- tab content start -->
                 <div class="tab-content">
                     <!-- tab panel personal start -->
                     <div class="tab-pane active" id="personal" role="tabpanel">
                         <!-- personal card start -->
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="card-header-text">About Me</h5>
-                                <button id="edit-btn" type="button" class="btn btn-sm btn-primary waves-effect waves-light f-right">
-                                    <i class="icofont icofont-edit"></i>
-                                </button>
-                            </div>
-                            <div class="card-block">
-                                <div class="view-info">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="general-info">
-                                                <div class="row">
-                                                    <div class="col-lg-12 col-xl-6">
-                                                        <div class="table-responsive">
-                                                            <table class="table m-0">
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <th scope="row">Full Name</th>
-                                                                        <td>Josephine Villa</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th scope="row">Gender</th>
-                                                                        <td>Female</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th scope="row">Birth Date</th>
-                                                                        <td>October 25th, 1990</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th scope="row">Marital Status</th>
-                                                                        <td>Single</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th scope="row">Location</th>
-                                                                        <td>New York, USA</td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                    <!-- end of table col-lg-6 -->
-                                                    <div class="col-lg-12 col-xl-6">
-                                                        <div class="table-responsive">
-                                                            <table class="table">
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <th scope="row">Email</th>
-                                                                        <td><a href="#!"><span class="__cf_email__" data-cfemail="4206272f2d02273a232f322e276c212d2f">[email&#160;protected]</span></a></td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th scope="row">Mobile Number</th>
-                                                                        <td>(0123) - 4567891</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th scope="row">Twitter</th>
-                                                                        <td>@xyz</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th scope="row">Skype</th>
-                                                                        <td>demo.skype</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th scope="row">Website</th>
-                                                                        <td><a href="#!">www.demo.com</a></td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                    <!-- end of table col-lg-6 -->
-                                                </div>
-                                                <!-- end of row -->
-                                            </div>
-                                            <!-- end of general info -->
-                                        </div>
-                                        <!-- end of col-lg-12 -->
-                                    </div>
-                                    <!-- end of row -->
-                                </div>
-                                <!-- end of view-info -->
-                                <div class="edit-info">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="general-info">
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <table class="table">
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td>
-                                                                        <div class="input-group">
-                                                                            <span class="input-group-addon"><i class="icofont icofont-user"></i></span>
-                                                                            <input type="text" class="form-control" placeholder="Full Name">
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>
-                                                                        <div class="form-radio">
-                                                                            <div class="group-add-on">
-                                                                                <div class="radio radiofill radio-inline">
-                                                                                    <label>
-                                                                                        <input type="radio" name="radio" checked=""><i class="helper"></i> Male
-                                                                                    </label>
-                                                                                </div>
-                                                                                <div class="radio radiofill radio-inline">
-                                                                                    <label>
-                                                                                        <input type="radio" name="radio"><i class="helper"></i> Female
-                                                                                    </label>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>
-                                                                        <input id="dropper-default" class="form-control" type="text" placeholder="Select Your Birth Date">
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>
-                                                                        <select id="hello-single" class="form-control">
-                                                                            <option value="">---- Marital Status ----</option>
-                                                                            <option value="married">Married</option>
-                                                                            <option value="unmarried">Unmarried</option>
-                                                                        </select>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>
-                                                                        <div class="input-group">
-                                                                            <span class="input-group-addon"><i class="icofont icofont-location-pin"></i></span>
-                                                                            <input type="text" class="form-control" placeholder="Address">
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                    <!-- end of table col-lg-6 -->
-                                                    <div class="col-lg-6">
-                                                        <table class="table">
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td>
-                                                                        <div class="input-group">
-                                                                            <span class="input-group-addon"><i class="icofont icofont-mobile-phone"></i></span>
-                                                                            <input type="text" class="form-control" placeholder="Mobile Number">
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>
-                                                                        <div class="input-group">
-                                                                            <span class="input-group-addon"><i class="icofont icofont-social-twitter"></i></span>
-                                                                            <input type="text" class="form-control" placeholder="Twitter Id">
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <!-- <tr>
-                                                                    <td>
-                                                                        <div class="input-group">
-                                                                            <span class="input-group-addon" id="basic-addon1">@</span>
-                                                                            <input type="text" class="form-control" placeholder="Twitter Id">
-                                                                        </div>
-                                                                    </td>
-                                                                </tr> -->
-                                                                <tr>
-                                                                    <td>
-                                                                        <div class="input-group">
-                                                                            <span class="input-group-addon"><i class="icofont icofont-social-skype"></i></span>
-                                                                            <input type="email" class="form-control" placeholder="Skype Id">
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>
-                                                                        <div class="input-group">
-                                                                            <span class="input-group-addon"><i class="icofont icofont-earth"></i></span>
-                                                                            <input type="text" class="form-control" placeholder="website">
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                    <!-- end of table col-lg-6 -->
-                                                </div>
-                                                <!-- end of row -->
-                                                <div class="text-center">
-                                                    <a href="#!" class="btn btn-primary waves-effect waves-light m-r-20">Save</a>
-                                                    <a href="#!" id="edit-cancel" class="btn btn-default waves-effect">Cancel</a>
-                                                </div>
-                                            </div>
-                                            <!-- end of edit info -->
-                                        </div>
-                                        <!-- end of col-lg-12 -->
-                                    </div>
-                                    <!-- end of row -->
-                                </div>
-                                <!-- end of edit-info -->
-                            </div>
+                        <div v-show="index === 0" class="card">
+                            <user-form v-if="load" :user="user" @onUpdateUser="updateUser"></user-form>
                             <!-- end of card-block -->
                         </div>
-                        <div class="card">
+                        <div v-show="index === 1" class="card">
                             <div class="card-header">
-                                <h5 class="card-header-text">Upload files</h5>
-                                <button type="button" class="btn btn-sm btn-primary waves-effect waves-light f-right">
-                                    <i class="icofont icofont-edit"></i>
-                                    Guardar
-                                </button>
+                                <h5 class="card-header-text">Imágenes</h5>
+                                <span>Actualiza la imagen de perfirl del usuario.</span>
                             </div>
                             <div class="card-block">
                                 <div class="view-info">
@@ -255,6 +55,17 @@
                                 </div>
                             </div>
                         </div>
+                        <div v-show="index === 2" class="card">
+                            <div class="card-header">
+                                <h5 class="card-header-text">Establecimientos Favoritos</h5>
+                                <span>Consulta el listado de establecimientos favoritos que posee el usario.</span>
+                            </div>
+                            <div class="card-block">
+                                <div class="view-info">
+                                    <favorites :idsEstablishments="establishments"></favorites>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- tab content end -->
@@ -264,19 +75,37 @@
 </template>
 
 <script>
+    import menu from '../../util/MenuEnums';
+    import menuTypes, { type_users } from '../store/other/type';
     import ProfileHeader from '../elements/profileHeader';
     import TabMenu from '../elements/tabMenu';
     import Upload from '@/components/elements/upload';
     import commonTypes from "../store/other/type";
+    import userTypes from '@/components/store/users/type';
+    import Loader from "@/components/shared/preloader";
+    import UserForm from "@/components/elements/userForm";
+    import Favorites from "@/components/elements/favorites";
 
     export default {
         data() {
             return {
                 params: {},
-                endpoint: `${window.location.origin}/upload/user/${this.$route.params.id}`
+                endpoint: `${window.location.origin}/upload/user/${this.$route.params.id}`,
+                index: 0,
+                loading: false,
+                lastState: {},
+                load: false,
+                imageBanner: `${window.location.origin}/src/users/default-bg.jpg`,
+                imageProfile:  `${window.location.origin}/src/users/default.png`,
+                firstloader: false,
+                establishments: [
+                                    "5cae1cc2066265087ae606a7",
+                                    "5cdb2f9bd432f241402447c1",
+                                    "5cdc55161d433c2b604ef2f1",
+                                ]
             }
         },
-        components: {ProfileHeader, TabMenu, Upload},
+        components: {ProfileHeader, TabMenu, Upload, Loader, UserForm, Favorites},
         methods: {
             beforeUpload(evt) {
                 evt.waitUntil(new Promise((resolve, reject) => {
@@ -299,8 +128,11 @@
                 console.warn('On progress state --> ', percentage);
             },
             onFinish(response) {
-                if (response && !response.error) {
+                if (response && response.data && !response.data.error) {
                     this.$root.alertSuccess();
+                    delete response.data.result.password;
+                    this.$store.commit(userTypes.mutations.updateUserById, response.data.result);
+                    if (response.data.result.photo_url) this.imageProfile = `${window.location.origin}/${response.data.result.photo_url}?t=${new Date().getTime()}`;
                 }
             },
             onError(message) {
@@ -311,11 +143,38 @@
             },
             beforeAdded() {
                 console.log('BeforeAdded...');
+            },
+            getImageBanner() {
+                return `${window.location.origin}/src/users/default-bg.jpg`;
+            },
+            getImageProfile() {
+                return `${window.location.origin}/${this.user && this.user.photo_url ? this.user.photo_url : '/src/users/default.png'}`;
+            },
+            changeTab(index) {
+                this.index = index;
+            },
+            async updateUser(user) {
+                this.loading = true;
+                let response = await this.$store.dispatch(userTypes.actions.fetchUserById, user);
+                this.loading = false;
+                if (response.status === 200) this.$root.alertSuccess();
+                else this.$root.alertError({text: 'Ha ocurrido algún error al intentar actualizar al usuario'});
             }
         },
-        beforeMount() {
+        computed: {
+            user() {
+                return this.$store.getters[userTypes.getters.getUserById](this.$route.params.id);
+            },
+        },
+        async beforeCreate() {
+            this.$store.commit(menuTypes.mutations.updateNavPosition, menu.USERS);
+            let response = await this.$store.dispatch(userTypes.actions.fetchGetUserById, this.$route.params.id);
+            if (response.status === 200) {
+                if (response.response.photo_url) this.imageProfile = `${window.location.origin}/${response.response.photo_url}?t=${new Date().getTime()}`
+            }
             this.$store.commit(commonTypes.mutations.updateGlobalLoader, false);
-            console.log(this.$route.params.id);
+            this.load = true;
+            this.firstloader = true;
         }
     }
 </script>

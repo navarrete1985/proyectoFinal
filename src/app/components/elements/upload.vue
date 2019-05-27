@@ -9,7 +9,7 @@
                 </div>
                 <div class="jFiler-input-text">
                     <h3>Arrastra y suelta tus archivos aquí</h3>
-                    <span style="display:inline-block; margin: 15px 0">or</span>
+                    <span style="display:inline-block; margin: 15px 0">o</span>
                 </div>
                 <a class="jFiler-input-choose-btn btn btn-primary waves-effect waves-light" @click.prevent="$refs.imageInput.click()">Selecciona archivos</a>
             </div>
