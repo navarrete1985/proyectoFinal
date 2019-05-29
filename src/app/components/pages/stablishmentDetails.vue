@@ -209,7 +209,19 @@
                 </div>
                 <!-- end of card-block -->
               </div>
-              <div class="card-block" v-show="optionTab==2">
+              <div class="card-block" v-show="optionTab==1">
+                <upload
+                  :filter="/\.(jpe?g|png|gif)$/i"
+                  :defaultImagePreview="'../../images/default.png'"
+                  :endpoint="endpoint"
+                  :limit="10"
+                  @onUploadProgress="onUploadProgress"
+                  @onFinish="onFinish"
+                  @beforeUpload="beforeUpload"
+                  @onError="onError"
+                  @onAdded="onAdded"
+                  @beforeAdded="beforeAdded"
+                ></upload>
                 <div class="row">
                   <div
                     class="col-lg-4 col-sm-6"
@@ -220,22 +232,18 @@
                     <div class="thumbnail">
                       <div class="thumb">
                         <a
-                          :href="`http://localhost:3000/src/stablishments/5ce03bf18fbdb6278824563d/${item}`"
+                          :href="`${endpoint}/${item}`"
                           data-lightbox="1"
                           data-title="My caption 1"
                         >
-                          <img
-                            :src="`http://localhost:3000/src/stablishments/5ce03bf18fbdb6278824563d/${item}`"
-                            alt
-                            class="img-fluid img-thumbnail"
-                          >
+                          <img :src="`${endpoint}/${item}`" alt class="img-fluid img-thumbnail">
                         </a>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="card" v-show="optionTab==1">
+              <div class="card" v-show="optionTab==2">
                 <div class="card-header">
                   <h5 class="card-header-text">Galeria</h5>
                 </div>
@@ -314,6 +322,9 @@ export default {
   data() {
     return {
       optionTab: 0,
+      endpoint: `${window.location.origin}/upload/stablishment/${
+        this.$route.params.id
+      }`,
       loading: false,
       editInputs: false,
       tabs: ["Descripción", "Galeria", "Ofertas", "Carta"],
@@ -343,6 +354,47 @@ export default {
     liveQueue
   },
   methods: {
+    beforeUpload(evt) {
+      evt.waitUntil(
+        new Promise((resolve, reject) => {
+          this.$swal({
+            title: "Confirmación",
+            text: "¿Desea cambiar la subir las imagenes?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Confirmar"
+          }).then(result => {
+            if (result.value) {
+              resolve();
+            }
+          });
+        })
+      );
+    },
+    onUploadProgress(percentage) {
+      console.warn("On progress state --> ", percentage);
+    },
+    onFinish(response) {
+      if (response && response.data && !response.data.error) {
+        this.$root.alertSuccess();
+        this.$store.commit(
+          userTypes.mutations.updateStablishmentById,
+          response.data.result
+        );
+        
+      }
+    },
+    onError(message) {
+      this.$root.alertError({ text: message });
+    },
+    onAdded(elements) {
+      console.log(`OnAdded elements --> ${elements}`);
+    },
+    beforeAdded() {
+      console.log("BeforeAdded...");
+    },
     changeTab(index) {
       console.log("position del papi" + index);
       this.optionTab = index;
@@ -355,14 +407,13 @@ export default {
         this.editInputs = false;
       }
     },
-    async borrarImg(e,name) {
-      // this.loading = true;
+    async borrarImg(e, name) {
+      this.loading = true;
 
       var el = e.target;
       var imageContainer;
       var list;
 
-      
       var imgsArray = this.stablishment.photo_url.filter(x => x != name);
       var stablishmentUpdate = this.stablishment;
       stablishmentUpdate.photo_url = imgsArray;
@@ -378,13 +429,14 @@ export default {
       } else {
         this.$root.alertError();
       }
-      
+
       imageContainer = el.parentNode;
       list = imageContainer.parentNode;
       list.removeChild(imageContainer);
+      this.loading = false;
+      console.log(this.loading);
       // this.loading = false;
       // this.editInputs = false;
-      
     },
     async sendEdit() {
       this.loading = true;
@@ -451,7 +503,7 @@ input {
   width: 100%;
   height: 100%;
 }
-.micruz{
+.micruz {
   position: absolute;
   z-index: 1;
   top: 10px;
