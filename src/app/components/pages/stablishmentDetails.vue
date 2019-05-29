@@ -76,8 +76,10 @@
                                     </tr>
                                     <tr>
                                       <th scope="row">Localización</th>
-                                      <td :class="{'white':editInputs==true}">New York,
-USA</td>
+                                      <td :class="{'white':editInputs==true}">
+                                        New York,
+                                        USA
+                                      </td>
                                     </tr>
                                     <tr>
                                       <th scope="row">Email</th>
@@ -152,7 +154,7 @@ USA</td>
                                 >
                                   <i class="icofont icofont-edit"></i>
                                   Guardar
-</button>
+                                </button>
                               </div>
                             </div>
                             <!-- end of table col-lg-6 -->
@@ -209,154 +211,21 @@ USA</td>
               </div>
               <div class="card-block" v-show="optionTab==2">
                 <div class="row">
-                  <div class="col-lg-4 col-sm-6">
+                  <div
+                    class="col-lg-4 col-sm-6"
+                    v-for="item in stablishment.photo_url"
+                    v-bind:key="item._id"
+                  >
+                    <a class="micruz" v-on:click="borrarImg($event,item)">X</a>
                     <div class="thumbnail">
                       <div class="thumb">
                         <a
-                          href="..\..\assets\images\gallery-grid\1.png"
+                          :href="`http://localhost:3000/src/stablishments/5ce03bf18fbdb6278824563d/${item}`"
                           data-lightbox="1"
                           data-title="My caption 1"
                         >
                           <img
-                            src="..\..\assets\images\gallery-grid\1.png"
-                            alt
-                            class="img-fluid img-thumbnail"
-                          >
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-4 col-sm-6">
-                    <div class="thumbnail">
-                      <div class="thumb">
-                        <a
-                          href="..\..\assets\images\gallery-grid\1.png"
-                          data-lightbox="2"
-                          data-title="My caption 2"
-                        >
-                          <img
-                            src="..\..\assets\images\gallery-grid\1.png"
-                            alt
-                            class="img-fluid img-thumbnail"
-                          >
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-4 col-sm-6">
-                    <div class="thum
-bnail">
-                      <div class="thumb">
-                        <a
-                          href="..\..\assets\images\gallery-grid\1.png"
-                          data-lightbox="3"
-                          data-title="My caption 3"
-                        >
-                          <img
-                            src="..\..\assets\images\gallery-grid\1.png"
-                            alt
-                            class="img-fluid img-thumbnail"
-                          >
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-4 col-sm-6">
-                    <div class="thumbnail">
-                      <div class="thumb">
-                        <a
-                          href="..\..\assets\images\gallery-grid\1.png"
-                          data-lightbox="4"
-                          data-title="My caption 4"
-                        >
-                          <img
-                            src="..\..\assets\images\gallery-grid\1.png"
-                            alt
-                            class="img-fluid img-thumbnail"
-                          >
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-4 col-sm-6">
-                    <div class="thumbnail">
-                      <div class="thumb">
-                        <a
-                          href="..\..\assets\images\gallery-grid\1.png"
-                          data-lightbox="5"
-                          data-title="My caption 5"
-                        >
-                          <img
-                            src="..\..\assets\images\gallery-grid\1.png"
-                            alt
-                            class="img-fluid img-thumbnail"
-                          >
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-4 col-sm-6">
-                    <div class="thumbnail">
-                      <div class="thumb">
-                        <a
-                          href="..\..\assets\images\gallery-grid\1.png"
-                          data-lightbox="6"
-                          data-title="My caption 6"
-                        >
-                          <img
-                            src="..\..\assets\images\gallery-grid\1.png"
-                            alt
-                            class="img-fluid img-thumbnail"
-                          >
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-4 col-sm-6">
-                    <div class="thumbnail">
-                      <div class="thumb">
-                        <a
-                          href="..\..\assets\images\gallery-grid\1.png"
-                          data-lightbox="7"
-                          data-title="My caption 7"
-                        >
-                          <img
-                            src="..\..\assets\images\gallery-grid\1.png"
-                            alt
-                            class="img-fluid img-thumbnail"
-                          >
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-4 col-sm-6">
-                    <div class="thumbnail">
-                      <div class="thumb">
-                        <a
-                          href="..\z\assets\images\gallery-grid\1.png"
-                          data-lightbox="8"
-                          data-title="My caption 8"
-                        >
-                          <img
-                            src="..\..\assets\images\gallery-grid\1.png"
-                            alt
-                            class="img-fluid img-thumbnail"
-                          >
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-
-lg-4 col-sm-6">
-                    <div class="thumbnail">
-                      <div class="thumb">
-                        <a
-                          href="..\..\assets\images\gallery-grid\1.png"
-                          data-lightbox="9"
-                          data-title="My caption 9"
-                        >
-                          <img
-                            src="..\..\assets\images\gallery-grid\1.png"
+                            :src="`http://localhost:3000/src/stablishments/5ce03bf18fbdb6278824563d/${item}`"
                             alt
                             class="img-fluid img-thumbnail"
                           >
@@ -382,20 +251,20 @@ lg-4 col-sm-6">
               </div>
               <div v-show="optionTab === 3" class="card">
                 <div class="card-header">
-                    <h5 class="card-header-text">Actividad en Vivo</h5>
-                    <span>Visualice y gestione la actividad de su establecimiento en vivo, reserve mesas, atiendelas y gestione la cola de trabajos a realizar.</span>
+                  <h5 class="card-header-text">Actividad en Vivo</h5>
+                  <span>Visualice y gestione la actividad de su establecimiento en vivo, reserve mesas, atiendelas y gestione la cola de trabajos a realizar.</span>
                 </div>
                 <div class="card-block">
-                    <div class="view-info">
-                        <div class="row">
-                            <div class="col-md-12 col-xl-5">
-                                <latest-activity :activity="{}" :tables="{}"></latest-activity>
-                            </div>
-                            <div class="col-md-12 col-xl-7">
-                                <live-queue :activity="{}" :tables="{}"></live-queue>
-                            </div>
-                        </div>
+                  <div class="view-info">
+                    <div class="row">
+                      <div class="col-md-12 col-xl-5">
+                        <latest-activity :activity="{}" :tables="{}"></latest-activity>
+                      </div>
+                      <div class="col-md-12 col-xl-7">
+                        <live-queue :activity="{}" :tables="{}"></live-queue>
+                      </div>
                     </div>
+                  </div>
                 </div>
               </div>
               <!-- <div class="card">
@@ -486,6 +355,37 @@ export default {
         this.editInputs = false;
       }
     },
+    async borrarImg(e,name) {
+      // this.loading = true;
+
+      var el = e.target;
+      var imageContainer;
+      var list;
+
+      
+      var imgsArray = this.stablishment.photo_url.filter(x => x != name);
+      var stablishmentUpdate = this.stablishment;
+      stablishmentUpdate.photo_url = imgsArray;
+      console.log(stablishmentUpdate);
+
+      let result = await this.$store.dispatch(
+        stablishmentsTypes.actions.updateStablishmentById,
+        stablishmentUpdate
+      );
+      console.log("resultado antes de alert" + result);
+      if (result.status == 200) {
+        this.$root.alertSuccess();
+      } else {
+        this.$root.alertError();
+      }
+      
+      imageContainer = el.parentNode;
+      list = imageContainer.parentNode;
+      list.removeChild(imageContainer);
+      // this.loading = false;
+      // this.editInputs = false;
+      
+    },
     async sendEdit() {
       this.loading = true;
 
@@ -500,7 +400,7 @@ export default {
       console.log("resultado antes de alert" + result);
       if (result.status == 200) {
         this.$root.alertSuccess();
-} else {
+      } else {
         this.$root.alertError();
       }
       this.loading = false;
@@ -550,6 +450,14 @@ input {
 .loaderStyle {
   width: 100%;
   height: 100%;
+}
+.micruz{
+  position: absolute;
+  z-index: 1;
+  top: 10px;
+  cursor: pointer;
+  right: 29px;
+  color: white !important;
 }
 .miResponfsif {
   background-repeat: no-repeat;
