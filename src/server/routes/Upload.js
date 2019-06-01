@@ -139,7 +139,7 @@ let save = async (req, resp) => {
     let id = req.params._id;
     switch(type) {
         case 'stablishments':
-            Object.keys(req.uploadFiles).forEach(file => req.modelObject.photo_url.push(`${req.paramsType.route}/${req.uploadFiles[file].filename}`));
+            Object.keys(req.uploadFiles).forEach(file => req.modelObject.photo_url.push(`${req.paramsType.route}/${req.modelObject._id}/${req.uploadFiles[file].filename}`));
             StablishmentModel.updateOne({_id: req.modelObject._id}, {$set: req.modelObject}).exec((err, stablishment) => {
                 if (err) {
                     resp.status(500).json({error: true, result: err});
