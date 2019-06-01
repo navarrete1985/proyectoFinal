@@ -328,7 +328,7 @@ export default {
   data() {
     return {
       optionTab: 0,
-      endpoint: `${window.location.origin}/upload/stablishment/${
+      endpoint: `${window.location.origin}/upload/stablishments/${
         this.$route.params.id
       }`,
       loading: false,

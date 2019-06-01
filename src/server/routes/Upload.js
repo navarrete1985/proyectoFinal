@@ -52,13 +52,13 @@ let errorResponse = (resp, id, type) => {
 //Comprobación de los parámetros requeridos
 let requiredParams = (req, resp, next) => {
     console.log('onParamsRequired');
-    let validTypes = ['user', 'stablishment', 'menu', 'offer'];
+    let validTypes = ['user', 'stablishments', 'menu', 'offer'];
     let params = req.params;
     console.log(params);
     if (params.type && validTypes.includes(params.type) && params.id) next();
     else {
         console.log('Faltan parámetros requeridos')
-        return resp.status(400).json({error: 'Parámetros requeridos {params: {type: Strig[stablishment/users], _id: String}}'});
+        return resp.status(400).json({error: 'Parámetros requeridos {params: {type: Strig[stablishments/users], _id: String}}'});
     }
 }
 
@@ -68,7 +68,7 @@ let exist = (req, resp, next) => {
     let id = req.params.id;
     let type = req.params.type;
     switch(type) {
-        case 'stablishment':
+        case 'stablishments':
             StablishmentModel.findOne({_id: id}).exec((err, stablishment) => {
                 if (err) {
                     return errorResponse(resp, id, type);
@@ -135,7 +135,7 @@ let save = async (req, resp) => {
     let type = req.params.type;
     let id = req.params._id;
     switch(type) {
-        case 'stablishment':
+        case 'stablishments':
             Object.keys(req.uploadFiles).forEach(file => req.modelObject.photo_url.push(`${req.paramsType.route}/${req.uploadFiles[file].filename}`));
             StablishmentModel.updateOne({_id: req.modelObject._id}, {$set: req.modelObject}).exec((err, stablishment) => {
                 if (err) {
