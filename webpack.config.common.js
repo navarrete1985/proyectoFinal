@@ -8,6 +8,9 @@ const path = require('path');
 const isDev = process.env.NODE_ENV === 'development';
 const webpack = require('webpack');
 const UglifyJsPlugin = require('terser-webpack-plugin');
+const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
+
 // const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 
 const webpackConfig = {
@@ -85,30 +88,48 @@ const webpackConfig = {
   plugins: [
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
-          vue: true
-      }),
-      new webpack.ProvidePlugin({
-        $: 'jquery',
-        jQuery: 'jquery'
-      }),
-      // new VuetifyLoaderPlugin(),
-      // new webpack.DefinePlugin({
-      //   'process.env': {
-      //     // This has effect on the react lib size
-      //     'NODE_ENV': JSON.stringify('production'),
-      //   }
-      // }),
-      new webpack.optimize.AggressiveMergingPlugin(),
-      new webpack.optimize.OccurrenceOrderPlugin(),
-      new UglifyJsPlugin({
+        vue: true
+    }),
+    new webpack.ProvidePlugin({
+    $: 'jquery',
+    jQuery: 'jquery'
+    }),
+    // new VuetifyLoaderPlugin(),
+    // new webpack.DefinePlugin({
+    //   'process.env': {
+    //     // This has effect on the react lib size
+    //     'NODE_ENV': JSON.stringify('production'),
+    //   }
+    // }),
+    new webpack.optimize.AggressiveMergingPlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new UglifyJsPlugin({
         cache: true,
         parallel: true,
         terserOptions: {
-          compress: true,
-          mangle: true
+            compress: true,
+            mangle: true
         },
         sourceMap: true
-      }),
+    }),
+    new HtmlWebpackTagsPlugin({
+        tags: [],
+        links: [
+            {
+                path: '/images/logo.ico',
+                attributes: {
+                    rel: 'icon'
+                }
+            },
+        ]
+    }),
+    new CopyPlugin([
+        { 
+            from: './src/app/assets/images/*.ico', 
+            to: 'images/',
+            flatten: true,
+        },
+    ]),
   ]
 };
 
