@@ -5,9 +5,12 @@ const type_users = {
     getters: {
         getUserById: `${namespace}/getter:getUserById`,
         getAll: `${namespace}/getter:getAll`,
+        getPageStablishment: `${namespace}/getter:getPageStablishment`,
+
     },
     mutations: {
         updateUserById: `${namespace}/mutation:updateUserById`,
+        updatePageStablishment: `${namespace}/mutation:updateStablishment`,
     },
     actions: {
         fetchUserById: `${namespace}/action:fetchUserById`,

@@ -35,6 +35,10 @@
                         <div class="general-info">
                           <div class="row">
                             <div class="col-lg-12 col-xl-12">
+                              <router-link  :to="{path: `../tables/${stablishment._id}`}" replace class="btn btn-sm btn-primary">
+                                Mesas del establecimiento
+                              </router-link>
+                              <!-- <a class="btn btn-primary waves-effect waves-light m-r-20"  >Editar mesa</a> -->
                               <div class="table-responsive">
                                 <table class="table m-0">
                                   <tbody>

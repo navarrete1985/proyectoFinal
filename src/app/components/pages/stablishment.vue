@@ -27,6 +27,10 @@
               </div>
           </div>
       </div>
+      <!-- <paginator :pagination="pagination" :range="2" @onPaginate='onPaginate'>
+            <template v-slot:prev>Anterior</template>
+            <template v-slot:next>Siguiente</template>
+      </paginator> -->
   </div>
 </template>
 <script>
@@ -35,6 +39,8 @@ import menuTypes from "../store/other/type";
 import commonTypes from "../store/other/type";
 import usersTypes from "../store/users/type";
 import stablishmentsTypes from "../store/stablishments/type";
+import Paginator from '../elements/paginator';
+
 
 export default {
   methods: {},
@@ -43,8 +49,16 @@ export default {
               return this.$store.getters[
                   stablishmentsTypes.getters.getAllStablishments
               ];
-          }
+          },
+          pagination() {
+                return this.$store.getters[usersTypes.getters.getPageUser];
+            }
       },
+      async onPaginate(index) {
+                this.loading = true;
+                await this.$store.dispatch(usersTypes.actions.fetchUserByPage, {page: index});
+                this.loading = false;
+            },
       beforeMount() {
           this.$store.commit(commonTypes.mutations.updateGlobalLoader, true);
           let currentUser = localStorage.__DataUser ?
