@@ -74,13 +74,13 @@
                                         :readonly="!editInputs"
                                       >
                                     </tr>
-                                    <tr>
+                                    <!-- <tr>
                                       <th scope="row">Localización</th>
                                       <td :class="{'white':editInputs==true}">
                                         New York,
                                         USA
                                       </td>
-                                    </tr>
+                                    </tr> -->
                                     <tr>
                                       <th scope="row">Email</th>
                                       <input
@@ -145,7 +145,13 @@
                                     </tr>
                                   </tbody>
                                 </table>
-                                <button
+                                 <transition name='fade'>
+                                <div v-if="editInputs" class="text-center mt-3">
+                                    <a class="btn btn-primary waves-effect waves-light m-r-20"  @click="sendEdit">Save</a>
+                                    <a id="edit-cancel" class="btn btn-default waves-effect" @click="setDataInputs">Cancel</a>
+                                </div>
+                            </transition>
+                                <!-- <button
                                   v-if="editInputs"
                                   id="edit-btn"
                                   type="button"
@@ -154,7 +160,7 @@
                                 >
                                   <i class="icofont icofont-edit"></i>
                                   Guardar
-                                </button>
+                                </button> -->
                               </div>
                             </div>
                             <!-- end of table col-lg-6 -->
@@ -524,4 +530,88 @@ input {
   justify-content: space-around;
   flex-wrap: wrap;
 }
+
+
+/*END STYLES*/
+
+
+    .btn {
+        cursor: pointer;
+    }
+
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .25s;
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        opacity: 0;
+    }
+
+    .border-error {
+        border: 1px solid lightcoral !important;
+    }
+
+    tbody {
+
+        display: flex;
+        flex-flow: column nowrap;
+
+        tr {
+            display: flex;
+            flex-flow: row nowrap;
+            padding-bottom: 0px !important;
+            height: 100%;
+
+            th {
+                flex: 1 1 50%;
+                padding-top: calc(30px - 0.875em);
+            }
+
+            .input {
+                flex: 1 1 50%;
+                position: relative;
+
+                &.form-radio, &.checkbox-fade {
+                    border-top: 1px solid #e9ecef;
+                    display: flex;
+                    flex-flow: column;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                .btn-show-pass {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    font-size: 24px;
+                    line-height: 60px;
+                    margin-right: 16px;
+                    cursor: pointer;
+                }
+
+                input, select {
+                    width: 100%;
+                    height: 60px !important;
+                    background-color: lightblue;
+                    resize: none;
+                    color: #353c4e;
+                    border: 0;
+                    padding: 0.75rem;
+                    vertical-align: top;
+                    border-top: 1px solid #e9ecef;
+                }
+
+                .white {
+                    background-color: #bababa !important;
+                }
+
+                span.form-bar  {
+                    background-color: #bababa !important;
+                    display: block;
+                    text-align: center;
+                }
+
+            }
+
+        }
+    }
 </style>
