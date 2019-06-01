@@ -9,20 +9,23 @@ const base = path.resolve('src/public');
 
 //Comprobación de si la ruta de destino está formada, en caso de que no exista un directorio lo creamos.
 const checkPath = (route) => {
+    console.log('La ruta en crear es --> ', route);
     let uri = base;
+    console.log('La ruta en crear es --> ', uri);
     route.split('/').forEach(route => {
         uri = path.join(uri, route);
         if (!fs.existsSync(uri)) {
             fs.mkdirSync(uri);
         }
     });
+    console.log('La ruta en crear es --> ', uri);
     return uri + '/';
 }
 
 var storage = multer.diskStorage({
     destination: function(req,file,cb){
         console.log('Vamos a definir la ruta de destino');
-        let uri = checkPath(req.paramsType.route); 
+        let uri = checkPath(req.params.folder); 
         console.log('Destino --> ', uri);
         cb(null, uri);
     },

@@ -13,25 +13,25 @@ const MenuModel = require('../models/Menu');
 const OfferModel = require('../models/Offers');
 const types = {
     'stablishments': {
-        route: 'src/upload/stablishments',
+        route: 'upload/stablishments',
         limit: 20,
         name: undefined,
         folder: true,
     },
     'user': {
-        route: 'src/upload/users',
+        route: 'upload/users',
         limit: 1,
         name: 'id',
         folder: false,
     },
     'menu': {
-        route: 'src/upload/menu',
+        route: 'upload/menu',
         limit: 1,
         name: 'id',
         folder: false,
     },
     'offer': {
-        route: 'src/upload/offer',
+        route: 'upload/offer',
         limit: 1,
         name: 'id',
         folder: false,
@@ -113,7 +113,10 @@ let storageConfig = (req, resp, next) => {
     console.log('onStorageConfig');
     storage = uploadStorage.array('files[]', types[req.params.type].limit);
     if (types[req.params.type].name !== undefined) types[req.params.type].name = req.params.id;
-    if (types[req.params.type].folder) types[req.params.type].folder += `/${req.params.id}`;
+    console.log('Eooooooooo ', types[req.params.type].route);
+    if (types[req.params.type].folder) req.params.folder = types[req.params.type].route + `/${req.params.id}`;
+    else req.params.folder = types[req.params.type].route;
+    console.log('Eooooooooo ', types[req.params.type].route);
     req.paramsType = types[req.params.type];
     next();
 }
