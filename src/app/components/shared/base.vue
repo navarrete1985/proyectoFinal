@@ -69,6 +69,8 @@ gtag("config", "UA-23581568-13");
 
 <style lang="scss" scoped>
 @import "../../assets/styles/feather.css";
+@import "../../assets/styles/lightbox.css";
+
 /**  =====================
       Draggable css start
 ==========================  **/

@@ -1,7 +1,10 @@
 import types from './type';
+import Vue from 'vue';
 
 const state = {
     stablishments: [],
+    stablishentPage: {},
+
 }
 
 const getters = {
@@ -14,6 +17,7 @@ const getters = {
                  });
         }
     },
+    [types.getters.getPageStablishment]: (state) => state.stablishentPage,
 }
 
 const mutations = {
@@ -22,6 +26,8 @@ const mutations = {
         console.log("resultado de mutacion-->"+data)
         state.stablishments.push(data[0]);
     } ,
+    [types.mutations.updatePageStablishment]: (state, data) => state.stablishentPage = data,
+
     // [types.mutations.updateStablishmentById]: (state, data) => state.stablishments.find(x => {
     //     if (x._id === data._id) {
     //         state.stablishments.push(x);
@@ -29,11 +35,11 @@ const mutations = {
     //     }
     //     return false;
     // }),
-    [types.mutations.updateStablishmentById]: (state, data) => state.stablishments.find(x => {
+    [types.mutations.updateStablishmentById]: (state, data) => state.stablishments.find((establishment,index) => {
         console.log("ANTES DE BUSCAR EN MUTACION"+data);
-        if (x._id === data._id) {
+        if (establishment._id === data._id) {
             console.log("mutacion de update para la store del update"+data);
-            x = data;
+            Vue.set(state.stablishments, index, data);
             return true;
         }
         return false;
@@ -69,6 +75,25 @@ actions[types.actions.getStablishmentById] = async ({ commit, getters, state, di
     return response.response[0];
 };
 
+actions[types.actions.fetchStablishmentByPage] = async ({commit, getters, state, dispatch}, page) => {
+    console.log("action!")
+    console.log(page);
+    let response = await fetch(`${window.location.origin}/api/establishment/pagination`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(page)
+    });
+    if (response.status !== 200) {
+        console.error('Error en la petición');
+        return;
+    } 
+    let json = await response.json();
+    json.status = response.status;
+    commit(types.mutations.updatePageStablishment, json);
+
+    return json;
+}
+
 actions[types.actions.insertStablishment] = async ({ commit, getters, state, dispatch }, stablishment) => {
     console.log(stablishment);
     let response = await fetch(`${window.location.origin}/api/establishment`, {
@@ -87,6 +112,7 @@ actions[types.actions.insertStablishment] = async ({ commit, getters, state, dis
 
 
 actions[types.actions.updateStablishmentById] = async ({ commit, getters, state, dispatch }, stablishment) => {
+    console.log("action!")
     console.log(stablishment);
     let response = await fetch(`${window.location.origin}/api/establishment`, {
         method: 'PUT',

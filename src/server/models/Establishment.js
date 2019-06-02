@@ -2,6 +2,8 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const validator = require("../util/Tools").validator;
+const mongoosePaginate = require('mongoose-paginate-v2');
+
 
 const LONGITUD_MAXIMA = 20;
 
@@ -56,6 +58,9 @@ const EstablishmentSchema = new Schema({
         }
     }
 });
+
+EstablishmentSchema.plugin(mongoosePaginate);
+
 
 const Establishment = mongoose.model("Establishment",EstablishmentSchema);
 

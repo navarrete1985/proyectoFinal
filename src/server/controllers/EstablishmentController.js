@@ -16,6 +16,18 @@ establishmentController.getAll = (req, res) => {
     })
 }
 
+establishmentController.getStablishmentPagination = (req, res) => {
+    console.log("server");
+    console.log(req);
+    const options = {
+        page: req.body.page || 4,
+        limit: req.body.limit || 10,
+        // customLabels: myCustomLabels
+    };
+    Establishment.paginate({}, options, (err, result) => {
+        return res.status(!err ? 200 : 400).json(result);
+    });
+}
 establishmentController.find = (req, res) => {
     // Obtener el :id
     let id = req.params.id;

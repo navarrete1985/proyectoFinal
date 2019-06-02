@@ -6,6 +6,7 @@ let router = express.Router();
 
 router.get("/", establishment.getAll);
 router.get("/:id", establishment.find);
+router.post('/pagination', establishment.getStablishmentPagination);
 
 router.post("/", establishment.create);
 router.post('/find', mdAutenticacion.verificaToken, establishment.arrayFind);

@@ -35,9 +35,11 @@
                         <div class="general-info">
                           <div class="row">
                             <div class="col-lg-12 col-xl-12">
-                              <router-link  :to="{path: `../tables/${stablishment._id}`}" replace class="btn btn-sm btn-primary">
-                                Mesas del establecimiento
-                              </router-link>
+                              <router-link
+                                :to="{path: `../tables/${stablishment._id}`}"
+                                replace
+                                class="btn btn-sm btn-primary"
+                              >Mesas del establecimiento</router-link>
                               <!-- <a class="btn btn-primary waves-effect waves-light m-r-20"  >Editar mesa</a> -->
                               <div class="table-responsive">
                                 <table class="table m-0">
@@ -84,7 +86,7 @@
                                         New York,
                                         USA
                                       </td>
-                                    </tr> -->
+                                    </tr>-->
                                     <tr>
                                       <th scope="row">Email</th>
                                       <input
@@ -149,12 +151,19 @@
                                     </tr>
                                   </tbody>
                                 </table>
-                                 <transition name='fade'>
-                                <div v-if="editInputs" class="text-center mt-3">
-                                    <a class="btn btn-primary waves-effect waves-light m-r-20"  @click="sendEdit">Save</a>
-                                    <a id="edit-cancel" class="btn btn-default waves-effect" @click="setDataInputs">Cancel</a>
-                                </div>
-                            </transition>
+                                <transition name="fade">
+                                  <div v-if="editInputs" class="text-center mt-3">
+                                    <a
+                                      class="btn btn-primary waves-effect waves-light m-r-20"
+                                      @click="sendEdit"
+                                    >Save</a>
+                                    <a
+                                      id="edit-cancel"
+                                      class="btn btn-default waves-effect"
+                                      @click="setDataInputs"
+                                    >Cancel</a>
+                                  </div>
+                                </transition>
                                 <!-- <button
                                   v-if="editInputs"
                                   id="edit-btn"
@@ -164,7 +173,7 @@
                                 >
                                   <i class="icofont icofont-edit"></i>
                                   Guardar
-                                </button> -->
+                                </button>-->
                               </div>
                             </div>
                             <!-- end of table col-lg-6 -->
@@ -219,6 +228,8 @@
                 </div>
                 <!-- end of card-block -->
               </div>
+              <a class="btn btn-sm btn-primary">Imagen de perfil</a>
+
               <div class="card-block" v-show="optionTab==1">
                 <upload
                   :filter="/\.(jpe?g|png|gif)$/i"
@@ -233,24 +244,75 @@
                   @beforeAdded="beforeAdded"
                 ></upload>
                 <div class="row">
-                  <div
+                  <div class="jFiler-items jFiler-row">
+                    <ul class="jFiler-items-list jFiler-items-grid">
+                      <li
+                        v-for="item in stablishment.photo_url"
+                        v-bind:key="item._id"
+                        class="jFiler-item"
+                      >
+                        <div class="jFiler-item-container">
+                          <div class="jFiler-item-inner">
+                            <div class="jFiler-item-thumb">
+                              <div class="jFiler-item-thumb-image">
+                                <a :href="`${urlStablishment}/${item}`" data-lightbox="roadtrip">
+                                <div
+                                  class="image-prev imgdivfoto"
+                                  :style="{'backgroundImage': `url(${urlStablishment}/${item})`}"
+                                ></div>
+                                </a>
+                              </div>
+                            </div>
+                            <div class="jFiler-item-assets jFiler-row">
+                              <ul class="list-inline pull-left">
+                                <li>
+                                  <!-- <span
+                                    class="jFiler-item-others text-error inline-text"
+                                  >{{item.split("/")[item.split("/").length-1]}}</span>
+                                  </li>-->
+                                  <span
+                                    class="jFiler-item-others text-error inline-text"
+                                  >{{item.replace(`upload/stablishments/${$route.params.id}/`,"")}}</span>
+                                </li>
+                              </ul>
+                              <ul class="list-inline pull-right">
+                                <li>
+                                  <a
+                                    class="icon-jfi-trash jFiler-item-trash-action"
+                                    v-on:click="borrarImg($event,item)"
+                                  ></a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <!-- <div
                     class="col-lg-4 col-sm-6"
                     v-for="item in stablishment.photo_url"
                     v-bind:key="item._id"
                   >
-                    <a class="micruz" v-on:click="borrarImg($event,item)">X</a>
+                    <a class="micruz icon-jfi-trash jFiler-item-trash-action" v-on:click="borrarImg($event,item)"></a>
+
+                    
                     <div class="thumbnail">
                       <div class="thumb">
                         <a
-                          :href="`${endpoint}/${item}`"
+                          :href="`${urlStablishment}/${item}`"
                           data-lightbox="1"
                           data-title="My caption 1"
                         >
-                          <img :src="`${endpoint}/${item}`" alt class="img-fluid img-thumbnail">
+                          <img
+                            :src="`${urlStablishment}/${item}`"
+                            alt
+                            class="img-fluid img-thumbnail"
+                          >
                         </a>
                       </div>
                     </div>
-                  </div>
+                  </div>-->
                 </div>
               </div>
               <div class="card" v-show="optionTab==2">
@@ -262,7 +324,7 @@
                     class="miResponfsif"
                     v-for="item in stablishment.photo_url"
                     v-bind:key="item._id"
-                    :style="{'background-image':`url(http://localhost:3000/src/stablishments/5ce03bf18fbdb6278824563d/${item})`}"
+                    :style="{'background-image':`url(${urlStablishment}/${item})`}"
                   ></div>
                 </div>
                 <!-- <Upload></Upload> -->
@@ -327,6 +389,7 @@ import { console } from "../../util/helper";
 import { all } from "q";
 import latestActivity from "@/components/elements/latestActivity";
 import liveQueue from "@/components/elements/liveQueue";
+import lightbox from '../../assets/js/lightbox';
 
 export default {
   data() {
@@ -341,11 +404,7 @@ export default {
       defaultUrlBanner: "http://localhost:3000/src/users/default-bg.jpg",
       position: 0,
       defaultUrlLogo: "http://localhost:3000/src/users/default.png",
-      urlStablishment:
-        window.location.origin +
-        "/src/stablishments/" +
-        this.$route.params.id +
-        "/"
+      urlStablishment: window.location.origin + "/"
     };
   },
   computed: {
@@ -390,10 +449,9 @@ export default {
       if (response && response.data && !response.data.error) {
         this.$root.alertSuccess();
         this.$store.commit(
-          userTypes.mutations.updateStablishmentById,
+          stablishmentsTypes.mutations.updateStablishmentById,
           response.data.result
         );
-        
       }
     },
     onError(message) {
@@ -440,9 +498,9 @@ export default {
         this.$root.alertError();
       }
 
-      imageContainer = el.parentNode;
-      list = imageContainer.parentNode;
-      list.removeChild(imageContainer);
+      // imageContainer = el.parentNode;
+      // list = imageContainer.parentNode;
+      // list.removeChild(imageContainer);
       this.loading = false;
       console.log(this.loading);
       // this.loading = false;
@@ -495,6 +553,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../assets/styles/lightbox.css";
+
 textarea,
 input {
   width: 100%;
@@ -535,87 +595,91 @@ input {
   flex-wrap: wrap;
 }
 
-
 /*END STYLES*/
 
+.btn {
+  cursor: pointer;
+}
 
-    .btn {
-        cursor: pointer;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.25s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
+.border-error {
+  border: 1px solid lightcoral !important;
+}
+.imgdivfoto {
+  width: 100%;
+  height: 100%;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+tbody {
+  display: flex;
+  flex-flow: column nowrap;
+
+  tr {
+    display: flex;
+    flex-flow: row nowrap;
+    padding-bottom: 0px !important;
+    height: 100%;
+
+    th {
+      flex: 1 1 50%;
+      padding-top: calc(30px - 0.875em);
     }
 
-    .fade-enter-active, .fade-leave-active {
-        transition: opacity .25s;
-    }
-    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-        opacity: 0;
-    }
+    .input {
+      flex: 1 1 50%;
+      position: relative;
 
-    .border-error {
-        border: 1px solid lightcoral !important;
-    }
-
-    tbody {
-
+      &.form-radio,
+      &.checkbox-fade {
+        border-top: 1px solid #e9ecef;
         display: flex;
-        flex-flow: column nowrap;
+        flex-flow: column;
+        justify-content: center;
+        align-items: center;
+      }
 
-        tr {
-            display: flex;
-            flex-flow: row nowrap;
-            padding-bottom: 0px !important;
-            height: 100%;
+      .btn-show-pass {
+        position: absolute;
+        top: 0;
+        right: 0;
+        font-size: 24px;
+        line-height: 60px;
+        margin-right: 16px;
+        cursor: pointer;
+      }
 
-            th {
-                flex: 1 1 50%;
-                padding-top: calc(30px - 0.875em);
-            }
+      input,
+      select {
+        width: 100%;
+        height: 60px !important;
+        background-color: lightblue;
+        resize: none;
+        color: #353c4e;
+        border: 0;
+        padding: 0.75rem;
+        vertical-align: top;
+        border-top: 1px solid #e9ecef;
+      }
 
-            .input {
-                flex: 1 1 50%;
-                position: relative;
+      .white {
+        background-color: #bababa !important;
+      }
 
-                &.form-radio, &.checkbox-fade {
-                    border-top: 1px solid #e9ecef;
-                    display: flex;
-                    flex-flow: column;
-                    justify-content: center;
-                    align-items: center;
-                }
-
-                .btn-show-pass {
-                    position: absolute;
-                    top: 0;
-                    right: 0;
-                    font-size: 24px;
-                    line-height: 60px;
-                    margin-right: 16px;
-                    cursor: pointer;
-                }
-
-                input, select {
-                    width: 100%;
-                    height: 60px !important;
-                    background-color: lightblue;
-                    resize: none;
-                    color: #353c4e;
-                    border: 0;
-                    padding: 0.75rem;
-                    vertical-align: top;
-                    border-top: 1px solid #e9ecef;
-                }
-
-                .white {
-                    background-color: #bababa !important;
-                }
-
-                span.form-bar  {
-                    background-color: #bababa !important;
-                    display: block;
-                    text-align: center;
-                }
-
-            }
-
-        }
+      span.form-bar {
+        background-color: #bababa !important;
+        display: block;
+        text-align: center;
+      }
     }
+  }
+}
 </style>
