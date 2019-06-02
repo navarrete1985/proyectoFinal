@@ -4,6 +4,9 @@
     </div>
 </template>
 <style lang="scss">
+
+$background-corporative: #2399a4;
+
     @import './assets/styles/bootstrap.min.css';
     @import './assets/styles/mystyle';
     @import './assets/styles/style.css';

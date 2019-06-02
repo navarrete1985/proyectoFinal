@@ -1,103 +1,37 @@
 <template>
-    <div class="">
-        <nav class="navbar navbar-light bg-light">
-        <a href="/" class="navbar-brand">Página no notFound!!!</a>
-        </nav>
-        <div class="container">
-            <div class="row pt-5"> 
-                <div class="col-md-5">
-                    <div class="card">
-                        <div class="card-body">
-                            <form @submit.prevent="addTask">
-                                <div class="form-group">
-                                    <input type="text" placeholder="Nombre de usuario" class="form-control" v-model="user.name">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" placeholder="Nombre de usuario" class="form-control" v-model="user.lastName">
-                                </div>
-                                <div class="form-group">
-                                    <input type="email" placeholder="Introduce email" class="form-control" v-model="user.email">
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" placeholder="Introduce contraseña" class="form-control" v-model="user.password">
-                                </div>
-                                <button class="btn btn-primary btn-block">Enviar</button>
-                            </form>
-                            <button class="btn btn-primary btn-block mt-3" @click="getUsers">Obtener usuarios</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-7">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Usuario</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="item of users" :key="item._id">
-                                <td>{{item._id}}</td>
-                                <td class="impar">{{item.name}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+<div id="container" class="container">
+		<ul id="scene" class="scene">
+			<li class="layer" data-depth="1.00"><img src="../../assets/images\404-01.png"></li>
+			<li class="layer" data-depth="0.60"><img src="../../assets/images\shadows-01.png"></li>
+			<li class="layer" data-depth="0.20"><img src="../../assets/images\monster-01.png"></li>
+			<li class="layer" data-depth="0.40"><img src="../../assets/images\text-01.png"></li>
+			<li class="layer" data-depth="0.10"><img src="../../assets/images\monster-eyes-01.png"></li>
+		</ul>
+		<h1>Our Site is Underconstruction - 10 days to go</h1>
+		<input type="text" class="form-control"><a href="#" class="btn search">Search</a>
+		<span>or</span>
+		<a href="#" class="btn">Back to home</a>
+	</div>
 </template>
 
 <script>
-const {User} = require ('../../util/models.js');
-
+import notfound from '../../assets/js/parallax';
 export default {
-    data() {
-        return {
-            user: new User(),
-            users: []
-        }
-    },
-    created() {
-        this.getUsers();
-    },
-    methods: {
-        getUsers() {
-            fetch('/api/user')
-            .then(res => {
-                return res.json();
-            })
-            .then(json => {
-                this.users = json.response;
-            })
-            .catch(e => {
-                console.log(e);
-            })
-        },
-        addTask(){
-            fetch('/api/user/create', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(this.user)
-            })
-            .then(res => {
-                return res.json();
-            })
-            .then(json => {
-                console.log(json);
-            })
-            .catch(e => {
-                console.log(e);
-            })
-            this.user.reset();
-        }
+    mounted(){
+        var scene = document.getElementById('scene');
+        var parallax = new Parallax(scene);
+        
     }
 }
+
 </script>
 
-<style lang="scss">
-    
-</style>
+<style lang="scss" scoped>
+@import "../../assets/styles/404.css";
+@import '../../assets/styles/mystyle';
 
+
+body{
+    background-color: $background-corporative !important;
+}
+</style>

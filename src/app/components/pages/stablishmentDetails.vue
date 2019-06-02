@@ -228,8 +228,6 @@
                 </div>
                 <!-- end of card-block -->
               </div>
-              <a class="btn btn-sm btn-primary">Imagen de perfil</a>
-
               <div class="card-block" v-show="optionTab==1">
                 <upload
                   :filter="/\.(jpe?g|png|gif)$/i"
@@ -243,6 +241,9 @@
                   @onAdded="onAdded"
                   @beforeAdded="beforeAdded"
                 ></upload>
+                <div class="divimgperfil">
+                  <a @click="changePerfil" class="btn propbtn btn-sm btn-primary">Imagen de perfil</a>
+                </div>
                 <div class="row">
                   <div class="jFiler-items jFiler-row">
                     <ul class="jFiler-items-list jFiler-items-grid">
@@ -277,7 +278,10 @@
                               </ul>
                               <ul class="list-inline pull-right">
                                 <li>
+                                  <i  v-show="isPerfil==true" v-on:click="imgPerfil(item)" class="fa pointer fa-plus-square-o"></i>
+                                  <!-- <a v-show="isPerfil==true" v-on:click="imgPerfil(item)" class="btn propbtn btn-sm btn-primary">Imagen de perfil</a> -->
                                   <a
+                                    v-show="isPerfil==false"
                                     class="icon-jfi-trash jFiler-item-trash-action"
                                     v-on:click="borrarImg($event,item)"
                                   ></a>
@@ -395,6 +399,7 @@ export default {
   data() {
     return {
       optionTab: 0,
+      isPerfil: false,
       endpoint: `${window.location.origin}/upload/stablishments/${
         this.$route.params.id
       }`,
@@ -423,6 +428,13 @@ export default {
     liveQueue
   },
   methods: {
+    changePerfil(){
+      if(this.isPerfil == false){
+        this.isPerfil = true;
+      }else{
+        this.isPerfil = false;
+      }
+    },
     beforeUpload(evt) {
       evt.waitUntil(
         new Promise((resolve, reject) => {
@@ -505,6 +517,23 @@ export default {
       console.log(this.loading);
       // this.loading = false;
       // this.editInputs = false;
+    },
+    async imgPerfil(item){
+      this.loading = true;
+      this.stablishment.image_logo = item;
+      let result = await this.$store.dispatch(
+        stablishmentsTypes.actions.updateStablishmentById,
+        this.stablishment
+      );
+
+
+      if (result.status == 200) {
+        this.$root.alertSuccess();
+      } else {
+        this.$root.alertError();
+      }
+      this.isPerfil = false;
+      this.loading = false;
     },
     async sendEdit() {
       this.loading = true;
@@ -596,9 +625,15 @@ input {
 }
 
 /*END STYLES*/
-
+.divimgperfil{
+  display: flex;
+  justify-content: flex-end;
+}
 .btn {
   cursor: pointer;
+}
+.pointer{
+  cursor:pointer;
 }
 
 .fade-enter-active,
@@ -612,10 +647,15 @@ input {
 .border-error {
   border: 1px solid lightcoral !important;
 }
+.propbtn{
+  margin-top: 2px;
+  margin-bottom: 20px;
+  color: white !important;
+}
 .imgdivfoto {
   width: 100%;
   height: 100%;
-  background-size: contain;
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }

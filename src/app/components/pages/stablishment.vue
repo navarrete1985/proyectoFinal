@@ -12,7 +12,8 @@
             <div class="img-hover">
               <img
                 class="img-fluid img-radius"
-                src="http://localhost:3000/src/users/default.png"
+                :src="stablishment.image_logo == '' || stablishment.image_logo == undefined? defaultUrlLogo : urlStablishment+stablishment.image_logo"
+
                 alt="round-img"
               >
               <div class="img-overlay img-radius">
@@ -57,6 +58,8 @@ import Preloader from "../shared/preloader";
 export default {
   data() {
     return {
+      defaultUrlLogo: "http://localhost:3000/src/users/default.png",
+      urlStablishment: window.location.origin + "/",
       loading: false
     };
   },
