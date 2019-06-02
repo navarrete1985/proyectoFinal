@@ -25,8 +25,6 @@ export default {
             {path: 'tables/:id', name: 'tables', component:Tables },
 
         ]},
-        {path: '/asd', name: 'notfound', component: NotFound},
-        {path: '*', name: 'index', component: Prueba}
-
+        {path: '*', name: 'notfound', component: NotFound},
     ]
 }

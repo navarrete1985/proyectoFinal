@@ -6,8 +6,16 @@
       <!-- "item == undefined"?urlbuena:default -->
       <profile-header
         :imageProfile="stablishment.image_logo == '' || stablishment.image_logo == undefined? defaultUrlLogo : urlStablishment+stablishment.image_logo"
+        :id="stablishment._id"
         :imageBanner="stablishment.photo_url[0]==undefined?defaultUrlBanner:urlStablishment+stablishment.photo_url[0]"
       ></profile-header>
+      <!-- <div class="display">
+        <router-link
+          :to="{path: `../tables/${stablishment._id}`}"
+          replace
+          class="btn btn-sm btn-primary"
+        >Mesas del establecimiento</router-link>
+      </div> -->
       <div class="row">
         <div class="col-lg-12">
           <tab-menu :arrayTabs="tabs" @changeTab="changeTab"></tab-menu>
@@ -35,11 +43,6 @@
                         <div class="general-info">
                           <div class="row">
                             <div class="col-lg-12 col-xl-12">
-                              <router-link
-                                :to="{path: `../tables/${stablishment._id}`}"
-                                replace
-                                class="btn btn-sm btn-primary"
-                              >Mesas del establecimiento</router-link>
                               <!-- <a class="btn btn-primary waves-effect waves-light m-r-20"  >Editar mesa</a> -->
                               <div class="table-responsive">
                                 <table class="table m-0">
@@ -257,10 +260,10 @@
                             <div class="jFiler-item-thumb">
                               <div class="jFiler-item-thumb-image">
                                 <a :href="`${urlStablishment}/${item}`" data-lightbox="roadtrip">
-                                <div
-                                  class="image-prev imgdivfoto"
-                                  :style="{'backgroundImage': `url(${urlStablishment}/${item})`}"
-                                ></div>
+                                  <div
+                                    class="image-prev imgdivfoto"
+                                    :style="{'backgroundImage': `url(${urlStablishment}/${item})`}"
+                                  ></div>
                                 </a>
                               </div>
                             </div>
@@ -278,7 +281,11 @@
                               </ul>
                               <ul class="list-inline pull-right">
                                 <li>
-                                  <i  v-show="isPerfil==true" v-on:click="imgPerfil(item)" class="fa pointer fa-plus-square-o"></i>
+                                  <i
+                                    v-show="isPerfil==true"
+                                    v-on:click="imgPerfil(item)"
+                                    class="fa pointer fa-plus-square-o"
+                                  ></i>
                                   <!-- <a v-show="isPerfil==true" v-on:click="imgPerfil(item)" class="btn propbtn btn-sm btn-primary">Imagen de perfil</a> -->
                                   <a
                                     v-show="isPerfil==false"
@@ -384,6 +391,8 @@
 <script>
 const { Stablishment } = require("../../util/models.js");
 import ProfileHeader from "../elements/profileHeader";
+import menu from "../../util/MenuEnums";
+import menuTypes from "../store/other/type";
 import TabMenu from "../elements/tabMenu";
 import Upload from "@/components/elements/upload";
 import Preloader from "../shared/preloader";
@@ -393,7 +402,7 @@ import { console } from "../../util/helper";
 import { all } from "q";
 import latestActivity from "@/components/elements/latestActivity";
 import liveQueue from "@/components/elements/liveQueue";
-import lightbox from '../../assets/js/lightbox';
+import lightbox from "../../assets/js/lightbox";
 
 export default {
   data() {
@@ -428,10 +437,10 @@ export default {
     liveQueue
   },
   methods: {
-    changePerfil(){
-      if(this.isPerfil == false){
+    changePerfil() {
+      if (this.isPerfil == false) {
         this.isPerfil = true;
-      }else{
+      } else {
         this.isPerfil = false;
       }
     },
@@ -518,14 +527,13 @@ export default {
       // this.loading = false;
       // this.editInputs = false;
     },
-    async imgPerfil(item){
+    async imgPerfil(item) {
       this.loading = true;
       this.stablishment.image_logo = item;
       let result = await this.$store.dispatch(
         stablishmentsTypes.actions.updateStablishmentById,
         this.stablishment
       );
-
 
       if (result.status == 200) {
         this.$root.alertSuccess();
@@ -565,7 +573,10 @@ export default {
       stablishmentsTypes.actions.getStablishmentById,
       userId
     );
-
+    this.$store.commit(
+      menuTypes.mutations.updateNavPosition,
+      menu.STABLISHMENTS
+    );
     this.$store.commit(commonTypes.mutations.updateGlobalLoader, false);
     // if(this.stablishment.image_logo == undefined || this.stablishment.image_logo == "" ){
     //     this.stablishment.image_logo = "default.png";
@@ -625,15 +636,15 @@ input {
 }
 
 /*END STYLES*/
-.divimgperfil{
+.divimgperfil {
   display: flex;
   justify-content: flex-end;
 }
 .btn {
   cursor: pointer;
 }
-.pointer{
-  cursor:pointer;
+.pointer {
+  cursor: pointer;
 }
 
 .fade-enter-active,
@@ -647,10 +658,16 @@ input {
 .border-error {
   border: 1px solid lightcoral !important;
 }
-.propbtn{
+.propbtn {
   margin-top: 2px;
   margin-bottom: 20px;
   color: white !important;
+}
+.display{
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 25px;
+
 }
 .imgdivfoto {
   width: 100%;

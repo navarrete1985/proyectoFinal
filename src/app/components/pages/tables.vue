@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <div>
+    <!-- <div>
          <b-modal
         id="modal-prevent-closing"
         ref="modal"
@@ -25,15 +25,15 @@
           </div>
         </form>
       </b-modal>
-    </div>
-    <div class="col-12">
+    </div>-->
+    <!-- <div class="col-12">
       <div class="form-group">
         <div class="form-check">
           <input id="disabled" type="checkbox" v-model="enabled" class="form-check-input">
           <label class="form-check-label" for="disabled">DnD enabled</label>
         </div>
       </div>
-    </div>
+    </div>-->
 
     <div class="col-11">
       <h3>Mesas</h3>
@@ -49,30 +49,9 @@
         @start="dragging = true"
         @end="dragging = false"
       >
-        <div class="list-group-item col-md-2" v-for="element in list" :key="element.name">
-          <b-button v-b-modal.modal-prevent-closing>{{ element.name }}</b-button>
+        <div class="list-group-item mesasimg col-md-2" v-for="element in list" :key="element.name">
+          <button class="mibtn">{{ element.name }}</button>
         </div>
-      </draggable>
-    </div>
-    <div class="col-11">
-      <h3>Mesas</h3>
-      <div class="btn-group-vertical buttons" role="group" aria-label="Basic example">
-        <button class="btn btn-secondary" @click="add2">Add</button>
-        <!-- <button class="btn btn-secondary" @click="replace">Replace</button> -->
-      </div>
-      <draggable
-        :list="list"
-        :disabled="!enabled"
-        class="list-group mesas"
-        ghost-class="ghost"
-        @start="dragging = true"
-        @end="dragging = false"
-      >
-        <div
-          class="list-group-item col-md-2"
-          v-for="element in list2"
-          :key="element.name"
-        >{{ element.name }}</div>
       </draggable>
     </div>
   </div>
@@ -156,10 +135,10 @@ export default {
     }
   },
   beforeCreate() {
-	  setTimeout(() => {
-		  this.$store.commit(commonTypes.mutations.updateGlobalLoader, false);
-		//   console.log('Visible: ', this.$store.getters[commonTypes.getters.getGlobalLoaderState]);
-	  }, 1000);
+    setTimeout(() => {
+      this.$store.commit(commonTypes.mutations.updateGlobalLoader, false);
+      //   console.log('Visible: ', this.$store.getters[commonTypes.getters.getGlobalLoaderState]);
+    }, 1000);
   }
 };
 </script>
@@ -167,6 +146,15 @@ export default {
 <style lang="scss" scoped>
 .wrapper {
   width: 100%;
+}
+.mesasimg {
+  background-image: url(http://localhost:3000/images/mesa.jpg);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.activa{
+  opacity: 1;
 }
 
 .col-md-2 {
@@ -199,11 +187,16 @@ export default {
 .buttons {
   margin-top: 35px;
 }
-.active{
-    border:none;
+.active {
+  border: none;
 }
 .ghost {
   opacity: 0.5;
   background: #c8ebfb;
+}
+.mibtn{
+  cursor: pointer;
+  background: none;
+  border: none;
 }
 </style>
