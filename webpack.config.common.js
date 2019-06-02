@@ -130,6 +130,13 @@ const webpackConfig = {
             flatten: true,
         },
     ]),
+    new webpack.LoaderOptionsPlugin({
+      options: {
+        stylus: {
+          import: [path.resolve(__dirname, './src/app/assets/styles/mystyle.scss')]
+        }
+      }
+    })
   ]
 };
 
