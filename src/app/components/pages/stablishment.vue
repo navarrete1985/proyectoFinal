@@ -10,17 +10,38 @@
         <div class="card rounded-card user-card">
           <div class="card-block">
             <div class="img-hover">
+              <div
+                class="img-responsive pb-100"
+                :style="{backgroundImage: getImageUri(stablishment)}"
+                alt="round-img"
+              ></div>
+              <div class="img-overlay img-radius">
+                <span>
+                  <!-- <a href="#" class="btn btn-sm btn-primary" data-popup="lightbox"><i class="icofont icofont-plus"></i></a>
+                  <a href="" class="btn btn-sm btn-primary"><i class="icofont icofont-link-alt"></i></a>-->
+                  <router-link :to="{path: stablishment._id}" append class="btn btn-sm btn-primary">
+                    <i class="icofont icofont-plus"></i>
+                  </router-link>
+                </span>
+              </div>
+            </div>
+            <div class="user-content">
+              <h4 class>{{stablishment.name}}</h4>
+              <p class="m-b-0 text-muted text-fino">{{stablishment.description}}</p>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="card rounded-card user-card">
+          <div class="card-block">
+            <div class="img-hover">
               <img
                 class="img-fluid img-radius"
                 :src="stablishment.image_logo == '' || stablishment.image_logo == undefined? defaultUrlLogo : urlStablishment+stablishment.image_logo"
-
                 alt="round-img"
               >
               <div class="img-overlay img-radius">
                 <span>
                   <span>
-                    <!-- <a href="#" class="btn btn-sm btn-primary" data-popup="lightbox"><i class="icofont icofont-plus"></i></a>
-                    <a href="" class="btn btn-sm btn-primary"><i class="icofont icofont-link-alt"></i></a>-->
                     <router-link
                       :to="{path: stablishment._id}"
                       append
@@ -37,7 +58,7 @@
               <p class="m-b-0 text-muted">{{stablishment.description}}</p>
             </div>
           </div>
-        </div>
+        </div>-->
       </div>
     </div>
     <paginator :pagination="pagination" :range="2" @onPaginate="onPaginate">
@@ -64,6 +85,15 @@ export default {
     };
   },
   methods: {
+    getImageUri(stablishment) {
+      let image;
+      if (stablishment.image_logo) {
+        image = stablishment.image_logo;
+      } else {
+        image = this.defaultUrlLogo;
+      }
+      return `url(${window.location.origin}/${image})`;
+    },
     async onPaginate(index) {
       this.loading = true;
       await this.$store.dispatch(
@@ -116,48 +146,53 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.col-md-2 {
-  flex: 0 0 135px !important;
-  max-width: 135px !important;
-  margin: 8px;
-}
+// .col-md-2 {
+//   flex: 0 0 135px !important;
+//   max-width: 135px !important;
+//   margin: 8px;
+// }
 
-.list-group-item {
-  position: relative;
-  display: block;
-  padding: 40px 17px;
-  text-align: center;
-  margin-bottom: -1px;
-  background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.125);
-}
+// .list-group-item {
+//   position: relative;
+//   display: block;
+//   padding: 40px 17px;
+//   text-align: center;
+//   margin-bottom: -1px;
+//   background-color: #fff;
+//   border: 1px solid rgba(0, 0, 0, 0.125);
+// }
 
-.mesas {
-  display: -ms-flexbox;
+// .mesas {
+//   display: -ms-flexbox;
+//   display: -webkit-box;
+//   display: flex;
+//   -ms-flex-direction: row;
+//   -webkit-box-orient: vertical;
+//   -webkit-box-direction: normal;
+//   flex-direction: row;
+//   flex-wrap: wrap;
+//   padding-left: 0;
+//   margin-bottom: 0;
+// }
+
+// .buttons {
+//   margin-top: 35px;
+// }
+
+// .active {
+//   border: none;
+// }
+
+// .ghost {
+//   opacity: 0.5;
+//   background: #c8ebfb;
+// }
+.text-fino {
   display: -webkit-box;
-  display: flex;
-  -ms-flex-direction: row;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  flex-direction: row;
-  flex-wrap: wrap;
-  padding-left: 0;
-  margin-bottom: 0;
+  overflow: hidden;
 }
-
-.buttons {
-  margin-top: 35px;
-}
-
-.active {
-  border: none;
-}
-
-.ghost {
-  opacity: 0.5;
-  background: #c8ebfb;
-}
-
 .wrapper {
   width: 100%;
 }

@@ -597,7 +597,7 @@ export default {
 
 textarea,
 input {
-  width: 100%;
+  flex:1 1 50%;
   background-color: lightblue;
   resize: none;
   color: #353c4e;
@@ -716,7 +716,7 @@ tbody {
 
       input,
       select {
-        width: 100%;
+        flex:1 1 50%;
         height: 60px !important;
         background-color: lightblue;
         resize: none;
