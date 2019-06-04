@@ -2,7 +2,7 @@
     <div>
         <div class="card latest-update-card">
             <div class="card-header">
-                <h5>Latest Updates</h5>
+                <h5>Últimas acciones</h5>
                 <div class="card-header-right">
                     <ul class="list-unstyled card-option">
                         <li><i class="fa fa fa-wrench open-card-option"></i></li>
@@ -17,49 +17,82 @@
                 <div class="latest-update-box">
                     <div class="row p-b-15">
                         <div class="col-auto text-right update-meta">
-                            <p class="text-muted m-b-0 d-inline">4 hrs ago</p>
-                            <i class="feather icon-briefcase bg-simple-c-pink update-icon"></i>
+                            <p class="text-muted m-b-0 d-inline">1 min ago</p>
+                            <i class="feather icon-credit-card bg-simple-c-pink update-icon"></i>
                         </div>
                         <div class="col">
-                            <h6>+ 5 New Products were added!</h6>
-                            <p class="text-muted m-b-0">Congratulations!</p>
+                            <h6>Mesa 5</h6>
+                            <p class="text-muted m-b-0">Cuenta!</p>
                         </div>
                     </div>
                     <div class="row p-b-15">
                         <div class="col-auto text-right update-meta">
-                            <p class="text-muted m-b-0 d-inline">1 day ago</p>
+                            <p class="text-muted m-b-0 d-inline">2 min ago</p>
                             <i class="feather icon-check bg-simple-c-yellow  update-icon"></i>
                         </div>
                         <div class="col">
-                            <h6>Database backup completed!</h6>
-                            <p class="text-muted m-b-0">Download the <span class="text-c-blue">latest backup</span>.</p>
+                            <h6>Mesa 20</h6>
+                            <p class="text-muted m-b-0">Atención perzonalizada</p>
+                        </div>
+                    </div>
+                     <div class="row p-b-0">
+                        <div class="col-auto text-right update-meta">
+                            <p class="text-muted m-b-0 d-inline">3 min ago</p>
+                            <i class="feather icon-user bg-simple-c-green update-icon"></i>
+                        </div>
+                        <div class="col">
+                            <h6>Mesa 34</h6>
+                            <p class="text-muted m-b-10">Pedido</p>
+                        </div>
+                    </div>
+                     <div class="row p-b-0">
+                        <div class="col-auto text-right update-meta">
+                            <p class="text-muted m-b-0 d-inline">2 min ago</p>
+                            <i class="feather icon-user bg-simple-c-green update-icon"></i>
+                        </div>
+                        <div class="col">
+                            <h6>Mesa 32</h6>
+                            <p class="text-muted m-b-10">Pedido</p>
+                        </div>
+                    </div>
+                    <div class="row p-b-15">
+                        <div class="col-auto text-right update-meta">
+                            <p class="text-muted m-b-0 d-inline">2 min ago</p>
+                            <i class="feather icon-check bg-simple-c-yellow  update-icon"></i>
+                        </div>
+                        <div class="col">
+                            <h6>Mesa 20</h6>
+                            <p class="text-muted m-b-0">Atención perzonalizada</p>
+                        </div>
+                    </div>
+                    <div class="row p-b-15">
+                        <div class="col-auto text-right update-meta">
+                            <p class="text-muted m-b-0 d-inline">2 min ago</p>
+                            <i class="feather icon-credit-card bg-simple-c-pink update-icon"></i>
+                        </div>
+                        <div class="col">
+                            <h6>Mesa 5</h6>
+                            <p class="text-muted m-b-0">Cuenta!</p>
+                        </div>
+                    </div>
+                    <div class="row p-b-15">
+                        <div class="col-auto text-right update-meta">
+                            <p class="text-muted m-b-0 d-inline">2 min ago</p>
+                            <i class="feather icon-check bg-simple-c-yellow  update-icon"></i>
+                        </div>
+                        <div class="col">
+                            <h6>Mesa 20</h6>
+                            <p class="text-muted m-b-0">Atención perzonalizada</p>
                         </div>
                     </div>
                     <div class="row p-b-0">
                         <div class="col-auto text-right update-meta">
-                            <p class="text-muted m-b-0 d-inline">2 day ago</p>
-                            <i class="feather icon-facebook bg-simple-c-green update-icon"></i>
+                            <p class="text-muted m-b-0 d-inline">3 min ago</p>
+                            <i class="feather icon-user bg-simple-c-green update-icon"></i>
                         </div>
                         <div class="col">
-                            <h6>+1 Friend Requests</h6>
-                            <p class="text-muted m-b-10">This is great, keep it up!</p>
-                            <div class="table-responsive">
-                                <table class="table table-hover m-b-0">
-                                    <tbody>
-                                        <tr>
-                                            <td class="b-none">
-                                                <a href="#!" class="align-middle">
-                                                <img src="..\..\assets\images\avatar-2.jpg" alt="user image" class="img-radius img-40 align-top m-r-15">
-                                                <div class="d-inline-block">
-                                                    <h6>Jeny William</h6>
-                                                    <p class="text-muted m-b-0">Graphic Designer</p>
-                                                </div>
-                                            </a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                            <h6>Mesa 30</h6>
+                            <p class="text-muted m-b-10">Pedido</p>
                         </div>
                     </div>
                 </div>

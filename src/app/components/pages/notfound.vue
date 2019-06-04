@@ -16,6 +16,7 @@
 
 <script>
 import notfound from '../../assets/js/parallax';
+
 export default {
     mounted(){
         var scene = document.getElementById('scene');

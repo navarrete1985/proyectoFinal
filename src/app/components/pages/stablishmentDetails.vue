@@ -326,21 +326,8 @@
                   </div>-->
                 </div>
               </div>
-              <div class="card" v-show="optionTab==2">
-                <div class="card-header">
-                  <h5 class="card-header-text">Galeria</h5>
-                </div>
-                <div class="contenedordegaleria">
-                  <div
-                    class="miResponfsif"
-                    v-for="item in stablishment.photo_url"
-                    v-bind:key="item._id"
-                    :style="{'background-image':`url(${urlStablishment}/${item})`}"
-                  ></div>
-                </div>
-                <!-- <Upload></Upload> -->
-              </div>
-              <div v-show="optionTab === 3" class="card">
+             
+              <div v-show="optionTab === 2" class="card">
                 <div class="card-header">
                   <h5 class="card-header-text">Actividad en Vivo</h5>
                   <span>Visualice y gestione la actividad de su establecimiento en vivo, reserve mesas, atiendelas y gestione la cola de trabajos a realizar.</span>
@@ -414,7 +401,7 @@ export default {
       }`,
       loading: false,
       editInputs: false,
-      tabs: ["Descripción", "Galeria", "Ofertas", "Carta"],
+      tabs: ["Descripción", "Galeria", "Cola de trabajo"],
       defaultUrlBanner: "http://localhost:3000/src/users/default-bg.jpg",
       position: 0,
       defaultUrlLogo: "http://localhost:3000/src/users/default.png",
@@ -600,6 +587,7 @@ input {
   flex:1 1 50%;
   background-color: lightblue;
   resize: none;
+  opacity: 0.8;
   color: #353c4e;
   border: 0;
   padding: 0.75rem;
@@ -607,7 +595,8 @@ input {
   border-top: 1px solid #e9ecef;
 }
 .white {
-  background-color: #bababa !important;
+  // background-color: #bababa !important;
+  opacity: 1;
 }
 .loaderStyle {
   width: 100%;

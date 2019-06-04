@@ -2,7 +2,7 @@
     <div>
         <div class="card">
             <div class="card-header">
-                <h5>List View</h5>
+                <h5>Cola de peticiones</h5>
             </div>
             <div class="row card-block">
                 <div class="col-md-12">
@@ -12,35 +12,20 @@
                                 <div class="card-block">
                                     <div class="media">
                                         <a class="media-left" href="#">
-                                            <img class="media-object card-list-img" src="..\..\assets\images\avatar-1.jpg" alt="Generic placeholder image">
+                                            <img width="100px" class="media-object card-list-img" src="..\..\assets\images\mesa.jpg" alt="Generic placeholder image">
+                                            <i class="feather lovebien icon-credit-card bg-simple-c-pink update-icon"></i>
+
                                         </a>
                                         <div class="media-body">
                                             <div class="col-xs-12">
                                                 <h6 class="d-inline-block">
-                                                    Heading</h6>
-                                                <label class="label label-info">Agent</label>
+                                                    Mesa 5</h6>
                                             </div>
-                                            <div class="f-13 text-muted m-b-15">
-                                                Software Engineer
-                                            </div>
-                                            <p>Hi, This is my short intro text.
-                                                Lorem ipsum is a dummy content sit
-                                                dollar. You can copy and paste this
-                                                dummy content from anywhere and to
-                                                anywhere. Its all free and must be a
-                                                good to folllow in prectice</p>
+                                            <label class="label label-info">hace 1 min</label>
+                                            <p>La mesa 5 solicita la cuenta</p>
                                             <div class="m-t-15">
                                                 <button type="button" data-toggle="tooltip" title="" class="btn btn-facebook btn-mini waves-effect waves-light" data-original-title="Facebook">
-                                                    <span class="icofont icofont-social-facebook"></span>
-                                                </button>
-                                                <button type="button" data-toggle="tooltip" title="" class="btn btn-twitter btn-mini waves-effect waves-light" data-original-title="Twitter">
-                                                    <span class="icofont icofont-social-twitter"></span>
-                                                </button>
-                                                <button type="button" data-toggle="tooltip" title="" class="btn btn-linkedin btn-mini waves-effect waves-light" data-original-title="Linkedin">
-                                                    <span class="icofont icofont-brand-linkedin"></span>
-                                                </button>
-                                                <button type="button" data-toggle="tooltip" title="" class="btn btn-dribbble btn-mini waves-effect waves-light" data-original-title="Drible">
-                                                    <span class="icofont icofont-social-dribble"></span>
+                                                    Atender
                                                 </button>
                                             </div>
                                         </div>
@@ -48,40 +33,25 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="">
+                        <li>
                             <div class="card list-view-media">
                                 <div class="card-block">
                                     <div class="media">
                                         <a class="media-left" href="#">
-                                            <img class="media-object card-list-img" src="..\..\assets\images\avatar-2.jpg" alt="Generic placeholder image">
+                                            <img width="100px" class="media-object card-list-img" src="..\..\assets\images\mesa.jpg" alt="Generic placeholder image">
+                                            <i class="feather lovebien icon-check bg-simple-c-yellow update-icon"></i>
+
                                         </a>
                                         <div class="media-body">
-                                            <div>
+                                            <div class="col-xs-12">
                                                 <h6 class="d-inline-block">
-                                                    Heading</h6>
-                                                <label class="label  label-info">Accountant</label>
+                                                    Mesa 20</h6>
                                             </div>
-                                            <div class="f-13 text-muted m-b-15">
-                                                Softwear Engineer
-                                            </div>
-                                            <p>Hi, This is my short intro text.
-                                                Lorem ipsum is a dummy content sit
-                                                dollar. You can copy and paste this
-                                                dummy content from anywhere and to
-                                                anywhere. Its all free and must be a
-                                                good to folllow in prectice</p>
+                                            <label class="label label-info">hace 2 min</label>
+                                            <p>La mesa 20 solicita atención perzonalizada</p>
                                             <div class="m-t-15">
                                                 <button type="button" data-toggle="tooltip" title="" class="btn btn-facebook btn-mini waves-effect waves-light" data-original-title="Facebook">
-                                                    <span class="icofont icofont-social-facebook"></span>
-                                                </button>
-                                                <button type="button" data-toggle="tooltip" title="" class="btn btn-twitter btn-mini waves-effect waves-light" data-original-title="Twitter">
-                                                    <span class="icofont icofont-social-twitter"></span>
-                                                </button>
-                                                <button type="button" data-toggle="tooltip" title="" class="btn btn-linkedin btn-mini waves-effect waves-light" data-original-title="Linkedin">
-                                                    <span class="icofont icofont-brand-linkedin"></span>
-                                                </button>
-                                                <button type="button" data-toggle="tooltip" title="" class="btn btn-dribbble btn-mini waves-effect waves-light" data-original-title="Drible">
-                                                    <span class="icofont icofont-social-dribble"></span>
+                                                    Atender
                                                 </button>
                                             </div>
                                         </div>
@@ -89,40 +59,25 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="">
+                        <li>
                             <div class="card list-view-media">
                                 <div class="card-block">
                                     <div class="media">
                                         <a class="media-left" href="#">
-                                            <img class="media-object card-list-img" src="..\..\assets\images\avatar-3.jpg" alt="Generic placeholder image">
+                                            <img width="100px" class="media-object card-list-img" src="..\..\assets\images\mesa.jpg" alt="Generic placeholder image">
+                                            <i class="feather lovebien icon-user bg-simple-c-green update-icon"></i>
+
                                         </a>
                                         <div class="media-body">
-                                            <div>
+                                            <div class="col-xs-12">
                                                 <h6 class="d-inline-block">
-                                                    Heading</h6>
-                                                <label class="label  label-info">Accountant</label>
+                                                    Mesa 34</h6>
                                             </div>
-                                            <div class="f-13 text-muted m-b-15">
-                                                Softwear Engineer
-                                            </div>
-                                            <p>Hi, This is my short intro text.
-                                                Lorem ipsum is a dummy content sit
-                                                dollar. You can copy and paste this
-                                                dummy content from anywhere and to
-                                                anywhere. Its all free and must be a
-                                                good to folllow in prectice</p>
+                                            <label class="label label-info">hace 2 min</label>
+                                            <p>La mesa 34 solicita realizar un pedido</p>
                                             <div class="m-t-15">
                                                 <button type="button" data-toggle="tooltip" title="" class="btn btn-facebook btn-mini waves-effect waves-light" data-original-title="Facebook">
-                                                    <span class="icofont icofont-social-facebook"></span>
-                                                </button>
-                                                <button type="button" data-toggle="tooltip" title="" class="btn btn-twitter btn-mini waves-effect waves-light" data-original-title="Twitter">
-                                                    <span class="icofont icofont-social-twitter"></span>
-                                                </button>
-                                                <button type="button" data-toggle="tooltip" title="" class="btn btn-linkedin btn-mini waves-effect waves-light" data-original-title="Linkedin">
-                                                    <span class="icofont icofont-brand-linkedin"></span>
-                                                </button>
-                                                <button type="button" data-toggle="tooltip" title="" class="btn btn-dribbble btn-mini waves-effect waves-light" data-original-title="Drible">
-                                                    <span class="icofont icofont-social-dribble"></span>
+                                                    Atender
                                                 </button>
                                             </div>
                                         </div>
@@ -153,5 +108,17 @@
 </script>
 
 <style lang="scss" scoped>
-
+.lovebien{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    text-align: center;
+    padding: 12px 13px;
+    font-size: 16px;
+    color: #fff;
+    margin-left: 10px;
+    position: absolute;
+    top: 78px;
+    left: 76px;
+}
 </style>

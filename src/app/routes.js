@@ -9,6 +9,8 @@ import Base from './components/shared/base';
 import UserDetail from './components/pages/userDetails';
 import StablishmentDetail from './components/pages/stablishmentDetails.vue';
 import Tables from './components/pages/tables.vue';
+import prueba from './components/pages/construccion.vue';
+
 
 import { basename } from 'path';
 
@@ -16,6 +18,7 @@ export default {
     routes: [
         {path: '/login', name: 'login', component: Login},
         {path: '/forgot', name: 'forgot', component: Forgot},
+        {path: '/prueba', name: 'prueba', component: prueba},
         {path: '/dashboard', name: 'home', component: Base, children: [
             {path: 'users', name: 'users', component: Users},
             {path: 'editstablishments', name: 'editstablishments', component: EditStablishments},            

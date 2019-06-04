@@ -143,7 +143,7 @@
                                                         <div class="group-add-on">
                                                             <div class="radio radiofill radio-inline">
                                                                 <label>
-                                                                    <input v-model="lastState.gender" type="radio" 
+                                                                    <input v-model="lastState.gender" type="radio"  class="opacidad"
                                                                     name="radio" value=false :checked="lastState.gender === false"
                                                                     :disabled="!isEdit"><i class="helper"></i> Hombre
                                                                 </label>
@@ -151,7 +151,7 @@
                                                             <div class="radio radiofill radio-inline">
                                                                 <label>
                                                                     <input v-model="lastState.gender" 
-                                                                    :disabled="!isEdit" type="radio" 
+                                                                    :disabled="!isEdit" type="radio"  class="opacidad"
                                                                     name="radio" value=true 
                                                                     :checked="lastState.gender === true"><i class="helper"></i> Mujer
                                                                 </label>
@@ -340,6 +340,9 @@
 </script>
 
 <style lang="scss" scoped>
+    .opacidad{
+        opacity: 0!important;
+    }
 
     .btn {
         cursor: pointer;
@@ -399,15 +402,18 @@
                     height: 60px !important;
                     background-color: lightblue;
                     resize: none;
+                    opacity:0.8;
                     color: #353c4e;
                     border: 0;
                     padding: 0.75rem;
                     vertical-align: top;
                     border-top: 1px solid #e9ecef;
                 }
+                
 
                 .white {
-                    background-color: #bababa !important;
+                    // background-color: #bababa !important;
+                    opacity:1;
                 }
 
                 span.form-bar  {
