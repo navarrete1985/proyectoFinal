@@ -11,7 +11,7 @@ tableController.getAll = (req, res) => {
 }
 
 tableController.find = (req, res) => {
-    let uuid = req.params.id;
+    let uuid = req.params.establishmentId;
     Table.find({ uuid: uuid }).exec((err, tables) => {
         let response = Tools.response.get(err, tables);
         return res.status(response.status).json(response);
