@@ -98,7 +98,7 @@ var draggingElement = null;
 const props = {
   options: Object,
   list: {
-    type: Array,
+    type: Object,
     required: false,
     default: null
   },

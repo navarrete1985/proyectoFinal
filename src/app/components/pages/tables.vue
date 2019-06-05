@@ -1,65 +1,20 @@
 <template>
   <div class="wrapper">
-    <!-- <div>
-         <b-modal
-        id="modal-prevent-closing"
-        ref="modal"
-        title="Submit Your Name"
-        @show="resetModal"
-        @hidden="resetModal"
-        @ok="handleOk"
-      >
-        <form ref="form" @submit.stop.prevent="handleSubmit">
-          <div>
-            <input @change="readOrType" name="campos" id="campos" type="checkbox">
-            <label for="campos">Habilitar campos</label>
-          </div>
-
-          <div>
-            <label>otra cosa</label>
-            <input :readonly="isCheck" v-bind:class="{ active: isCheck }" id="name-input">
-          </div>
-          <div>
-            <label>llamaa</label>
-            <input id="2-input" @change="readOrType" :readonly="isCheck" v-bind:class="{ active: isCheck }">  
-          </div>
-        </form>
-      </b-modal>
-    </div>-->
-    <!-- <div class="col-12">
-      <div class="form-group">
-        <div class="form-check">
-          <input id="disabled" type="checkbox" v-model="enabled" class="form-check-input">
-          <label class="form-check-label" for="disabled">DnD enabled</label>
-        </div>
-      </div>
-    </div>-->
-
     <div class="col-11">
       <h3>Mesas</h3>
       <div class="btn-group-vertical buttons" role="group" aria-label="Basic example">
         <button class="btn btn-secondary" @click="add">Add</button>
         <!-- <button class="btn btn-secondary" @click="replace">Replace</button> -->
       </div>
+      <button @click="sendEdit">Enviar</button>
       <div v-for="section in table.section" :key="section.name">
         <h2>{{section.name}}</h2>
-        <div class="list-group-item mesasimg col-md-2" v-for="mesa in section.tables" :key="mesa.name">
-          <button @click="cosa" class="mibtn">{{ mesa.name }}</button>
-        </div>
+        <draggable v-model =" section.tables"  class="list-group mesas" @click="cosa">
+          <div class="list-group-item mesasimg col-md-2" v-for="mesa in section.tables" :key="mesa.name">
+            <button @click="cosa" class="mibtn">{{ mesa.name }}</button>
+          </div>
+        </draggable>
       </div>
-       
-      <draggable
-        :list="list"
-        :disabled="!enabled"
-        class="list-group mesas"
-        ghost-class="ghost"
-        @start="dragging = true"
-        @end="dragging = false"
-      >
-        <div class="list-group-item mesasimg col-md-2" v-for="element in list" :key="element.name">
-          <button class="mibtn">{{ element.name }}</button>
-        </div>
-      </draggable>
     </div>
   </div>
 </template>
@@ -88,12 +43,14 @@ export default {
       nameState: null,
       submittedNames: [],
       enabled: true,
-      list: [{ name: "1", id: 0 }, { name: "2", id: 1 }, { name: "3", id: 2 }],
-      list2: [
-        { name: "1", id2: 0 },
-        { name: "2", id2: 1 },
-        { name: "3", id2: 2 }
-      ],
+      list: [],
+      // list: [{ name: "1", id: 0 }, { name: "2", id: 1 }, { name: "3", id: 2 }],
+
+      // list2: [
+      //   { name: "1", id2: 0 },
+      //   { name: "2", id2: 1 },
+      //   { name: "3", id2: 2 }
+      // ],
       dragging: false
     };
   },
@@ -110,7 +67,21 @@ export default {
   methods: {
     cosa(){
       console.log(this.table);
-    }, 
+    },
+     async sendEdit() {
+      console.log(this.table);
+      this.table.section.forEach(section => {
+        section.tables.forEach((value,key) => {
+          console.log("mesa "+key+"valor"+value.order)
+          value.order = key+1;
+        });
+      });
+      let result = await this.$store.dispatch(
+        tablesTypes.actions.updateTableByIdStablisment,
+        this.table
+      );
+      console.error('Resultado ', result)
+    },
     checkFormValidity() {
       const valid = this.$refs.form.checkValidity();
       this.nameState = valid ? "valid" : "invalid";
@@ -154,7 +125,8 @@ export default {
     },
     replace: function() {
       this.list = [{ name: "Edgard", id: id++ }];
-    }
+    },
+    
   },
   async beforeCreate() {
      var userId = this.$route.params.id;
@@ -169,6 +141,7 @@ export default {
       menu.STABLISHMENTS
     );
     this.$store.commit(commonTypes.mutations.updateGlobalLoader, false);
+    this.list = this.table.section[0].tables.toAr
   }
 };
 </script>

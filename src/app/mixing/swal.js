@@ -3,7 +3,7 @@ var SweetAlert = {
         alert(options) {
             this.$swal(options);
         },
-        alertSuccess({title = "Operación realizada con éxito", text = "La operación ha sido realizada satisfactoriamente", timer = 3000, showConfirmationButton = false} = {}) {
+        alertSuccess({title = "Operación realizada con éxito", text = "La operación ha sido realizada satisfactoriamente", timer = 100000, showConfirmationButton = false} = {}) {
             this.alert({
                 title: title,
                 text: text,

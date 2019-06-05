@@ -39,6 +39,25 @@ actions[types.actions.getTableByIdStablishment] = async ({ commit, getters, stat
     return response.response[0];
 };
 
+
+actions[types.actions.updateTableByIdStablisment] = async ({ commit, getters, state, dispatch }, table) => {
+    console.log("action!")
+    console.log(table);
+    let response = await fetch(`${window.location.origin}/api/tables`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(table)
+    });
+
+    console.log("respuesta de la bd al update"+response);
+    if (response.status === 200) {
+        response = await response.json();
+        commit(types.mutations.updatesTableByIdStablisment, response.response);
+    }
+    return response;
+};
+
+
 const module = {
     namespaced: false,
     state, 

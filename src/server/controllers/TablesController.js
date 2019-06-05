@@ -39,8 +39,8 @@ tableController.create = (req, res) => {
 }
 
 tableController.update = (req, res) => {
-    console.log(req.body);
-    Table.update({_id:req.body._id}, {$set: req.body}).exec((err, table) => {
+    console.log("LA PUTA MADRE",req.body);
+    Table.update({establishmentId:req.body.establishmentId}, {$set: req.body}).exec((err, table) => {
         let response = Tools.response.get(err, table);
         if (response.status === 200) {
             req.params.id = req.body._id;
