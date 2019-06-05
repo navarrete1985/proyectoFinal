@@ -51,4 +51,24 @@ class Stablishment extends Common{
     }
 }
 
-module.exports = {Stablishment, User};
+
+class Table extends Common{
+    constructor() {
+        super();
+        this.establishmentId = '';
+        this.section = [
+            this.tables=[
+                this.state = null,
+                this.uuid = "",
+                this.identifier = "",
+                this.name = "",
+                this.order = null
+            ],
+            this.name=""
+        ];
+
+        
+    }
+}
+
+module.exports = {Stablishment, User, Table};

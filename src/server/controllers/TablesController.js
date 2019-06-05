@@ -10,9 +10,20 @@ tableController.getAll = (req, res) => {
     })
 }
 
+// tableController.find = (req, res) => {
+//     let uuid = req.params.establishmentId;
+//     Table.find({ uuid: uuid }).exec((err, tables) => {
+//         let response = Tools.response.get(err, tables);
+//         return res.status(response.status).json(response);
+//     })
+// }
+
 tableController.find = (req, res) => {
-    let uuid = req.params.establishmentId;
-    Table.find({ uuid: uuid }).exec((err, tables) => {
+    let establishmentId = req.params.uuid;
+    console.log(req.params)
+    console.log("el estable")
+    console.log(establishmentId)
+    Table.find({ establishmentId: establishmentId }).exec((err, tables) => {
         let response = Tools.response.get(err, tables);
         return res.status(response.status).json(response);
     })

@@ -41,6 +41,13 @@
         <button class="btn btn-secondary" @click="add">Add</button>
         <!-- <button class="btn btn-secondary" @click="replace">Replace</button> -->
       </div>
+      <div v-for="section in table.section" :key="section.name">
+        <h2>{{section.name}}</h2>
+        <div class="list-group-item mesasimg col-md-2" v-for="mesa in section.tables" :key="mesa.name">
+          <button @click="cosa" class="mibtn">{{ mesa.name }}</button>
+        </div>
+      </div>
+       
       <draggable
         :list="list"
         :disabled="!enabled"
@@ -59,6 +66,13 @@
 <script>
 import draggable from "../../util/vuedraggable";
 import commonTypes from "../store/other/type";
+const { Table } = require("../../util/models.js");
+import menu from "../../util/MenuEnums";
+import menuTypes from "../store/other/type";
+import Upload from "@/components/elements/upload";
+import Preloader from "../shared/preloader";
+import tablesTypes from "../store/tables/type";
+import { console } from '../../util/helper';
 
 let id = 3;
 let id2 = 3;
@@ -86,9 +100,17 @@ export default {
   computed: {
     draggingInfo() {
       return this.dragging ? "under drag" : "";
+    },
+    table() {
+      return this.$store.getters[
+        tablesTypes.getters.getTableByIdStablishment
+      ](this.$route.params.id);
     }
   },
   methods: {
+    cosa(){
+      console.log(this.table);
+    }, 
     checkFormValidity() {
       const valid = this.$refs.form.checkValidity();
       this.nameState = valid ? "valid" : "invalid";
@@ -134,11 +156,19 @@ export default {
       this.list = [{ name: "Edgard", id: id++ }];
     }
   },
-  beforeCreate() {
-    setTimeout(() => {
-      this.$store.commit(commonTypes.mutations.updateGlobalLoader, false);
-      //   console.log('Visible: ', this.$store.getters[commonTypes.getters.getGlobalLoaderState]);
-    }, 1000);
+  async beforeCreate() {
+     var userId = this.$route.params.id;
+    console.log(userId);
+
+    await this.$store.dispatch(
+      tablesTypes.actions.getTableByIdStablishment,
+      userId
+    );
+    this.$store.commit(
+      menuTypes.mutations.updateNavPosition,
+      menu.STABLISHMENTS
+    );
+    this.$store.commit(commonTypes.mutations.updateGlobalLoader, false);
   }
 };
 </script>

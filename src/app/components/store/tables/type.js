@@ -1,22 +1,19 @@
 const namespace = 'tables';
 
-const type_users = {
+const type_tables = {
     namespace,
     getters: {
-        getUserById: `${namespace}/getter:getUserById`,
-        getAll: `${namespace}/getter:getAll`,
-        getPageStablishment: `${namespace}/getter:getPageStablishment`,
+        getTableByIdStablishment: `${namespace}/getter:getTableByIdStablishment`,
 
     },
     mutations: {
-        updateUserById: `${namespace}/mutation:updateUserById`,
-        updatePageStablishment: `${namespace}/mutation:updateStablishment`,
+        updatesTableByIdStablisment: `${namespace}/mutation:updatesTableByIdStablisment`,
     },
     actions: {
-        fetchUserById: `${namespace}/action:fetchUserById`,
-        fetchLogin: `${namespace}/action:fetchLogin`,
+        getTableByIdStablishment: `${namespace}/action:getTableByIdStablishment`,
+        updateTableByIdStablisment: `${namespace}/action:updateTableByIdStablisment`,
     }
 }
 
-export default type_users;
-export {type_users};
+export default type_tables;
+export {type_tables};
