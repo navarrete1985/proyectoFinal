@@ -66,4 +66,26 @@ tableController.delete = (req, res) => {
     });
 };
 
+tableController.change_state = async (req, res) => {
+    let params = req.body.params;
+    try {
+        Tools.checkRequiredParas(['establishment_id', 'table_id', 'new_state', 'user_id'], params);
+        let tablesList = await Table.findOne({establishmentId: params.establishment_id}).exec();
+        tablesList.section.foreach(section => {
+            section.tables.foreach(table => {
+                if (table._id === params.table_id) {
+                    
+                }
+            })
+        })
+    }catch(error) {
+        resp.status(400).json ({
+            status: 400,
+            error: true,
+            response: error
+        })
+    }
+    
+}
+
 module.exports = tableController;

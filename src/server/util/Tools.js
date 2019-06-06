@@ -47,6 +47,22 @@ function getResponse(err, data, post = false) {
     };
 }
 
+function checkRequiredParas(params, object) {
+    let notFound = [];
+    if (!Array.isArray(params)) throw new ExceptionRequiredParams('El formato de los parámetros requeridos tiene que ser un array');
+    if (typeof object !== 'object') throw new ExceptionRequiredParams('Necesario un objeto como parámetro con los siguientes atributos,', params);
+    params.forEach(param => {
+        if (!object.hasOwnProperty(param)) notFound.push(param);
+    })
+    if (notFound.length > 0) throw new ExceptionRequiredParams('Parámetros requeridos no encontrados', notFound);
+}
+
+function ExceptionRequiredParams(message='No se han pasado los parámetros requeridos', params=[]) {
+    this.message = message;
+    this.params = params;
+    return `${message} [${params.toString}]`;
+}
+
 module.exports = {
     validator: {
         validateUrl,
@@ -56,7 +72,6 @@ module.exports = {
     response: {
         get: getResponse
     },
-    createDir
-
-    
+    createDir,
+    checkRequiredParas
 }

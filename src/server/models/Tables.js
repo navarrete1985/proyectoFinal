@@ -41,6 +41,10 @@ const Table = new Schema({
     order: {
         type: Number,
         required: true
+    },
+    time_state_change: {
+        type: Date,
+        required: false
     }
 });
 
