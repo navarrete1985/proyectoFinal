@@ -1,14 +1,16 @@
 <template>
   <div class="wrapper">
+    <preloader :visible="loading" :global="true"></preloader>
     <div class="col-11">
       <h3>Mesas</h3>
       <div class="btn-group-vertical buttons" role="group" aria-label="Basic example">
-        <button class="btn btn-secondary" @click="add">Add</button>
         <!-- <button class="btn btn-secondary" @click="replace">Replace</button> -->
       </div>
-      <button @click="sendEdit">Enviar</button>
-      <div v-for="section in table.section" :key="section.name">
-        <h2>{{section.name}}</h2>
+      <button class="btn btn-sm btn-primary rel" @click="sendEdit">Actualizar mesas</button>
+      <button class="btn btn-sm btn-primary rel" @click="addSection">Añadir nueva sección</button>
+      <div v-for="(section,index) in table.section" :key="index">
+        <h4>{{section.name}}</h4>
+        <button class="btn btn-secondary" @click="add(index)">Add</button>
         <draggable v-model =" section.tables"  class="list-group mesas" @click="cosa">
           <div class="list-group-item mesasimg col-md-2" v-for="mesa in section.tables" :key="mesa.name">
             <button @click="cosa" class="mibtn">{{ mesa.name }}</button>
@@ -39,6 +41,7 @@ export default {
   data() {
     return {
       name: "",
+      loading: false,
       isCheck: true,
       nameState: null,
       submittedNames: [],
@@ -69,6 +72,7 @@ export default {
       console.log(this.table);
     },
      async sendEdit() {
+      this.loading=true;
       console.log(this.table);
       this.table.section.forEach(section => {
         section.tables.forEach((value,key) => {
@@ -81,6 +85,12 @@ export default {
         this.table
       );
       console.error('Resultado ', result)
+      if (result.status == 200) {
+        this.$root.alertSuccess();
+      } else {
+        this.$root.alertError();
+      }
+      this.loading=false;
     },
     checkFormValidity() {
       const valid = this.$refs.form.checkValidity();
@@ -109,11 +119,16 @@ export default {
         this.$refs.modal.hide();
       });
     },
-    add: function() {
-      this.list.push({ name: id + 1, id: id++ });
+    add: function(index) {
+      console.log(this.table.section[index].tables.length);
+      var numero = this.table.section[index].tables.length +1;
+      var ob = {identifier:"indeti",name: numero.toString(), order: numero, state: 0,uuid:"0C0C0C0C0C0C2130C040CC3"}
+      this.table.section[index].tables.push(ob)
+      // this.list.push({ name: id + 1, id: id++ });
+      console.log(this.table)
     },
-    add2: function() {
-      this.list2.push({ name: id2 + 1, id2: id2++ });
+    addSection: function() {
+      this.table.section.push({name:"Fuera", tables:[]})
     },
     readOrType() {
       console.log(this.isCheck);
