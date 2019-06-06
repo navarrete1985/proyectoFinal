@@ -19,9 +19,9 @@ const WaiterSchema = new Schema({
     is_activate: {
         type: Boolean
     },
-    token: {
-        type: String
-    },
+    // token: {
+    //     type: String
+    // },
     rol: {
         type: Number,
         required: true,
