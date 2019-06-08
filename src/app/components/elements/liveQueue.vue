@@ -93,17 +93,35 @@
 </template>
 
 <script>
+
+    import table_types from '@/components/store/tables/type';
+
     export default {
+        data() {
+            return {
+                queue: {},
+            }
+        },
         props: {
             activity: {
                 type: Object,
                 required: true
             },
-            tables: {
-                type: Object,
+            establishment_id: {
+                type: Number,
                 required: true
-            }
+            },
+        },
+        methods: {
+            register() {
+
+            },
+        },
+        async created() {
+            await this.$store.dispatch(table_types.actions.getTableByIdStablishment, this.establishment_id);
+            this.register();
         }
+
     }
 </script>
 

@@ -1,5 +1,6 @@
 const Table = require("../models/Tables").model;
 const Tools = require("../util/Tools");
+const Pusher = require("../util/Pusher");
 
 let tableController = {};
 
@@ -39,7 +40,6 @@ tableController.create = (req, res) => {
 }
 
 tableController.update = (req, res) => {
-    console.log("LA PUTA MADRE",req.body);
     Table.update({establishmentId:req.body.establishmentId}, {$set: req.body}).exec((err, table) => {
         let response = Tools.response.get(err, table);
         if (response.status === 200) {
@@ -66,7 +66,15 @@ tableController.delete = (req, res) => {
     });
 };
 
-tableController.change_state = async (req, res) => {
+/**
+ * Primer paso para el cambio de estado de una mesa, recogemos esa mesa si existe y le cambiamos de estado,
+ * si todo ok, pues pasamos al siguiente paso que será actualizar.
+ * @param req
+ * @param res
+ * @param next
+ * @returns {Promise<void>}
+ */
+tableController.change_state = async (req, res, next) => {
     let params = req.body.params;
     let found = false;
     try {
@@ -79,6 +87,8 @@ tableController.change_state = async (req, res) => {
                     table.state = params.new_state;
                     table.user_id = params.user_id;
                     found = true;
+                    req.table = table;
+                    req.tablesList = tablesList;
                 }
                 return found;
             })
@@ -101,6 +111,44 @@ tableController.change_state = async (req, res) => {
         })
     }
     
+}
+
+/**
+ * Actualización de las mesas y emisión de mensaje a pusher para que los que estén subcritos al canal obtengan el nuevo
+ * estado de esta.
+ * @param req
+ * @param resp
+ * @returns {Promise<void>}
+ */
+tableController.update_newstate = async (req, resp) => {
+
+    try {
+        Table.findOneAndUpdate({establishmentId: req.body.params.establishment_id}, {$set: req.tablesList}, {new: true}, (err, updated) => {
+            if (err) throw 'Error en la actualización de la mesa!';
+            Pusher.trigger(req.body.params.establishment_id, 'onUpdateEstablishment', {
+                all: updated,
+                table: req.table
+            });
+            Pusher.trigger(req.table.uuid, 'onUpdateTable', {
+                new_state: req.table
+            })
+            req.status(200).json({
+                status: 200,
+                error: false,
+                response: {
+                    new_state: req.table,
+                    all: req.tablesList
+                }
+            })
+        })
+    }catch (e) {
+        resp.status(400).json({
+            status: 400,
+            error: true,
+            response: e
+        })
+    }
+
 }
 
 module.exports = tableController;

@@ -25,7 +25,6 @@ const mutations = {
 const actions = {}
 //Definimos a continuación las acciones que vamos a tener
 actions[types.actions.getTableByIdStablishment] = async ({ commit, getters, state, dispatch }, id) => {
-    console.log("el id en el action"+id);
     let result = getters[types.getters.getTableByIdStablishment](id);
     if (result != undefined) {
         return result;
@@ -36,9 +35,25 @@ actions[types.actions.getTableByIdStablishment] = async ({ commit, getters, stat
         console.log("antes del commit"+response.response);
         commit(types.mutations.updatesTableByIdStablisment, response.response);
     }
+    if (response.response.length === 0) {
+
+    }
     return response.response[0];
 };
 
+
+actions[types.actions.createEstablishmentTables] = async ({ commit, getters, state, dispatch }, id) => {
+    let response = await fetch(`${window.location.origin}/api/tables`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({establishmentId: id}),
+    });
+
+    if (response.status === 200) {
+        response = await response.json();
+        commit(types.mutations.updatesTableByIdStablisment, response.response);
+    }
+}
 
 actions[types.actions.updateTableByIdStablisment] = async ({ commit, getters, state, dispatch }, table) => {
     console.log("action!")
