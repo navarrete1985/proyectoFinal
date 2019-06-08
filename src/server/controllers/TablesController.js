@@ -68,18 +68,33 @@ tableController.delete = (req, res) => {
 
 tableController.change_state = async (req, res) => {
     let params = req.body.params;
+    let found = false;
     try {
         Tools.checkRequiredParas(['establishment_id', 'table_id', 'new_state', 'user_id'], params);
         let tablesList = await Table.findOne({establishmentId: params.establishment_id}).exec();
-        tablesList.section.foreach(section => {
-            section.tables.foreach(table => {
+        if (tablesList === null) throw `No se ha encontrado mesas del establecimiento ${params.establishment_id}`;
+        tablesList.section.some(section => {
+            section.tables.some(table => {
                 if (table._id === params.table_id) {
-                    
+                    table.state = params.new_state;
+                    table.user_id = params.user_id;
+                    found = true;
                 }
+                return found;
             })
-        })
+            return found;
+        });
+
+        if (found) next();
+        else {
+            res.status(400).json({
+                status: 400,
+                error: true,
+                response: `Mesa ${params.table_id} no encontrada en el establecimiento ${params.establishment_id}`
+            })
+        }
     }catch(error) {
-        resp.status(400).json ({
+        res.status(400).json ({
             status: 400,
             error: true,
             response: error

@@ -45,6 +45,10 @@ const Table = new Schema({
     time_state_change: {
         type: Date,
         required: false
+    },
+    user_id: {
+        type: Schema.Types.ObjectId,
+        required: false,
     }
 });
 

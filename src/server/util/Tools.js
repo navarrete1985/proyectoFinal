@@ -57,10 +57,13 @@ function checkRequiredParas(params, object) {
     if (notFound.length > 0) throw new ExceptionRequiredParams('Parámetros requeridos no encontrados', notFound);
 }
 
+/**
+ * @return {string}
+ */
 function ExceptionRequiredParams(message='No se han pasado los parámetros requeridos', params=[]) {
     this.message = message;
-    this.params = params;
-    return `${message} [${params.toString}]`;
+    if (params.length > 0) this.params = params;
+    return `${this.message} [${params.toString()}]`;
 }
 
 module.exports = {
