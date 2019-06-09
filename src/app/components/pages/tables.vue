@@ -14,13 +14,13 @@
           <h4>{{section.name}}</h4>
           <button class="btn btn-secondary" @click="add(index)">Add</button>
           <button class="btn btn-secondary" @click="deleteSection(index)">Borrar Sección</button>
-          <draggable v-model=" section.tables" class="list-group mesas" @click="cosa">
+          <draggable v-model=" section.tables" class="list-group mesas">
             <div
               class="list-group-item mesasimg col-md-2"
               v-for="(mesa,index2) in section.tables"
               :key="index2"
             >
-              <button @click="cosa" class="mibtn">{{ mesa.name }}</button>
+              <button @click="cosa(index,index2)" class="mibtn">{{ mesa.name }}</button>
               <button
                 @click="deleteTable(index,index2)"
                 class="icon-jfi-trash jFiler-item-trash-action mipa"
@@ -83,8 +83,19 @@ export default {
     }
   },
   methods: {
-    cosa() {
-      console.log(this.table);
+    cosa(indexS,indexT) {
+      this.$swal({
+        title: `Mesa ${this.table.section[indexS].tables[indexT].name}`,
+        html:
+          `<label class="milabel">uuid</label><input id="swal-input1" value="${this.table.section[indexS].tables[indexT].uuid}"  class="swal2-input">` +
+          `<label class="milabel">Name</label> <input id="swal-input2" value="${this.table.section[indexS].tables[indexT].name}" class="swal2-input">`,
+        focusConfirm: false,
+        preConfirm: () => {
+          this.table.section[indexS].tables[indexT].uuid = document.getElementById("swal-input1").value
+          this.table.section[indexS].tables[indexT].name = document.getElementById("swal-input2").value
+
+      }
+    })
     },
     async sendEdit() {
       // this.loading=true;
@@ -254,6 +265,7 @@ export default {
   background: transparent;
   border: none;
 }
+
 .mibtn {
   cursor: pointer;
   background: none;
