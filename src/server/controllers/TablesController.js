@@ -86,6 +86,7 @@ tableController.change_state = async (req, res, next) => {
                 if (table._id === params.table_id) {
                     table.state = params.new_state;
                     table.user_id = params.user_id;
+                    table.time_state_change = Date.now();
                     found = true;
                     req.table = table;
                     req.tablesList = tablesList;

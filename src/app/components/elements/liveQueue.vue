@@ -95,11 +95,13 @@
 <script>
 
     import table_types from '@/components/store/tables/type';
+    import Pusher from 'pusher-js';
 
     export default {
         data() {
             return {
                 queue: {},
+                channel: {},
             }
         },
         props: {
@@ -108,13 +110,20 @@
                 required: true
             },
             establishment_id: {
-                type: Number,
+                type: String,
                 required: true
             },
         },
         methods: {
             register() {
+                this.channel = new Pusher(process.env.PUSHER_APP_KEY, {
+                    cluster: 'eu',
+                    forceTLS: true
+                }).subscribe(this.establishment_id);
 
+                this.channel.bind('onUpdateEstablishment', (data) => {
+                    console.warn('Datos enviados por pusher .... -> ', data);
+                });
             },
         },
         async created() {

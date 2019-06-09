@@ -339,7 +339,7 @@
                         <latest-activity :activity="{}" :tables="{}"></latest-activity>
                       </div>
                       <div class="col-md-12 col-xl-7">
-                        <live-queue :activity="{}" :tables="{}"></live-queue>
+                        <live-queue :activity="{}" :tables="{}" :establishment_id="$route.params.id"></live-queue>
                       </div>
                     </div>
                   </div>
