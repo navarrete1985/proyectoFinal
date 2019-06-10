@@ -14,8 +14,9 @@
                                         <div class="media">
                                             <a class="media-left" href="#">
                                                 <img width="100px" class="media-object card-list-img" src="..\..\assets\images\mesa.jpg" alt="Generic placeholder image">
-                                                <i class="feather lovebien icon-credit-card bg-simple-c-pink update-icon"></i>
-
+                                                <i v-if="item.state === 1" class="feather lovebien icon-check bg-simple-c-yellow update-icon"></i>
+                                                <i v-else-if="item.state === 2" class="feather lovebien icon-user bg-simple-c-green update-icon"></i>
+                                                <i v-else class="feather lovebien icon-credit-card bg-simple-c-pink update-icon"></i>
                                             </a>
                                             <div class="media-body">
                                                 <div class="col-xs-12">
@@ -23,7 +24,9 @@
                                                         Mesa {{item.name}} - Sección: {{item.section}}</h6>
                                                 </div>
                                                 <label class="label label-info">{{calculateDiff(item.time_state_change)}} minutos</label>
-                                                <p>La mesa 5 solicita la cuenta</p>
+                                                <p v-if="item.state === 1">La mesa {{item.name}} de la sección {{item.section}} quiere realizar un pedido.</p>
+                                                <p v-else-if="item.state === 2">La mesa {{item.name}} de la sección {{item.section}} solicita atención personalizada.</p>
+                                                <p v-else>La mesa {{item.name}} de la sección {{item.section}} solicita la cuenta.</p>
                                                 <div class="m-t-15">
                                                     <button type="button" data-toggle="tooltip" title="" class="btn btn-facebook btn-mini waves-effect waves-light" data-original-title="Facebook">
                                                         Atendida
@@ -70,8 +73,6 @@
         },
         methods: {
             register() {
-                Pusher.logToConsole = true;
-
                 let pusher = new Pusher("e44d00fb9c45fb71f1f3", {
                     cluster: 'eu',
                     forceTLS: true
@@ -82,6 +83,8 @@
                 this.channel.bind('onUpdateEstablishment', (data) => {
                     this.tablesWaiting = [];
                     this.updateState(data.all);
+                    if (data.table.state !== 0) this.$root.toastSuccess({title: `Se ha añadido a la cola una nueva petición de la mesa ${data.table.name}` });
+                    console.log(data);
                 });
             },
             prepareTablesWaiting() {
