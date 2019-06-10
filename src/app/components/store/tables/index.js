@@ -36,7 +36,10 @@ actions[types.actions.getTableByIdStablishment] = async ({ commit, getters, stat
         commit(types.mutations.updatesTableByIdStablisment, response.response);
     }
     if (response.response.length === 0) {
-
+        await dispatch(
+            types.actions.createEstablishmentTables,
+            id
+          );
     }
     return response.response[0];
 };
