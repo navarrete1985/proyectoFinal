@@ -6,6 +6,8 @@ let router = express.Router();
 router.get("/", menu.getAll);
 router.get("/:id", menu.find);
 
+router.get("/establishment/:id", menu.fromEstablishment);
+
 router.post("/", menu.create);
 
 router.put("/", menu.update);

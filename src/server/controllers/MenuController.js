@@ -10,6 +10,14 @@ menuController.getAll = (req, res) => {
     })
 }
 
+menuController.fromEstablishment = (req, res) => {
+    Menu.find({id_Establishment: req.params.id}).exec((err, menu) => {
+        let response = Tools.response.get(err, menu);
+        console.log(response);
+        return res.status(response.status).json(response);
+    })
+}
+
 menuController.find = (req, res) => {
     // Obtener el :id
     let id = req.params.id;
