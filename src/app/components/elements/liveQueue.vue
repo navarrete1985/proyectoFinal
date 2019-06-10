@@ -116,7 +116,7 @@
         },
         methods: {
             register() {
-                this.channel = new Pusher(process.env.PUSHER_APP_KEY, {
+                this.channel = new Pusher("e44d00fb9c45fb71f1f3", {
                     cluster: 'eu',
                     forceTLS: true
                 }).subscribe(this.establishment_id);
