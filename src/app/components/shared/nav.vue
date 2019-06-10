@@ -18,14 +18,14 @@
                                     <span class="pcoded-mtext">Establecimientos</span>
                                 </router-link>
                             </li>
-                            <li :class="{'active' : isMenuActive(this.menu.TABLES)}">
-                                <router-link to="/dashboard/tables">
-                                    <span class="pcoded-micon">
-                                        <i class="feather icon-tablet"></i>
-                                    </span>
-                                    <span class="pcoded-mtext">Mesas</span>
-                                </router-link>
-                            </li>
+<!--                            <li :class="{'active' : isMenuActive(this.menu.TABLES)}">-->
+<!--                                <router-link to="/dashboard/tables">-->
+<!--                                    <span class="pcoded-micon">-->
+<!--                                        <i class="feather icon-tablet"></i>-->
+<!--                                    </span>-->
+<!--                                    <span class="pcoded-mtext">Mesas</span>-->
+<!--                                </router-link>-->
+<!--                            </li>-->
                             <li :class="{'active' : isMenuActive(this.menu.USERS)}">
                                 <router-link to="/dashboard/users">
                                     <span class="pcoded-micon">
