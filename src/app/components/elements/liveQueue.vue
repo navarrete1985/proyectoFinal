@@ -116,10 +116,14 @@
         },
         methods: {
             register() {
-                this.channel = new Pusher("e44d00fb9c45fb71f1f3", {
+                Pusher.logToConsole = true;
+
+                let pusher = new Pusher("e44d00fb9c45fb71f1f3", {
                     cluster: 'eu',
                     forceTLS: true
-                }).subscribe(this.establishment_id);
+                });
+
+                this.channel = pusher.subscribe(this.establishment_id);
 
                 this.channel.bind('onUpdateEstablishment', (data) => {
                     console.warn('Datos enviados por pusher .... -> ', data);

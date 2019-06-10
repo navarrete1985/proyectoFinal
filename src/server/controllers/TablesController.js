@@ -83,7 +83,7 @@ tableController.change_state = async (req, res, next) => {
         if (tablesList === null) throw `No se ha encontrado mesas del establecimiento ${params.establishment_id}`;
         tablesList.section.some(section => {
             section.tables.some(table => {
-                if (table._id === params.table_id) {
+                if (table._id.toString() === params.table_id) {
                     table.state = params.new_state;
                     table.user_id = params.user_id;
                     table.time_state_change = Date.now();
@@ -126,6 +126,7 @@ tableController.update_newstate = async (req, resp) => {
     try {
         Table.findOneAndUpdate({establishmentId: req.body.params.establishment_id}, {$set: req.tablesList}, {new: true}, (err, updated) => {
             if (err) throw 'Error en la actualización de la mesa!';
+            console.log('El cananl se va a llamar --> ', req.body.params)
             Pusher.trigger(req.body.params.establishment_id, 'onUpdateEstablishment', {
                 all: updated,
                 table: req.table
@@ -133,7 +134,7 @@ tableController.update_newstate = async (req, resp) => {
             Pusher.trigger(req.table.uuid, 'onUpdateTable', {
                 new_state: req.table
             })
-            req.status(200).json({
+            resp.status(200).json({
                 status: 200,
                 error: false,
                 response: {

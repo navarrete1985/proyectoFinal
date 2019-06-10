@@ -7,7 +7,7 @@ router.get("/", tables.getAll);
 router.get("/:uuid", tables.find);
 
 router.post("/", tables.create);
-router.post("/change", tables.change_state);
+router.post("/change", tables.change_state, tables.update_newstate);
 
 router.put("/", tables.update);
 router.delete("/:uuid", tables.delete);
