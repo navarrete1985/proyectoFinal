@@ -16,7 +16,6 @@
     "build-webpack": "cross-env NODE_ENV=production webpack",
     "webpack": "webpack --mode development --watch",
     "webpack-hot": "webpack-dev-server --mode development --config webpack.config.js --open --hot",
-    "heroku-prebuild------": "npm install",
     "webpack-prod": "webpack --mode production",
     "build": "npm install",
     "heroku-postbuild-------": "cross-env NODE_ENV=production webpack -p",
