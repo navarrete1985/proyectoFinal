@@ -2,8 +2,4 @@ notas
 .env
 node_modules/*
 notas.md
-src/public/*.js*
-src/public/fonts
-src/public/images
-src/public/js
 .idea/*
