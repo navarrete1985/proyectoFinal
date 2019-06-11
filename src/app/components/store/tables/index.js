@@ -13,6 +13,20 @@ const getters = {
                  });
         }
     },
+    [types.getters.getAllTablesByEstablishmentId]: (state) => {
+        return id => {
+            let response = [];
+            let all = state.tables.find(x => {
+                return x.establishmentId === id
+            });
+            all.section.forEach(section => {
+                section.tables.forEach(table => {
+                    response.push(table);
+                })
+            });
+            return response.sort((a, b) => new Date(a.time_state_change) - new Date(b.time_state_change))
+        }
+    },
 }
 
 const mutations = {
@@ -59,8 +73,6 @@ actions[types.actions.createEstablishmentTables] = async ({ commit, getters, sta
 }
 
 actions[types.actions.updateTableByIdStablisment] = async ({ commit, getters, state, dispatch }, table) => {
-    console.log("action!")
-    console.log(table);
     let response = await fetch(`${window.location.origin}/api/tables`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },

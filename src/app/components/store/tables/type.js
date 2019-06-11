@@ -4,6 +4,7 @@ const type_tables = {
     namespace,
     getters: {
         getTableByIdStablishment: `${namespace}/getter:getTableByIdStablishment`,
+        getAllTablesByEstablishmentId: `${namespace}/getter:getAllTablesByEstablishmentId`,
     },
     mutations: {
         updatesTableByIdStablisment: `${namespace}/mutation:updatesTableByIdStablisment`,

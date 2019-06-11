@@ -94,6 +94,7 @@
                     this.updateState(data.all);
                     if (data.table.state !== 0) this.$root.toastSuccess({title: `Se ha añadido a la cola una nueva petición de la mesa ${data.table.name}` });
                     console.log(data);
+                    this.$store.commit(table_types.mutations.updatesTableByIdStablisment, [data.all]);
                 });
             },
             prepareTablesWaiting() {
@@ -104,6 +105,7 @@
                 this.tablesWaiting.sort((a, b) => new Date(a.time_state_change) - new Date(b.time_state_change))
             },
             updateState(data) {
+                // if (data === undefined) return;
                 data.section.forEach(section => {
                     section.tables.forEach(table => {
                         if (table.state !== 0) {
@@ -154,8 +156,8 @@
         },
         async created() {
             await this.$store.dispatch(table_types.actions.getTableByIdStablishment, this.establishment_id);
-            this.register();
             this.prepareTablesWaiting();
+            this.register();
             this.load = true;
             this.currentUserId = this.$store.getters[userTypes.getters.getCurrentUser]._id
         }

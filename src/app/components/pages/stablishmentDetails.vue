@@ -336,7 +336,7 @@
                   <div class="view-info">
                     <div class="row">
                       <div class="col-md-12 col-xl-5">
-                        <latest-activity :activity="{}" :tables="{}"></latest-activity>
+                        <latest-activity :establishment_id="$route.params.id"></latest-activity>
                       </div>
                       <div class="col-md-12 col-xl-7">
                         <live-queue :activity="{}" :tables="{}" :establishment_id="$route.params.id"></live-queue>
