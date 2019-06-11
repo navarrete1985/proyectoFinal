@@ -15,7 +15,7 @@
                                             <div class="media">
                                                 <a class="media-left" href="#">
                                                     <img width="100px" class="media-object card-list-img" src="..\..\assets\images\mesa.jpg" alt="Generic placeholder image">
-                                                    <i v-if="item.state === 1" class="feather lovebien icon-check bg-simple-c-yellow update-icon"></i>
+                                                    <i v-if="item.state === 1" class="feather lovebien icon-message-square bg-simple-c-yellow update-icon"></i>
                                                     <i v-else-if="item.state === 2" class="feather lovebien icon-user bg-simple-c-green update-icon"></i>
                                                     <i v-else class="feather lovebien icon-credit-card bg-simple-c-pink update-icon"></i>
                                                 </a>

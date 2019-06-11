@@ -24,7 +24,7 @@ const getters = {
                     response.push(table);
                 })
             });
-            return response.sort((a, b) => new Date(a.time_state_change) - new Date(b.time_state_change))
+            return response.sort((a, b) => new Date(b.time_state_change) - new Date(a.time_state_change))
         }
     },
 }
