@@ -35,7 +35,7 @@
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "helmet": "^3.17.0",
-    "jquery": "^3.4.0",
+    "jquery": "^3.5.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.11",
     "md5-file": "^4.0.0",
